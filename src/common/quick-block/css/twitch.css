@@ -1,0 +1,35 @@
+.chat-line__message:hover .twitch__quick-block {
+    display: block;
+}
+
+.twitch__quick-block {
+    display: none;
+    background-color: var(--color-background-base) !important;
+    border-radius: var(--border-radius-medium) !important;
+    box-shadow: var(--shadow-elevation-1) !important;
+    margin-left: 5px;
+}
+
+.twitch__quick-block--button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    border-radius: var(--border-radius-medium);
+    height: var(--button-size-default);
+    width: var(--button-size-default);
+    background-color: var(--color-background-button-text-default);
+    color: var(--color-fill-button-icon);
+}
+
+.twitch__quick-block--button {
+    &:hover {
+        background-color: var(--color-background-button-text-hover);
+        color: var(--color-fill-button-icon-hover);
+    }
+
+    &:active {
+        background-color: var(--color-background-button-text-active);
+        color: var(--color-fill-button-icon-active);
+    }
+}

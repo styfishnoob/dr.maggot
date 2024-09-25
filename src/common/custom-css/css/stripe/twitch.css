@@ -1,0 +1,12 @@
+:root {
+    --drmaggot__stripeColor: #000000;
+}
+/* live */
+[data-test-selector='chat-scrollable-area__message-container'] > :nth-child(even of :not([hidden])) {
+    background-color: var(--drmaggot__stripeColor);
+}
+
+/* archive */
+ul > li:nth-child(even of :not([hidden])) {
+    background-color: var(--drmaggot__stripeColor);
+}

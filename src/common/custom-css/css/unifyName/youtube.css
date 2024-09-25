@@ -1,0 +1,19 @@
+:root {
+    --drmaggot__unifyNameValue: '>';
+}
+
+.yt-live-chat-item-list-renderer > #items {
+    & #author-name {
+        font-size: 0px;
+    }
+
+    & #author-name::before {
+        content: var(--drmaggot__unifyNameValue);
+        font-size: var(--drmaggot__fontSize);
+    }
+
+    & #chip-badges,
+    & #chat-badges {
+        display: none;
+    }
+}

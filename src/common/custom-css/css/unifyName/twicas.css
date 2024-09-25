@@ -1,0 +1,14 @@
+:root {
+    --drmaggot__unifyNameValue: '>';
+}
+
+.tw-comment-list-view__scroller > div {
+    & .tw-comment-item-name {
+        font-size: 0px;
+    }
+
+    & .tw-comment-item-name::before {
+        content: var(--drmaggot__unifyNameValue);
+        font-size: var(--drmaggot__fontSize);
+    }
+}

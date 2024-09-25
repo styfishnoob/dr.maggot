@@ -1,0 +1,10 @@
+<svg viewBox="0 0.24 142.1 139.65" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="71.05" y1="0.24" x2="71.05" y2="139.89" id="gradient-0">
+      <stop offset="0" style="stop-color: rgb(100% 29.804% 6.6667%)"></stop>
+      <stop offset="1" style="stop-color: rgb(69.203% 0% 0%)"></stop>
+    </linearGradient>
+  </defs>
+  <path fill="#fff" d="m 64.62,53.33 c -3.195,-1.865 -5.865,-0.415 -5.9,3.245 l -0.42,27.06 c -0.07,3.66 2.53,5.21 5.795,3.415 l 24.27,-13.185 c 3.265,-1.76 3.3,-4.73 0.1,-6.59 L 64.62,53.365 Z" data-v-346b2b27="" id="path14" style="fill:#ff4c11;fill-opacity:1;stroke-width:5"></path>
+  <path style="stroke-width: 5; paint-order: stroke markers; fill-rule: evenodd; fill: rgb(255, 63, 0);" d="m 71.05,0.24 v 27.615 c 23.67,0 42.95,18.95 42.95,42.215 0,23.265 -19.28,42.215 -42.95,42.215 -23.675,0 -42.95,-18.95 -42.95,-42.215 0,-23.265 18.715,-41.63 41.93,-42.18 L 45.655,4.94 C 18.965,14.975 0,40.31 0,70.065 c 0,38.55 31.82,69.825 71.05,69.825 39.23,0 71.05,-31.27 71.05,-69.825 C 142.1,31.51 110.275,0.24 71.05,0.24 Z" id="path16"></path>
+</svg>

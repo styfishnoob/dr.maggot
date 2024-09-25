@@ -1,0 +1,56 @@
+:root {
+    --drmaggot__danmaku-font: 'Arial';
+    --drmaggot__danmaku-fontSize: 28px;
+    --drmaggot__danmaku-opacity: 50%;
+}
+
+#drmaggot__danmaku-canvas {
+    backface-visibility: hidden;
+    color: white;
+    font-family: var(--drmaggot__danmaku-font), 'Arial' !important;
+    font-size: var(--drmaggot__danmaku-fontSize) !important;
+    opacity: var(--drmaggot__danmaku-opacity) !important;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-shadow: 1.2px 1.2px 0 black, -1.2px 1.2px 0 black, 1.2px -1.2px 0 black, -1.2px -1.2px 0 black;
+    height: 100%;
+    width: 100%;
+    z-index: 10000;
+}
+
+.drmaggot__danmaku-bullet {
+    & {
+        display: flex;
+        align-items: center;
+        backface-visibility: hidden;
+        box-sizing: border-box;
+        gap: 5px;
+        line-height: 1.5;
+        position: absolute;
+        white-space: nowrap;
+    }
+
+    > span {
+        font-weight: bold !important;
+    }
+}
+
+.drmaggot__danmaku-check {
+    & {
+        display: flex;
+        align-items: center;
+        backface-visibility: hidden;
+        box-sizing: border-box;
+        gap: 5px;
+        line-height: 1.5;
+        position: absolute;
+        top: 10000px;
+        white-space: nowrap;
+    }
+
+    > span {
+        font-weight: bold !important;
+    }
+}

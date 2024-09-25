@@ -1,0 +1,13 @@
+:root {
+    --drmaggot__subOnlyStripeColor: #000000;
+}
+
+.tw-comment-list-view__scroller > div {
+    & > .tw-comment-item:nth-child(even of :not([hidden])) {
+        --drmaggot__stripeColor: #00000000;
+    }
+
+    & > .tw-comment-item:nth-child(even of .tw-comment-item:has(img[class='tw-comment-membership-badge'])) {
+        background-color: var(--drmaggot__subOnlyStripeColor);
+    }
+}

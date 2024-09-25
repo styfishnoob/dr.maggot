@@ -1,0 +1,16 @@
+#drmaggot__countdown {
+    & {
+        display: flex;
+        align-items: center;
+        border-radius: 3px;
+        background-color: #00ce7f;
+        justify-content: center;
+        width: 40px;
+        height: 30px;
+    }
+
+    & span {
+        color: black;
+        font-weight: bold;
+    }
+}

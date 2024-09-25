@@ -1,0 +1,15 @@
+:root {
+    --drmaggot__font: '';
+    --drmaggot__fontSize: 13px;
+}
+
+.tw-comment-list-view__scroller > div {
+    & {
+        font-family: var(--drmaggot__font), 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', メイリオ, Meiryo, system-ui, -apple-system,
+            BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+    }
+
+    & .tw-comment-item-comment > span {
+        font-size: var(--drmaggot__fontSize);
+    }
+}

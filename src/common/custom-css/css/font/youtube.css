@@ -1,0 +1,9 @@
+:root {
+    --drmaggot__font: '';
+    --drmaggot__fontSize: 13px;
+}
+
+yt-live-chat-text-message-renderer #content {
+    font-family: var(--drmaggot__font), Roboto, Arial, sans-serif !important;
+    font-size: var(--drmaggot__fontSize);
+}

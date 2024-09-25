@@ -1,0 +1,19 @@
+/* live */
+[data-test-selector="chat-scrollable-area__message-container"] {
+    & .chat-line__no-background > :first-child > :not(:last-child) {
+        display: none !important;
+    }
+}
+
+/* archive */
+li {
+    & .vod-message__header,
+    & .capulb > :not(:last-child),
+    & .video-chat__message > :first-child {
+        display: none !important;
+    }
+
+    & .vod-message {
+        padding: 3px 0px 3px 15px !important;
+    }
+}

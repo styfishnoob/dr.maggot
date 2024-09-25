@@ -1,0 +1,9 @@
+/* [data-test-selector='chat-scrollable-area__message-container'] {
+    & .text-fragment {
+        white-space: nowrap !important;
+    }
+} */
+
+.chat-line__message {
+    white-space: nowrap !important;
+}

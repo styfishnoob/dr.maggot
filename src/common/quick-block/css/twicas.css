@@ -1,0 +1,22 @@
+.twicas__quick-block {
+    background-color: transparent;
+    border: none;
+    display: none;
+    float: right;
+    overflow: visible;
+    margin-right: 5px;
+    width: 14px;
+    height: 14px;
+    padding: 0;
+}
+
+.twicas__quick-block--button {
+    display: flex;
+    left: 0;
+    position: relative;
+    top: 2px;
+}
+
+.tw-comment-item:hover .twicas__quick-block {
+    display: block;
+}

@@ -1,0 +1,11 @@
+.yt-live-chat-item-list-renderer > #items {
+    & yt-live-chat-author-chip,
+    & #img,
+    & #author-name {
+        display: none !important;
+    }
+
+    & yt-live-chat-text-message-renderer {
+        padding: 8px 0px 8px 0px;
+    }
+}

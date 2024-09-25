@@ -1,0 +1,13 @@
+.yt-live-chat-item-list-renderer > #items {
+    & yt-live-chat-text-message-renderer {
+        display: none;
+    }
+
+    &
+        yt-live-chat-text-message-renderer:has(
+            yt-live-chat-author-badge-renderer[type='member'],
+            yt-live-chat-author-badge-renderer[type='moderator']
+        ) {
+        display: flex;
+    }
+}

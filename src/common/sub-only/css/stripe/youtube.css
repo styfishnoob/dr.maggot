@@ -1,0 +1,20 @@
+:root {
+    --drmaggot__subOnlyStripeColor: #000000;
+}
+
+.yt-live-chat-item-list-renderer > #items > :nth-child(even of :not([hidden])) {
+    --drmaggot__stripeColor: #00000000;
+}
+
+.yt-live-chat-item-list-renderer
+    > #items
+    > :nth-child(
+        even
+            of
+            yt-live-chat-text-message-renderer:has(
+                yt-live-chat-author-badge-renderer[type='member'],
+                yt-live-chat-author-badge-renderer[type='moderator']
+            )
+    ) {
+    background-color: var(--drmaggot__subOnlyStripeColor);
+}

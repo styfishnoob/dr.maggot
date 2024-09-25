@@ -1,0 +1,5 @@
+.yt-live-chat-item-list-renderer > #items {
+  & #message {
+      white-space: nowrap !important;
+  }
+}

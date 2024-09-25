@@ -1,0 +1,9 @@
+.tw-comment-list-view__scroller > div {
+    & .tw-comment-item {
+        display: none;
+    }
+
+    & .tw-comment-item:has(img[class='tw-comment-membership-badge']) {
+        display: flex;
+    }
+}

@@ -1,0 +1,9 @@
+.tw-comment-item-comment {
+    & {
+        display: flex;
+    }
+
+    & span {
+        white-space: nowrap !important;
+    }
+}

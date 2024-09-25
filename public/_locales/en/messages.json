@@ -1,0 +1,100 @@
+{
+    "extension_description": { "message": "Exterminate the maggots infesting the chat!" },
+
+    "input_text_currentValue": { "message": "Current Value" },
+    "quickBlock_title": { "message": "Block this user" },
+
+    "popup_title": { "message": "Quick Settings" },
+    "popup_button": { "message": "Detailed Settings" },
+    "popup_subOnly": { "message": "Sub-Only" },
+
+    "menu_display": { "message": "Display Settings" },
+    "menu_filter": { "message": "Filter Settings" },
+    "menu_danmaku": { "message": "Danmaku Settings" },
+    "menu_other": { "message": "Other Settings" },
+    "menu_notice": { "message": "Notice" },
+    "menu_blockedWords": { "message": "Blocked Words List" },
+    "menu_blockedUsers": { "message": "Blocked Users List" },
+    "menu_blockedEmotes": { "message": "Blocked Emotes List" },
+
+    "display_hideName": { "message": "Hide Usernames" },
+    "display_unifyName": { "message": "Unify Usernames" },
+    "display_break": { "message": "No Line Breaks" },
+    "display_stripe": { "message": "Stripe" },
+    "display_stripeColor": { "message": "Stripe Color" },
+    "display_unifyNameValue": { "message": "Register Unified Name" },
+    "display_font": { "message": "Font" },
+    "display_fontSize": { "message": "Font Size" },
+
+    "display_hideName_description": { "message": "Hide usernames." },
+    "display_unifyName_description": {
+        "message": "Unify all usernames displayed in the chat to a name of your choice. If Hide Usernames is enabled, this will not be displayed."
+    },
+    "display_break_description": {
+        "message": "Remove line breaks from comments and display them in a single line. Long comments may get cut off."
+    },
+    "display_stripe_description": { "message": "Apply a striped color pattern to the chat." },
+    "display_stripeColor_description": { "message": "Set the color of the stripes." },
+    "display_unifyNameValue_description": { "message": "What name would you like to use?" },
+    "display_font_description": {
+        "message": "Change the font of the chat. Leaving it blank will reset it to default."
+    },
+    "display_fontSize_description": {
+        "message": "Change the font size of the chat. The default is 13px."
+    },
+
+    "filter_filter": { "message": "Toggle Filter" },
+    "filter_subOnly": { "message": "Pseudo-Subscriber Only Mode" },
+    "filter_range": { "message": "Delete Range" },
+    "filter_charLimit": { "message": "Character Limit" },
+    "filter_emoteLimit": { "message": "Emote Limit" },
+
+    "filter_filter_description": { "message": "Toggle the filter on or off." },
+    "filter_subOnly_description": { "message": "Pseudo-subscriber-only mode for the chat." },
+    "filter_range_description": {
+        "message": "If off, only comments are deleted; if on, everything is deleted."
+    },
+    "filter_charLimit_description": { "message": "Limit the number of characters in comments." },
+    "filter_emoteLimit_description": { "message": "Limit the number of emotes in comments." },
+
+    "danmaku_danmaku": { "message": "Toggle Danmaku" },
+    "danmaku_font": { "message": "Font" },
+    "danmaku_fontSize": { "message": "Font Size" },
+    "danmaku_opacity": { "message": "Opacity" },
+    "danmaku_speed": { "message": "Display Time" },
+
+    "danmaku_danmaku_description": {
+        "message": "Toggle danmaku on or off. Reload if it doesn't display."
+    },
+    "danmaku_font_description": { "message": "Set the font for the danmaku." },
+    "danmaku_fontSize_description": { "message": "Set the font size for the danmaku." },
+    "danmaku_opacity_description": { "message": "Setting to 0% makes it completely transparent." },
+    "danmaku_speed_description": {
+        "message": "Set to 10, it will take 10 seconds to scroll from right to left."
+    },
+
+    "other_quickBlock": { "message": "Add Block Button" },
+    "other_autoBonus": { "message": "Auto Bonus" },
+    "other_countdown": { "message": "Countdown" },
+
+    "other_quickBlock_description": { "message": "Add a block button." },
+    "other_autoBonus_description": {
+        "message": "Automatically clicks the 15-minute Twitch bonus."
+    },
+    "other_countdown_description": {
+        "message": "Displays the time until the next 15-minute Twitch bonus appears."
+    },
+
+    "blockedWords_input_placeholder": {
+        "message": "You can register words you wish to block. Note that half-width and full-width characters are distinguished. Regular expressions are also supported. (Example:/^a/ , /^[a-z]/i)"
+    },
+    "blockedUsers_input_placeholder": {
+        "message": "You can register users you wish to block. Note that half-width and full-width characters are distinguished. Regular expressions are also supported. (Example:/^a/ , /^[a-z]/i)"
+    },
+    "blockedEmotes_input_placeholder": {
+        "message": "You can register emoticons you wish to block. Note that half-width and full-width characters are distinguished. Regular expressions are also supported. (Example:/^a/ , /^[a-z]/i)"
+    },
+    "blocklist_empty": {
+        "message": "No data is currently registered."
+    }
+}

@@ -1,0 +1,49 @@
+:root {
+    --drmaggot__unifyNameValue: '>';
+}
+
+/* live */
+[data-test-selector='chat-scrollable-area__message-container'] {
+    & .chat-author__display-name,
+    & .chat-author__intl-login {
+        font-size: 0px;
+    }
+
+    & .chat-author__display-name::before {
+        content: var(--drmaggot__unifyNameValue);
+        font-size: var(--drmaggot__fontSize);
+    }
+
+    & button[data-a-target='chat-badge'],
+    & a[data-a-target='chat-badge'],
+    & img[class='chat-badge'] {
+        display: none !important;
+    }
+
+    & .chat-line__username-container {
+        margin-right: 2px;
+    }
+}
+
+/* archive */
+ul > li {
+    & .chat-author__display-name,
+    & .chat-author__intl-login {
+        font-size: 0px !important;
+    }
+
+    & .chat-author__display-name::before {
+        content: var(--drmaggot__unifyNameValue);
+        font-size: var(--drmaggot__fontSize);
+    }
+
+    & button[data-a-target='chat-badge'],
+    & a[data-a-target='chat-badge'],
+    & img[class='chat-badge'] {
+        display: none !important;
+    }
+
+    & .chat-line__username-container {
+        margin-right: 2px;
+    }
+}

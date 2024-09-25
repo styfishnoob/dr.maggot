@@ -1,0 +1,26 @@
+:root {
+    --drmaggot__font: "";
+    --drmaggot__fontSize: 13px;
+}
+
+/* live */
+[data-test-selector="chat-scrollable-area__message-container"] {
+    font-family: var(--drmaggot__font), Inter, Roobert, "Helvetica Neue", Helvetica, Arial,
+        sans-serif !important;
+    font-size: var(--drmaggot__fontSize) !important;
+}
+
+/* archive */
+ul > li {
+    padding-left: 15px;
+}
+
+.vod-message__header {
+    display: none !important;
+}
+
+ul > li span {
+    font-family: var(--drmaggot__font), Inter, Roobert, "Helvetica Neue", Helvetica, Arial,
+        sans-serif !important;
+    font-size: var(--drmaggot__fontSize) !important;
+}

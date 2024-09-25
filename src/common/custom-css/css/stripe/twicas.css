@@ -1,0 +1,13 @@
+:root {
+    --drmaggot__stripeColor: #000000;
+}
+
+.tw-comment-list-view__scroller > div {
+    & > .tw-comment-item::after {
+        display: none;
+    }
+
+    & > .tw-comment-item:nth-child(even of :not([hidden])) {
+        background-color: var(--drmaggot__stripeColor);
+    }
+}

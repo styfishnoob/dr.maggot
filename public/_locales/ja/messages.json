@@ -1,0 +1,98 @@
+{
+    "extension_description": {
+        "message": "Youtube/Twitch/OPENREC/ツイキャスのチャット欄に蔓延る蛆虫を駆除！"
+    },
+
+    "input_text_currentValue": { "message": "現在の値" },
+    "quickBlock_title": { "message": "このユーザーをブロック" },
+
+    "popup_title": { "message": "簡易設定" },
+    "popup_button": { "message": "詳細設定" },
+    "popup_subOnly": { "message": "擬似サブ限" },
+
+    "menu_display": { "message": "ディスプレイ設定" },
+    "menu_filter": { "message": "フィルター設定" },
+    "menu_danmaku": { "message": "弾幕設定" },
+    "menu_other": { "message": "その他の設定" },
+    "menu_notice": { "message": "お知らせ" },
+    "menu_blockedWords": { "message": "ワードリスト" },
+    "menu_blockedUsers": { "message": "ユーザーリスト" },
+    "menu_blockedEmotes": { "message": "エモートリスト" },
+
+    "display_hideName": { "message": "ユーザー名非表示" },
+    "display_unifyName": { "message": "ユーザー名統一" },
+    "display_break": { "message": "改行なし" },
+    "display_stripe": { "message": "ストライプ" },
+    "display_stripeColor": { "message": "ストライプカラー" },
+    "display_unifyNameValue": { "message": "統一名の登録" },
+    "display_font": { "message": "フォント" },
+    "display_fontSize": { "message": "フォントサイズ" },
+
+    "display_hideName_description": { "message": "ユーザー名を非表示にします。" },
+    "display_unifyName_description": {
+        "message": "チャット欄に表示されている全てのユーザー名を任意の名前に統一します。ユーザー名非表示がオンの場合は表示されません"
+    },
+    "display_break_description": {
+        "message": "コメントに含まれる改行を消去し、一行で表示させます。長文のチャットは見切れてしまう可能性があります。"
+    },
+    "display_stripe_description": { "message": "チャット欄をストライプ上にカラーリングします。" },
+    "display_stripeColor_description": { "message": "ストライプの色を設定できます。" },
+    "display_unifyNameValue_description": { "message": "どんな名前にしますか？" },
+    "display_font_description": {
+        "message": "チャット欄のフォントを変更できます。空登録するとデフォルトに戻ります。"
+    },
+    "display_fontSize_description": {
+        "message": "チャット欄のフォントサイズを変更できます。デフォルトは13pxです。"
+    },
+
+    "filter_filter": { "message": "フィルター切替" },
+    "filter_subOnly": { "message": "擬似サブスクライバー限定モード" },
+    "filter_range": { "message": "削除範囲" },
+    "filter_charLimit": { "message": "文字数制限" },
+    "filter_emoteLimit": { "message": "エモート数制限" },
+
+    "filter_filter_description": { "message": "フィルターのオンオフを切り替えできます。" },
+    "filter_subOnly_description": {
+        "message": "チャット欄を擬似的なサブスクライバー限定モードにします。"
+    },
+    "filter_range_description": {
+        "message": "オフの場合はコメントのみ、オンの場合は全てを削除します。"
+    },
+    "filter_charLimit_description": { "message": "コメントの文字数を制限します。" },
+    "filter_emoteLimit_description": { "message": "コメントに含まれるエモートの数を制限します。" },
+
+    "danmaku_danmaku": { "message": "弾幕切替" },
+    "danmaku_font": { "message": "フォント" },
+    "danmaku_fontSize": { "message": "フォントサイズ" },
+    "danmaku_opacity": { "message": "不透明度" },
+    "danmaku_speed": { "message": "表示時間" },
+
+    "danmaku_danmaku_description": {
+        "message": "弾幕のオンオフを切替できます。表示されない場合は再読み込みしてください。"
+    },
+    "danmaku_font_description": { "message": "弾幕のフォントを設定できます。" },
+    "danmaku_fontSize_description": { "message": "弾幕のフォントサイズを設定できます。" },
+    "danmaku_opacity_description": { "message": "0%にすると完全に透明となります。" },
+    "danmaku_speed_description": { "message": "10と設定すると、10秒かけて右から左へと流れます。" },
+
+    "other_quickBlock": { "message": "ブロックボタンの設置" },
+    "other_autoBonus": { "message": "オートボーナス" },
+    "other_countdown": { "message": "カウントダウン" },
+
+    "other_quickBlock_description": { "message": "ブロックボタンを設置します。" },
+    "other_autoBonus_description": { "message": "Twitchの15分ボーナスを自動でクリックします。" },
+    "other_countdown_description": {
+        "message": "Twitchの15分ボーナスが次に出現するまでの時間を表示します。"
+    },
+
+    "blockedWords_input_placeholder": {
+        "message": "ブロックしたいワードを登録できます。半角全角は区別されますのでご注意ください。正規表現にも対応しています。(例:/^a/ , /^[a-z]/i)"
+    },
+    "blockedUsers_input_placeholder": {
+        "message": "ブロックしたいユーザーを登録できます。半角全角は区別されますのでご注意ください。正規表現にも対応しています。(例:/^a/ , /^[a-z]/i)"
+    },
+    "blockedEmotes_input_placeholder": {
+        "message": "ブロックしたいエモートを登録できます。半角全角は区別されますのでご注意ください。正規表現にも対応しています。(例:/^a/ , /^[a-z]/i)"
+    },
+    "blocklist_empty": { "message": "現在登録されているデータはありません。" }
+}
