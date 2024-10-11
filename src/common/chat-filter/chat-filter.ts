@@ -2,9 +2,9 @@ import { isRegExp } from "@/src/lib/is-regexp";
 
 type Settings = {
     filter: Filter;
-    wordsMaps: { all: BlockMap[]; platform: BlockMap[] };
-    usersMaps: { all: BlockMap[]; platform: BlockMap[] };
-    emotesMaps: { all: BlockMap[]; platform: BlockMap[] };
+    wordsMaps: { all: Blocklist[]; platform: Blocklist[] };
+    usersMaps: { all: Blocklist[]; platform: Blocklist[] };
+    emotesMaps: { all: Blocklist[]; platform: Blocklist[] };
 };
 
 const defaultSettings: Settings = {
@@ -15,10 +15,10 @@ const defaultSettings: Settings = {
 };
 
 export class ChatFilter {
-    private platform: SupportedPlatforms;
+    private platform: Platforms;
     private settings: Settings;
 
-    constructor(platform: SupportedPlatforms) {
+    constructor(platform: Platforms) {
         this.platform = platform;
         this.settings = defaultSettings;
         this.update = this.update.bind(this);

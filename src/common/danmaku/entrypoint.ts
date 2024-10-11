@@ -1,6 +1,5 @@
 import { DOMObserver } from "@/src/lib/dom-observer";
 import { Turret } from "./turret";
-import { SupportedPlatforms } from "@/utils";
 import { CSSHandler } from "@/src/lib/css-handler";
 import { getPlatform } from "@/src/lib/get-platform";
 
@@ -82,7 +81,7 @@ function mountCanvas(root: HTMLElement, player: HTMLElement): HTMLElement {
     }
 }
 
-function setTurret(root: HTMLElement, platform: SupportedPlatforms, canvas: HTMLElement) {
+function setTurret(root: HTMLElement, platform: Platforms, canvas: HTMLElement) {
     const turret = new Turret(platform, canvas);
 
     new DOMObserver().add.added(Selectors.chat.cell[platform], {

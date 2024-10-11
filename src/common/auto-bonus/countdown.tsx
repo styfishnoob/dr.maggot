@@ -19,7 +19,7 @@ const Countdown = (props: Props) => {
     useEffect(() => {
         const i = props.ctx.setInterval(function () {
             (async function () {
-                const countdown = await manager.getItem<MappedPlatformsState>("countdown");
+                const countdown = await manager.getItem<PlatformStateRecord>("countdown");
                 if (refRemaining.current <= 0 || !countdown.twitch) {
                     clearInterval(i);
                     props.ctx.abort();

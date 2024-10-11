@@ -2,7 +2,6 @@ import ReactDOM from "react-dom/client";
 import QuickBlock from "./quick-block";
 import { DOMObserver } from "@/src/lib/dom-observer";
 import { getPlatform } from "@/src/lib/get-platform";
-import { SupportedPlatforms } from "@/utils";
 
 (function () {
     const platform = getPlatform();
@@ -17,7 +16,7 @@ import { SupportedPlatforms } from "@/utils";
     });
 })();
 
-function setListenerBlockEmoteContextMenu(platform: SupportedPlatforms) {
+function setListenerBlockEmoteContextMenu(platform: Platforms) {
     let emote: EventTarget | null = null;
 
     document.addEventListener("contextmenu", function (event) {
@@ -41,10 +40,10 @@ function setListenerBlockEmoteContextMenu(platform: SupportedPlatforms) {
     });
 }
 
-function mountQuickblock(platform: SupportedPlatforms, e: HTMLElement) {
+function mountQuickblock(platform: Platforms, e: HTMLElement) {
     (async () => {
         const manager = KVManagerList.other;
-        const quickBlock = await manager.getItem<MappedPlatformsState>("quickBlock");
+        const quickBlock = await manager.getItem<PlatformStateRecord>("quickBlock");
         if (!quickBlock[platform]) return;
 
         const user = e.querySelector<HTMLElement>(Selectors.chat.userName[platform]);

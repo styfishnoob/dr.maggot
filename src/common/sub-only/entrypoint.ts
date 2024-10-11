@@ -1,6 +1,5 @@
 import { CSSHandler } from "@/src/lib/css-handler";
 import { getPlatform } from "@/src/lib/get-platform";
-import { MappedPlatformsState } from "@/utils";
 
 (async function () {
     const platform = getPlatform();
@@ -15,8 +14,8 @@ import { MappedPlatformsState } from "@/utils";
     const fm = KVManagerList.filter;
     const dm = KVManagerList.display;
 
-    const subOnly = await fm.getItem<MappedPlatformsState>("subOnly");
-    const stripe = await dm.getItem<MappedPlatformsState>("stripe");
+    const subOnly = await fm.getItem<PlatformStateRecord>("subOnly");
+    const stripe = await dm.getItem<PlatformStateRecord>("stripe");
     const stripeColor = await dm.getItem<string>("stripeColor");
 
     if (subOnly[platform]) ch_SubOnly.add();
@@ -25,16 +24,16 @@ import { MappedPlatformsState } from "@/utils";
     document.documentElement.style.setProperty(`--drmaggot__subOnlyStripeColor`, `${stripeColor}`);
 
     fm.observeItem("subOnly", async () => {
-        const subOnly = await fm.getItem<MappedPlatformsState>("subOnly");
-        const stripe = await dm.getItem<MappedPlatformsState>("stripe");
+        const subOnly = await fm.getItem<PlatformStateRecord>("subOnly");
+        const stripe = await dm.getItem<PlatformStateRecord>("stripe");
         ch_SubOnly.check(subOnly[platform]);
         if (!subOnly[platform] || !stripe[platform]) ch_Stripe.rm();
         if (subOnly[platform] && stripe[platform]) ch_Stripe.add();
     });
 
     dm.observeItem("stripe", async () => {
-        const subOnly = await fm.getItem<MappedPlatformsState>("subOnly");
-        const stripe = await dm.getItem<MappedPlatformsState>("stripe");
+        const subOnly = await fm.getItem<PlatformStateRecord>("subOnly");
+        const stripe = await dm.getItem<PlatformStateRecord>("stripe");
         if (subOnly[platform] && stripe[platform]) ch_Stripe.add();
         else ch_Stripe.rm();
     });
