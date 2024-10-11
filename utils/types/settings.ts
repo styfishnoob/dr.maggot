@@ -1,4 +1,4 @@
-export type MappedPlatformsState = MappedSupportedPlatforms<boolean>;
+export type PlatformStateRecord = PlatformRecord<boolean>;
 
 export type Limiter = {
     less: number;
@@ -10,32 +10,32 @@ export type Settings = {
     Filter: Filter;
     Danmaku: Danmaku;
     Other: Other;
-    BlockedWords: BlockMaps;
-    BlockedUsers: BlockMaps;
-    BlockedEmotes: BlockMaps;
+    BlockedWords: AllPlatformBlocklistRecord;
+    BlockedUsers: AllPlatformBlocklistRecord;
+    BlockedEmotes: AllPlatformBlocklistRecord;
 };
 
 export type Display = {
-    hideName: MappedPlatformsState;
-    unifyName: MappedPlatformsState;
+    hideName: PlatformStateRecord;
+    unifyName: PlatformStateRecord;
     unifyNameValue: string;
-    stripe: MappedPlatformsState;
+    stripe: PlatformStateRecord;
     stripeColor: string;
-    break: MappedPlatformsState;
+    break: PlatformStateRecord;
     font: string;
     fontSize: number;
 };
 
 export type Filter = {
-    filter: MappedPlatformsState;
-    subOnly: MappedPlatformsState;
+    filter: PlatformStateRecord;
+    subOnly: PlatformStateRecord;
     charLimit: Limiter;
     emoteLimit: Limiter;
-    range: MappedPlatformsState;
+    range: PlatformStateRecord;
 };
 
 export type Danmaku = {
-    danmaku: MappedPlatformsState;
+    danmaku: PlatformStateRecord;
     font: string;
     fontSize: number;
     opacity: number;
@@ -43,7 +43,7 @@ export type Danmaku = {
 };
 
 export type Other = {
-    quickBlock: MappedPlatformsState;
-    autoBonus: MappedPlatformsState;
-    countdown: MappedPlatformsState;
+    quickBlock: PlatformStateRecord;
+    autoBonus: PlatformStateRecord;
+    countdown: PlatformStateRecord;
 };

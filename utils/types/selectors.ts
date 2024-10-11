@@ -1,15 +1,14 @@
-type MappedPlatformsSelector = Readonly<MappedSupportedPlatforms<string>>;
+type PlatformSelectorRecord = Readonly<PlatformRecord<string>>;
 
-export type PlatformSelectors = {
-    videoPlayer: MappedPlatformsSelector;
+export type WebSelectors = {
+    videoPlayer: PlatformSelectorRecord;
     chat: {
-        container: MappedPlatformsSelector;
-        cell: MappedPlatformsSelector;
-        quickBlockAnchor: MappedPlatformsSelector;
-        contents: MappedPlatformsSelector;
-        userName: MappedPlatformsSelector;
-        messages: MappedPlatformsSelector;
-        emotes: MappedPlatformsSelector;
-        twitchBonus: MappedPlatformsSelector;
+        container: PlatformSelectorRecord;
+        cell: PlatformSelectorRecord;
+        quickBlockAnchor: PlatformSelectorRecord;
+        contents: PlatformSelectorRecord;
+        userName: PlatformSelectorRecord;
+        messages: PlatformSelectorRecord;
+        emotes: PlatformSelectorRecord;
     };
 };

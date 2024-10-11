@@ -1,5 +1,3 @@
-export type BlockMapSupportedPlatforms = 'all' | SupportedPlatforms;
-export type MappedBlockMapSupportedPlatforms<U> = { [K in BlockMapSupportedPlatforms]: U };
-export type BlockItem = { value: string; active: boolean };
-export type BlockMap = [string, BlockItem];
-export type BlockMaps = MappedBlockMapSupportedPlatforms<BlockMap[]>;
+export type BlocklistItem = { value: string; active: boolean };
+export type Blocklist = [string, BlocklistItem];
+export type AllPlatformBlocklistRecord = AllPlatformRecord<Blocklist[]>;

@@ -1,3 +1,7 @@
-const SUPPORTED_PLATFORMS = ['youtube', 'twitch', 'openrec', 'twicas'] as const;
-export type SupportedPlatforms = (typeof SUPPORTED_PLATFORMS)[number];
-export type MappedSupportedPlatforms<U> = { [K in SupportedPlatforms]: U };
+export const PLATFORMS = ["youtube", "twitch", "kick", "openrec", "twicas"] as const;
+
+export type Platforms = (typeof PLATFORMS)[number];
+export type PlatformRecord<U> = Record<Platforms, U>;
+
+export type AllPlatforms = "all" | Platforms;
+export type AllPlatformRecord<U> = Record<AllPlatforms, U>;
