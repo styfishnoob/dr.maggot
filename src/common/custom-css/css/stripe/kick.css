@@ -1,0 +1,7 @@
+:root {
+    --drmaggot__stripeColor: #000000;
+}
+
+#chatroom-messages > div.no-scrollbar > :nth-child(even of :not([hidden])) {
+    background-color: var(--drmaggot__stripeColor);
+}

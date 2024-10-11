@@ -1,0 +1,11 @@
+#chatroom-messages {
+    & .group {
+        & button[class="inline font-bold"] {
+            display: none !important;
+        }
+
+        & span[aria-hidden="true"] {
+            display: none !important;
+        }
+    }
+}

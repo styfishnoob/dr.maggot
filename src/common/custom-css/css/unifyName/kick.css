@@ -1,0 +1,14 @@
+:root {
+    --drmaggot__unifyNameValue: ">";
+}
+
+#chatroom-messages {
+    & button[class="inline font-bold"] {
+        font-size: 0px;
+    }
+
+    & button[class="inline font-bold"]:before {
+        content: var(--drmaggot__unifyNameValue);
+        font-size: var(--drmaggot__fontSize);
+    }
+}
