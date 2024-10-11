@@ -1,5 +1,4 @@
 .twicas__quick-block {
-    background-color: transparent;
     border: none;
     display: none;
     float: right;
@@ -11,10 +10,13 @@
 }
 
 .twicas__quick-block--button {
+    align-items: baseline;
+    border: none;
     display: flex;
-    left: 0;
+    justify-content: center;
     position: relative;
-    top: 2px;
+    width: 100%;
+    height: 100%;
 }
 
 .tw-comment-item:hover .twicas__quick-block {

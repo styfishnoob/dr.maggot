@@ -4,7 +4,7 @@
 
 .twitch__quick-block {
     display: none;
-    background-color: var(--color-background-base) !important;
+    background-color: var(--color-background-base) !important; /* このCSS変数はTwitchのやつ */
     border-radius: var(--border-radius-medium) !important;
     box-shadow: var(--shadow-elevation-1) !important;
     margin-left: 5px;
