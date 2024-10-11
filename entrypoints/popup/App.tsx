@@ -1,6 +1,6 @@
 import Button from "../features/Button/Button";
 import InputLimit from "../features/InputLimit/InputLimit";
-import PlatformCheckboxList from "../features/PlatformCheckboxList/PlatformCheckboxList";
+import PlatformCheckboxList from "../features/PlatformCheckbox/PlatformCheckbox";
 
 type SettingsCardProps = {
     name: string;
