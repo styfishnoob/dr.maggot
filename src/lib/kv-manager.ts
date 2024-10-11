@@ -1,7 +1,7 @@
-export class KVManager<T extends KV> {
-    private key: KeysOfType<Settings, KV>;
+export class KVManager<T extends KeyValue> {
+    private key: KeysOfType<Settings, KeyValue>;
 
-    constructor(key: KeysOfType<Settings, KV>) {
+    constructor(key: KeysOfType<Settings, KeyValue>) {
         this.key = key;
     }
 
