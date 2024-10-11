@@ -18,13 +18,13 @@ type StorageAreaOnChangedChangesType = {
 export class Turret {
     public canvas: HTMLElement;
     private canvasClientHeight: number;
-    private platform: SupportedPlatforms;
+    private platform: Platforms;
     private settings: Danmaku;
     private magazine: Bullet[][] = [];
     private rowsNum: number = 0;
     private rowHeight: number = 0;
 
-    constructor(platform: SupportedPlatforms, canvas: HTMLElement) {
+    constructor(platform: Platforms, canvas: HTMLElement) {
         this.platform = platform;
         this.canvas = canvas;
         this.canvasClientHeight = this.canvas.clientHeight;
@@ -144,41 +144,36 @@ export class Turret {
 
     private manufacture(material: HTMLElement): Bullet {
         const anstyle = window.getComputedStyle(material).display;
-        const contents = material.querySelector<HTMLElement>(Selectors.chatContents[this.platform]);
+        const contents = material.querySelector<HTMLElement>(
+            Selectors.chat.contents[this.platform]
+        );
         const core: HTMLElement = document.createElement("div");
-        const space: HTMLSpanElement = document.createElement("span");
         const bullet = { core: core, fired: false, width: 0 };
         if (!contents || contents.hidden || material.hidden || anstyle === "none") return bullet;
 
-        space.textContent = "\u00A0";
-        core.append(space);
         contents.childNodes.forEach((child) => {
-            switch (child.nodeName) {
-                case "SPAN":
-                case "#text": {
+            const c = child as HTMLElement;
+            switch (true) {
+                case c.nodeName === "#text": {
                     const span = document.createElement("span");
-                    span.textContent = child.textContent;
+                    span.textContent = c.textContent;
                     core.append(span);
                     break;
                 }
 
-                case "IMG": {
-                    const clone = child.cloneNode(true) as HTMLImageElement;
-                    clone.width = this.rowHeight - 15;
-                    clone.height = this.rowHeight - 15;
+                case c.matches(Selectors.chat.messages[this.platform]): {
+                    const clone = c.cloneNode(true);
                     core.append(clone);
+                    break;
                 }
 
-                case "DIV": {
-                    const clone = child.cloneNode(true) as HTMLElement;
-                    const img = clone.querySelector("img");
-                    if (img) {
-                        if (this.rowHeight < img.naturalHeight || img.width === 0) {
-                            img.width = this.rowHeight - 5;
-                            img.height = this.rowHeight - 5;
-                        }
-                        core.append(img);
-                    }
+                case c.matches(Selectors.chat.emotes[this.platform]): {
+                    const clone = c.cloneNode(true) as HTMLElement;
+                    const _img = clone.querySelector("img");
+                    const img = _img ? _img : (clone as HTMLImageElement);
+                    img.width = this.settings.fontSize;
+                    img.height = this.settings.fontSize;
+                    core.append(clone);
                     break;
                 }
             }
