@@ -1,9 +1,9 @@
-import Main from '@/entrypoints/options/components/Main/Main';
-import Sidebar from '@/entrypoints/options/components/Sidebar/Sidebar';
-import Topbar from '@/entrypoints/options/components/Topbar/Topbar';
-import SettingsList from '@/entrypoints/options/components/SettingsList/SettingsList';
-import SettingsCard from '@/entrypoints/options/components/SettingsCard/SettingsCard';
-import PlatformCheckboxList from '@/entrypoints/features/PlatformCheckboxList/PlatformCheckboxList';
+import Main from "@/entrypoints/options/components/Main/Main";
+import Sidebar from "@/entrypoints/options/components/Sidebar/Sidebar";
+import Topbar from "@/entrypoints/options/components/Topbar/Topbar";
+import SettingsList from "@/entrypoints/options/components/SettingsList/SettingsList";
+import SettingsCard from "@/entrypoints/options/components/SettingsCard/SettingsCard";
+import PlatformCheckboxList from "@/entrypoints/features/PlatformCheckbox/PlatformCheckbox";
 
 type SettingsCardProps = {
     title: string;
@@ -13,29 +13,35 @@ type SettingsCardProps = {
 
 const SettingsCards: SettingsCardProps[] = [
     {
-        title: `${browser.i18n.getMessage('other_quickBlock')}`,
-        description: `${browser.i18n.getMessage('other_quickBlock_description')}`,
+        title: `${browser.i18n.getMessage("other_quickBlock")}`,
+        description: `${browser.i18n.getMessage("other_quickBlock_description")}`,
         feature: <PlatformCheckboxList<Other> storageKey="Other" itemKey="quickBlock" />,
     },
     {
-        title: `${browser.i18n.getMessage('other_autoBonus')}`,
-        description: `${browser.i18n.getMessage('other_autoBonus_description')}`,
+        title: `${browser.i18n.getMessage("other_autoBonus")}`,
+        description: `${browser.i18n.getMessage("other_autoBonus_description")}`,
         feature: (
             <PlatformCheckboxList<Other>
                 storageKey="Other"
                 itemKey="autoBonus"
-                disabled={{ youtube: true, twitch: false, openrec: true, twicas: true }}
+                disabled={{
+                    youtube: true,
+                    twitch: false,
+                    kick: true,
+                    openrec: true,
+                    twicas: true,
+                }}
             />
         ),
     },
     {
-        title: `${browser.i18n.getMessage('other_countdown')}`,
-        description: `${browser.i18n.getMessage('other_countdown_description')}`,
+        title: `${browser.i18n.getMessage("other_countdown")}`,
+        description: `${browser.i18n.getMessage("other_countdown_description")}`,
         feature: (
             <PlatformCheckboxList<Other>
                 storageKey="Other"
                 itemKey="countdown"
-                disabled={{ youtube: true, twitch: false, openrec: true, twicas: true }}
+                disabled={{ youtube: true, twitch: false, kick: true, openrec: true, twicas: true }}
             />
         ),
     },
@@ -46,7 +52,7 @@ const Filter = () => {
         <main className="flex h-screen">
             <Sidebar />
             <Main>
-                <Topbar title={browser.i18n.getMessage('menu_other')} />
+                <Topbar title={browser.i18n.getMessage("menu_other")} />
                 <SettingsList>
                     {SettingsCards.map((item, index) => (
                         <SettingsCard key={index} title={item.title} description={item.description}>
