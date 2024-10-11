@@ -1,26 +1,28 @@
-import React from 'react';
-import TableData from '@/entrypoints/options/components/Table/TableData';
-import all from '@/assets/platform_icons/all.png';
-import youtube from '@/assets/platform_icons/youtube.svg';
-import twitch from '@/assets/platform_icons/twitch.svg';
-import openrec from '@/assets/platform_icons/openrec.svg';
-import twicas from '@/assets/platform_icons/twicas.png';
-import { isRegExp } from '@/src/lib/is-regexp';
+import React from "react";
+import TableData from "@/entrypoints/options/components/Table/TableData";
+import all from "@/assets/platform_icons/all.png";
+import youtube from "@/assets/platform_icons/youtube.svg";
+import twitch from "@/assets/platform_icons/twitch.svg";
+import kick from "@/assets/platform_icons/kick.svg";
+import openrec from "@/assets/platform_icons/openrec.svg";
+import twicas from "@/assets/platform_icons/twicas.png";
+import { isRegExp } from "@/src/lib/is-regexp";
 
 type Props = {
-    platform: BlockMapSupportedPlatforms;
-    blockMap: BlockMap[];
+    platform: AllPlatforms;
+    blocklists: Blocklist[];
     checkedMap: Map<string, boolean>;
     onCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onDeleteClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-type PlatformIcons = { [P in BlockMapSupportedPlatforms]: string };
+type PlatformIcons = AllPlatformRecord<string>;
 
 const platformIcons: PlatformIcons = {
     all: all,
     youtube: youtube,
     twitch: twitch,
+    kick: kick,
     openrec: openrec,
     twicas: twicas,
 };
@@ -28,7 +30,7 @@ const platformIcons: PlatformIcons = {
 const TableBodyRow = (props: Props) => {
     return (
         <>
-            {props.blockMap.map(([key, item]) => {
+            {props.blocklists.map(([key, item]) => {
                 return (
                     <tr key={key} className="divide-x divide-gray-200 dark:divide-neutral-700">
                         <TableData width={true}>
@@ -41,7 +43,12 @@ const TableBodyRow = (props: Props) => {
                             />
                         </TableData>
                         <TableData width={true}>
-                            <img width={16} height={16} src={platformIcons[props.platform]} alt="" />
+                            <img
+                                width={16}
+                                height={16}
+                                src={platformIcons[props.platform]}
+                                alt=""
+                            />
                         </TableData>
                         {isRegExp(item.value)[0] ? (
                             <TableData width={false}>

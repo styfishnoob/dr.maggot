@@ -1,21 +1,23 @@
-import TableData from '@/entrypoints/options/components/Table/TableData';
-import all from '@/assets/platform_icons/all.png';
-import youtube from '@/assets/platform_icons/youtube.svg';
-import twitch from '@/assets/platform_icons/twitch.svg';
-import openrec from '@/assets/platform_icons/openrec.svg';
-import twicas from '@/assets/platform_icons/twicas.png';
+import TableData from "@/entrypoints/options/components/Table/TableData";
+import all from "@/assets/platform_icons/all.png";
+import youtube from "@/assets/platform_icons/youtube.svg";
+import twitch from "@/assets/platform_icons/twitch.svg";
+import kick from "@/assets/platform_icons/kick.svg";
+import openrec from "@/assets/platform_icons/openrec.svg";
+import twicas from "@/assets/platform_icons/twicas.png";
 
 type Props = {
-    platform: BlockMapSupportedPlatforms;
+    platform: AllPlatforms;
     text: string;
 };
 
-type PlatformIcons = { [P in BlockMapSupportedPlatforms]: string };
+type AllPlatformIcons = AllPlatformRecord<string>;
 
-const platformIcons: PlatformIcons = {
+const allPlatformIcons: AllPlatformIcons = {
     all: all,
     youtube: youtube,
     twitch: twitch,
+    kick: kick,
     openrec: openrec,
     twicas: twicas,
 };
@@ -31,7 +33,7 @@ const TableBodyNoRow = (props: Props) => {
                 />
             </TableData>
             <TableData width={true}>
-                <img width={16} height={16} src={platformIcons[props.platform]} alt="" />
+                <img width={16} height={16} src={allPlatformIcons[props.platform]} alt="" />
             </TableData>
             <TableData width={false}>
                 <div className="text-center">
