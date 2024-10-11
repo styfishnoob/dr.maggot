@@ -3,6 +3,7 @@ export default defineContentScript({
         "*://*.youtube.com/*",
         "*://*.twitch.tv/*",
         "*://*.openrec.tv/*",
+        "*://*.kick.com/*",
         "*://*.twitcasting.tv/*",
     ],
     allFrames: true,
