@@ -1,13 +1,13 @@
-import { KVManager } from '@/src/lib/kv-manager';
-import { useEffect, useState } from 'react';
+import { KVManager } from "@/src/lib/kv-manager";
+import { useEffect, useState } from "react";
 
-type Props<T extends KV> = {
+type Props<T extends KeyValue> = {
     storageKey: KeysOfType<Settings, T>;
     itemKey: KeysOfType<T, string>;
 };
 
-const ColorPicker = <T extends KV>(props: Props<T>) => {
-    const [color, setColor] = useState<string>('#000000');
+const ColorPicker = <T extends KeyValue>(props: Props<T>) => {
+    const [color, setColor] = useState<string>("#000000");
     const manager = new KVManager<T>(props.storageKey);
 
     useEffect(() => {

@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { KVManager } from '@/src/lib/kv-manager';
+import { useEffect, useState } from "react";
+import { KVManager } from "@/src/lib/kv-manager";
 
-type Props<T extends KV> = {
+type Props<T extends KeyValue> = {
     guide: string;
     storageKey: KeysOfType<Settings, T>;
     itemKey: KeysOfType<T, number>;
@@ -9,7 +9,7 @@ type Props<T extends KV> = {
     max?: number;
 };
 
-const InputNumber = <T extends KV>(props: Props<T>) => {
+const InputNumber = <T extends KeyValue>(props: Props<T>) => {
     const [value, setValue] = useState<number>(0);
     const manager = new KVManager<T>(props.storageKey); //型の担保のためKVlistは使わない
 
@@ -22,8 +22,8 @@ const InputNumber = <T extends KV>(props: Props<T>) => {
 
     function onBlur(e: React.ChangeEvent<HTMLInputElement>) {
         const v = Number(e.target.value);
-        const min = props.min ? `${props.min}` : '0';
-        const max = props.max ? `${props.max}` : '500';
+        const min = props.min ? `${props.min}` : "0";
+        const max = props.max ? `${props.max}` : "500";
         if (v <= Number(min)) e.target.value = min;
         if (v >= Number(max)) e.target.value = max;
         const num = Number(e.target.value);
@@ -34,9 +34,9 @@ const InputNumber = <T extends KV>(props: Props<T>) => {
     function onChange(e: React.ChangeEvent<HTMLInputElement>) {
         const v = e.target.value;
         const num = Number(v);
-        const min = props.min ? `${props.min}` : '0';
-        const max = props.max ? `${props.max}` : '500';
-        if (v != '') {
+        const min = props.min ? `${props.min}` : "0";
+        const max = props.max ? `${props.max}` : "500";
+        if (v != "") {
             if (num <= Number(min)) e.target.value = min;
             if (num >= Number(max)) e.target.value = max;
             manager.setItem<number>(props.itemKey, num);

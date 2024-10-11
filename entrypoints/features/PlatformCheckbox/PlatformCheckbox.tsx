@@ -1,54 +1,61 @@
-import { useEffect, useState } from 'react';
-import { KVManager } from '@/src/lib/kv-manager';
-import youtube from '@/assets/platform_icons/youtube.svg';
-import twitch from '@/assets/platform_icons/twitch.svg';
-import openrec from '@/assets/platform_icons/openrec.svg';
-import twicas from '@/assets/platform_icons/twicas.png';
+import { useEffect, useState } from "react";
+import { KVManager } from "@/src/lib/kv-manager";
+import youtube from "@/assets/platform_icons/youtube.svg";
+import twitch from "@/assets/platform_icons/twitch.svg";
+import kick from "@/assets/platform_icons/kick.svg";
+import openrec from "@/assets/platform_icons/openrec.svg";
+import twicas from "@/assets/platform_icons/twicas.png";
 
-type CheckboxesProps<T extends KV> = {
+type PlatformCheckboxProps<T extends KeyValue> = {
     storageKey: KeysOfType<Settings, T>;
-    itemKey: KeysOfType<T, MappedPlatformsState>;
-    disabled?: MappedPlatformsState;
+    itemKey: KeysOfType<T, PlatformStateRecord>;
+    disabled?: PlatformStateRecord;
 };
 
-type CheckboxProps<T extends KV> = {
-    platform: SupportedPlatforms;
+type CheckboxProps<T extends KeyValue> = {
+    platform: Platforms;
     storageKey: KeysOfType<Settings, T>;
-    itemKey: KeysOfType<T, MappedPlatformsState>;
+    itemKey: KeysOfType<T, PlatformStateRecord>;
     imgSrc: string;
 };
 
-const Checkboxes = <T extends KV>(props: CheckboxesProps<T>) => {
-    const CheckboxList: CheckboxProps<T>[] = [
-        {
-            platform: 'youtube',
+const PlatformCheckbox = <T extends KeyValue>(props: PlatformCheckboxProps<T>) => {
+    const CheckboxList: PlatformRecord<CheckboxProps<T>> = {
+        youtube: {
+            platform: "youtube",
             storageKey: props.storageKey,
             itemKey: props.itemKey,
             imgSrc: youtube,
         },
-        {
-            platform: 'twitch',
+        twitch: {
+            platform: "twitch",
             storageKey: props.storageKey,
             itemKey: props.itemKey,
             imgSrc: twitch,
         },
-        {
-            platform: 'openrec',
+        kick: {
+            platform: "kick",
+            storageKey: props.storageKey,
+            itemKey: props.itemKey,
+            imgSrc: kick,
+        },
+        openrec: {
+            platform: "openrec",
             storageKey: props.storageKey,
             itemKey: props.itemKey,
             imgSrc: openrec,
         },
-        {
-            platform: 'twicas',
+        twicas: {
+            platform: "twicas",
             storageKey: props.storageKey,
             itemKey: props.itemKey,
             imgSrc: twicas,
         },
-    ];
+    };
 
     return (
         <ul className="flex justify-end sm:flex-row">
-            {CheckboxList.map((item, index) =>
+            {Object.entries(CheckboxList).map(([, item], index) =>
                 !props.disabled || !props.disabled[item.platform] ? (
                     <Checkbox<T>
                         key={index}
@@ -58,31 +65,31 @@ const Checkboxes = <T extends KV>(props: CheckboxesProps<T>) => {
                         imgSrc={item.imgSrc}
                     />
                 ) : (
-                    ''
+                    ""
                 )
             )}
         </ul>
     );
 };
 
-const Checkbox = <T extends KV>(props: CheckboxProps<T>) => {
+const Checkbox = <T extends KeyValue>(props: CheckboxProps<T>) => {
     const [state, setState] = useState<boolean>(false);
     const manager = new KVManager<T>(props.storageKey);
     const ID = `${props.platform}__${String(props.itemKey)}`;
 
     useEffect(() => {
         (async function () {
-            const item = await manager.getItem<MappedPlatformsState>(props.itemKey);
+            const item = await manager.getItem<PlatformStateRecord>(props.itemKey);
             setState(item[props.platform]);
         })();
     });
 
-    function onChange(platform: SupportedPlatforms) {
+    function onChange(platform: Platforms) {
         (async () => {
-            const item = await manager.getItem<MappedPlatformsState>(props.itemKey);
+            const item = await manager.getItem<PlatformStateRecord>(props.itemKey);
             item[platform] = !state;
             setState(!state);
-            manager.setItem<MappedPlatformsState>(props.itemKey, item);
+            manager.setItem<PlatformStateRecord>(props.itemKey, item);
         })();
     }
 
@@ -110,4 +117,4 @@ const Checkbox = <T extends KV>(props: CheckboxProps<T>) => {
     );
 };
 
-export default Checkboxes;
+export default PlatformCheckbox;
