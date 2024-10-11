@@ -1,4 +1,4 @@
-export function getPlatform(url?: string): SupportedPlatforms | undefined {
+export function getPlatform(url?: string): Platforms | undefined {
     const URL = url ? url : location.href;
     switch (true) {
         case check(URL, /youtube\.com\/live_chat\?.+$/):
@@ -6,9 +6,12 @@ export function getPlatform(url?: string): SupportedPlatforms | undefined {
             return "youtube";
         }
 
-        case check(URL, /twitch\.tv(\/.*)/):
-        case check(URL, /twitch\.tv\/videos\/.+$/): {
+        case check(URL, /twitch\.tv(\/.*)/): {
             return "twitch";
+        }
+
+        case check(URL, /kick\.com(\/.*)/): {
+            return "kick";
         }
 
         case check(URL, /openrec\.tv(\/.*)/): {
