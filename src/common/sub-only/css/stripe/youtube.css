@@ -12,8 +12,8 @@
         even
             of
             yt-live-chat-text-message-renderer:has(
-                yt-live-chat-author-badge-renderer[type='member'],
-                yt-live-chat-author-badge-renderer[type='moderator']
+                yt-live-chat-author-badge-renderer[type="member"],
+                yt-live-chat-author-badge-renderer[type="moderator"]
             )
     ) {
     background-color: var(--drmaggot__subOnlyStripeColor);

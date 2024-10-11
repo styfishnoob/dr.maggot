@@ -1,0 +1,12 @@
+#chatroom-messages {
+    & div.no-scrollbar {
+        & [data-index] {
+            display: none;
+        }
+
+        & [data-index]:has(img[src*="https://files.kick.com/channel_subscriber_badges"])
+        {
+            display: block;
+        }
+    }
+}

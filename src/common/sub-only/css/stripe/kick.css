@@ -1,0 +1,18 @@
+:root {
+    --drmaggot__subOnlyStripeColor: #000000;
+}
+
+#chatroom-messages {
+    & > div.no-scrollbar :nth-child(even of :not([hidden])) {
+        --drmaggot__stripeColor: #00000000;
+    }
+}
+
+#chatroom-messages {
+    & > div.no-scrollbar {
+        & >:nth-child(even of [data-index]:has(img[src*="https://files.kick.com/channel_subscriber_badges"]))
+        {
+            background-color: var(--drmaggot__subOnlyStripeColor);
+        }
+    }
+}
