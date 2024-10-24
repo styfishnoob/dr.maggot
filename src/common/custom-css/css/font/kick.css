@@ -4,7 +4,15 @@
 }
 
 #chatroom-messages {
-    font-family: var(--drmaggot__font), -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial,
-        "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", メイリオ, Meiryo, sans-serif !important;
-    font-size: var(--drmaggot__fontSize);
+    & {
+        font-family: var(--drmaggot__font), -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+            Arial, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", メイリオ, Meiryo, sans-serif !important;
+        font-size: var(--drmaggot__fontSize);
+    }
+
+    & .group > div[class*="betterhover"] {
+        & > span:first-child {
+            display: none !important;
+        }
+    }
 }
