@@ -12,7 +12,7 @@
 
 /* archive */
 ul > li {
-    padding-left: 15px;
+    padding: 0.2rem 1.5rem;
 }
 
 .vod-message__header {
