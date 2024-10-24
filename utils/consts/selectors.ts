@@ -25,7 +25,7 @@ export const Selectors: WebSelectors = {
         },
         quickBlockAnchor: {
             youtube: `#menu`,
-            twitch: `.chat-line__icons, .video-chat__message-menu`,
+            twitch: `.chat-line__icons, div.vod-message`,
             kick: `.group`,
             openrec: `.ChatCell__Cell-sc-1ey02g1-4`,
             twicas: `.tw-comment-item-dropdown`,
