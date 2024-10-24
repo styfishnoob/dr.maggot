@@ -2,6 +2,25 @@
     display: block;
 }
 
+li:has(div.vod-message):hover {
+    & > div {
+        background: var(--color-background-interactable-alpha-hover);
+        border-radius: 0.4rem;
+    }
+
+    & [drmaggot] {
+        background-color: red;
+        position: relative;
+    }
+
+    & .twitch__quick-block {
+        display: block;
+        position: absolute;
+        right: -1rem;
+        top: -1.5rem;
+    }
+}
+
 .twitch__quick-block {
     display: none;
     background-color: var(--color-background-base) !important; /* このCSS変数はTwitchのやつ */
