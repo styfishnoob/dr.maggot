@@ -108,16 +108,19 @@ export class ChatFilter {
         if (!userName) return;
 
         for (const [, map] of Object.entries(maps)) {
+            const MAP = new Map(map);
+            const active = MAP.get(userName);
+
+            if (active) {
+                this.deleteContents(node);
+                return;
+            }
+
             map.forEach((item) => {
                 if (item[1].active === false) return;
                 const result = isRegExp(item[1].value);
 
                 if (result[0] && result[1].test(userName)) {
-                    this.deleteContents(node);
-                    return;
-                }
-
-                if (!result[0] && userName.includes(item[1].value)) {
                     this.deleteContents(node);
                     return;
                 }
