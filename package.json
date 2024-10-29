@@ -1,7 +1,7 @@
 {
     "name": "dr.maggot",
     "private": true,
-    "version": "13.3",
+    "version": "13.3.1",
     "type": "module",
     "scripts": {
         "dev": "wxt",
