@@ -16,17 +16,17 @@
     "dependencies": {
         "@tailwindcss/forms": "^0.5.7",
         "autoprefixer": "^10.4.19",
+        "preline": "^2.5.1",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
-        "react-router-dom": "^6.25.1",
-        "tailwindcss": "^3.4.6"
+        "react-router-dom": "^6.25.1"
     },
     "devDependencies": {
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
         "@wxt-dev/module-react": "^1.0.0",
-        "preline": "^2.3.0",
+        "tailwindcss": "^3.4.14",
         "typescript": "^5.5.2",
-        "wxt": "^0.18.10"
+        "wxt": "^0.19.13"
     }
 }
