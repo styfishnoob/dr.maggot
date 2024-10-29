@@ -14,6 +14,18 @@ const Notice = () => {
             <Main>
                 <Topbar title={browser.i18n.getMessage("menu_notice")} />
                 <div className="overflow-auto">
+                    <NoticeCard title="2024/10/30">
+                        <ul>
+                            <li>以下の修正を行いました。</li>
+                            <br />
+                            <li>・Twitchにてエモート制限が動作しない不具合</li>
+                            <br />
+                            <li>最近Twtichのサイトで頻繁に変更が行われています。</li>
+                            <li>
+                                できる限り早く対応いたしますが、ご不便をおかけする場合があります。ご容赦ください。
+                            </li>
+                        </ul>
+                    </NoticeCard>
                     <NoticeCard title="2024/10/13">
                         <ul>
                             <li>以下の修正・更新を行いました。</li>
@@ -21,8 +33,12 @@ const Notice = () => {
                             <li>・Twitchのボーナスが自動でクリックされない不具合</li>
                             <li>・kickへの対応</li>
                             <br />
-                            <li>新しく対応したkickにて、設定不足で不具合が発生する可能性があります。発見した場合は報告していただけると大変助かります。</li>
-                            <li>いつもたくさんのレビュー・報告をしてくださり、毎度助かっております。ありがとうございます。</li>
+                            <li>
+                                新しく対応したkickにて、設定不足で不具合が発生する可能性があります。発見した場合は報告していただけると大変助かります。
+                            </li>
+                            <li>
+                                いつもたくさんのレビュー・報告をしてくださり、毎度助かっております。ありがとうございます。
+                            </li>
                         </ul>
                     </NoticeCard>
                     <NoticeCard title="2024/9/16">
