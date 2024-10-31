@@ -30,11 +30,12 @@ const QuickBlock = (props: Props) => {
             <button
                 className={`${props.platform}__quick-block--button`}
                 title={browser.i18n.getMessage("quickBlock_title")}
-                onClick={() => {
+                onClick={(event) => {
                     const manager = MapManagerList.user;
                     manager.set(props.platform, props.user, { value: props.user, active: true });
                     props.element.hidden = true;
                     props.element.style.display = "none";
+                    event.stopPropagation();
                 }}
             >
                 <span>
