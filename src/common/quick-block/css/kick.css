@@ -1,13 +1,19 @@
 .kick__quick-block {
-    display: none;
-    position: absolute;
-    background-color: var(--background-color);
-    border: 1px solid #53fc18;
-    border-radius: 5px;
-    top: -9px;
-    right: 0px;
-    width: 30px;
-    height: 30px;
+    & {
+        display: none;
+        position: absolute;
+        border: 1px solid rgb(75 85 99);
+        background-color: rgba(65, 68, 73, 1);
+        border-radius: 9999px;
+        top: -1rem;
+        right: 40px;
+        width: 34px;
+        height: 34px;
+    }
+
+    &:hover {
+        background-color: rgba(49, 53, 56, 1);
+    }
 }
 
 .kick__quick-block--button {
