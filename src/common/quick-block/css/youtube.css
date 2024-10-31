@@ -5,9 +5,8 @@
 .youtube__quick-block {
     display: inline-block;
     box-sizing: border-box;
-    position: relative;
-    width: 32px;
     height: 32px;
+    margin-right: 10px;
     padding: 4px;
 }
 
