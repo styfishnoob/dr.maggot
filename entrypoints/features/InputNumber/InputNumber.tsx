@@ -48,13 +48,13 @@ const InputNumber = <T extends KeyValue>(props: Props<T>) => {
             <div className="flex">
                 <input
                     type="number"
-                    className="block w-[65px] rounded-lg rounded-e-none border-gray-200 px-1.5 py-1.5 text-xs focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                     defaultValue={value}
                     key={value}
-                    onChange={onChange}
                     onBlur={onBlur}
+                    onChange={onChange}
+                    className="block w-[65px] rounded-lg rounded-e-none border-gray-200 px-2 py-2 text-xs focus:z-10 focus:ring-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                 />
-                <div className="flex h-[30px] max-h-[30px] min-h-[30px] w-[35px] min-w-[35px] max-w-[35px] flex-col justify-center rounded-e-md border border-s-0 border-gray-200 bg-gray-50 dark:border-neutral-600 dark:bg-neutral-700">
+                <div className="flex h-full w-[34px] flex-col justify-center rounded-e-md border border-s-0 border-gray-200 bg-gray-50 dark:border-neutral-600 dark:bg-neutral-700">
                     <div className="text-center">
                         <span className="text-xs text-neutral-400">{props.guide}</span>
                     </div>

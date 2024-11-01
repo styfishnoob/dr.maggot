@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-const PLACEHOLDER_HEADER = browser.i18n.getMessage('input_text_currentValue');
+const PLACEHOLDER_HEADER = browser.i18n.getMessage("input_text_currentValue");
 
 type Props = {
     style?: string;
@@ -29,7 +29,7 @@ const InputText = <T,>({
     storageKey,
     itemKey,
 }: StaticPlaceholder | DynamicPlaceholder<T>) => {
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState<string>("");
     const [placeholder, setPlaceholder] = useState<string>(`${PLACEHOLDER_HEADER}: ${value}`);
 
     useEffect(() => {
@@ -38,7 +38,7 @@ const InputText = <T,>({
                 const storage = await browser.storage.local.get(storageKey);
                 const settings = storage[storageKey];
                 const item = settings[itemKey] as string;
-                if (item == '') setPlaceholder(`${PLACEHOLDER_HEADER}: DEFAULT`);
+                if (item == "") setPlaceholder(`${PLACEHOLDER_HEADER}: DEFAULT`);
                 else setPlaceholder(`${PLACEHOLDER_HEADER}: ${item}`);
             }
         })();
@@ -49,9 +49,9 @@ const InputText = <T,>({
     }
 
     function onKeydown(e: React.KeyboardEvent<HTMLInputElement>) {
-        if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+        if (e.key === "Enter" && !e.nativeEvent.isComposing) {
             onEnter(e.currentTarget.value);
-            setValue('');
+            setValue("");
             setPlaceholder(`${PLACEHOLDER_HEADER}: ${e.currentTarget.value}`);
         }
     }
@@ -60,8 +60,8 @@ const InputText = <T,>({
         <input
             type="text"
             className={`${
-                style ? style : ''
-            } block w-[300px] rounded-lg border-gray-200 px-2.5 py-2.5 text-xs text-black focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:placeholder-neutral-500 dark:focus:ring-neutral-600`}
+                style ? style : ""
+            } block w-[300px] rounded-lg border-gray-200 px-1.8 py-1.8 text-xs text-black focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:placeholder-neutral-500 dark:focus:ring-neutral-600`}
             value={value}
             placeholder={dynamicPlaceholder ? placeholder : staticPlaceholder}
             onChange={(e) => onChange(e)}
