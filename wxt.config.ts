@@ -6,6 +6,6 @@ export default defineConfig({
         name: "Dr.Maggot",
         description: "__MSG_extension_description__",
         default_locale: "ja",
-        permissions: ["storage", "contextMenus", "scripting"],
+        permissions: ["storage"],
     },
 });
