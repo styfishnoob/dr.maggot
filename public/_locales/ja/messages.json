@@ -9,6 +9,10 @@
     "popup_title": { "message": "簡易設定" },
     "popup_button": { "message": "詳細設定" },
     "popup_subOnly": { "message": "擬似サブ限" },
+    "popup_charLimit": { "message": "文字数制限" },
+    "popup_emoteLimit": { "message": "エモート数制限" },
+    "popup_blockedWords": { "message": "ブロックワード" },
+    "popup_blockedEmotes": { "message": "ブロックエモート" },
 
     "menu_display": { "message": "ディスプレイ設定" },
     "menu_filter": { "message": "フィルター設定" },

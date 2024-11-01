@@ -7,6 +7,10 @@
     "popup_title": { "message": "Quick Settings" },
     "popup_button": { "message": "Detailed Settings" },
     "popup_subOnly": { "message": "Sub-Only" },
+    "popup_charLimit": { "message": "Character Limit" },
+    "popup_emoteLimit": { "message": "Emote Limit" },
+    "popup_blockedWords": { "message": "Blocked Word" },
+    "popup_blockedEmotes": { "message": "Blocked Emote" },
 
     "menu_display": { "message": "Display Settings" },
     "menu_filter": { "message": "Filter Settings" },
