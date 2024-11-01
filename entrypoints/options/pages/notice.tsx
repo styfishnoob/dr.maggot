@@ -14,6 +14,21 @@ const Notice = () => {
             <Main>
                 <Topbar title={browser.i18n.getMessage("menu_notice")} />
                 <div className="overflow-auto">
+                    <NoticeCard title="2024/11/1">
+                        <ul>
+                            <li>以下の修正・変更を行いました。</li>
+                            <br />
+                            <li>
+                                ・Youtubeにて、ブロックボタンを押した際ポップアップが表示され押せない不具合を修正
+                            </li>
+                            <li>
+                                ・Kickにてブロックボタンが返信ボタンと重なっていた問題を修正
+                            </li>
+                            <li>
+                                ・ポップアップにブロックワード・ブロックエモートを追加できる項目を追加
+                            </li>
+                        </ul>
+                    </NoticeCard>
                     <NoticeCard title="2024/10/30">
                         <ul>
                             <li>以下の修正を行いました。</li>
