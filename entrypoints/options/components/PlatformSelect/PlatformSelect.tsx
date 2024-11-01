@@ -23,19 +23,28 @@ const PlatformSelect = <T extends AllPlatforms>(props: Props<T>) => {
     };
 
     return (
-        <select
-            value={selectedValue}
-            onChange={handleChange}
-            className="block w-[95px] min-w-[95px] max-w-[95px] rounded-lg px-2 py-2 text-xs border-2 border-blue-600 focus:ring-0 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500"
-        >
-            {Object.entries(options).map(([key, value]) => {
-                return (
+        <div className="relative inline-block w-[95px]">
+            <select
+                value={selectedValue}
+                onChange={handleChange}
+                className="block w-full border-none h-full rounded-lg px-2 py-2 text-xs text-white bg-blue-600 appearance-none"
+            >
+                {Object.entries(options).map(([key, value]) => (
                     <option key={key} value={key}>
                         {value}
                     </option>
-                );
-            })}
-        </select>
+                ))}
+            </select>
+            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none text-white">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        fillRule="evenodd"
+                        d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 01.02-1.06z"
+                        clipRule="evenodd"
+                    />
+                </svg>
+            </span>
+        </div>
     );
 };
 
