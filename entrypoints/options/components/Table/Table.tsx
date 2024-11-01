@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import InputText from "@/entrypoints/features/InputText/InputText";
-import Select from "@/entrypoints/options/components/PlatformSelect/PlatformSelect";
+import PlatformSelect from "@/entrypoints/options/components/PlatformSelect/PlatformSelect";
 import TableHeader from "@/entrypoints/options/components/Table/TableHeader";
 import TableBodyRow from "./TableBodyRow";
 import TableBodyNoRow from "./TableBodyNoRow";
@@ -43,7 +43,7 @@ const Table = (props: Props) => {
     }
 
     function onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
-        const value = e.target.value as Platforms;
+        const value = e.target.value as AllPlatforms;
         setAllPlatform(value);
     }
 
@@ -71,7 +71,7 @@ const Table = (props: Props) => {
     return (
         <div className="flex h-[92%] flex-col p-6">
             <div className="mb-2 flex gap-2">
-                <Select defaultValue={allPlatform} onChange={(e) => onSelectChange(e)} />
+                <PlatformSelect defaultValue={allPlatform} onChange={(e) => onSelectChange(e)} />
                 <InputText
                     staticPlaceholder={props.placeholder}
                     style={"grow"}
