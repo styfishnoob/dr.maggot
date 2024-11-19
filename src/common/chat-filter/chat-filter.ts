@@ -2,16 +2,21 @@ import { isRegExp } from "@/src/lib/is-regexp";
 
 type Settings = {
     filter: Filter;
-    wordsMaps: { all: Blocklist[]; platform: Blocklist[] };
-    usersMaps: { all: Blocklist[]; platform: Blocklist[] };
-    emotesMaps: { all: Blocklist[]; platform: Blocklist[] };
+    wordBlocklists: { all: Blocklist[]; platform: Blocklist[] };
+    userBlockelists: { all: Blocklist[]; platform: Blocklist[] };
+    emoteBlocklists: { all: Blocklist[]; platform: Blocklist[] };
 };
 
 const defaultSettings: Settings = {
     filter: DefaultSettings.Filter,
-    wordsMaps: { all: [], platform: [] },
-    usersMaps: { all: [], platform: [] },
-    emotesMaps: { all: [], platform: [] },
+    wordBlocklists: { all: [], platform: [] },
+    userBlockelists: { all: [], platform: [] },
+    emoteBlocklists: { all: [], platform: [] },
+};
+
+type Compiled = {
+    joined: string;
+    strings: string[];
 };
 
 export class ChatFilter {
@@ -46,15 +51,15 @@ export class ChatFilter {
 
     async update() {
         this.settings.filter = await KVManagerList.filter.get();
-        this.settings.wordsMaps = {
+        this.settings.wordBlocklists = {
             all: await MapManagerList.word.getMap("all"),
             platform: await MapManagerList.word.getMap(this.platform),
         };
-        this.settings.usersMaps = {
+        this.settings.userBlockelists = {
             all: await MapManagerList.user.getMap("all"),
             platform: await MapManagerList.user.getMap(this.platform),
         };
-        this.settings.emotesMaps = {
+        this.settings.emoteBlocklists = {
             all: await MapManagerList.emote.getMap("all"),
             platform: await MapManagerList.emote.getMap(this.platform),
         };
@@ -64,10 +69,8 @@ export class ChatFilter {
         const limit = this.settings.filter.charLimit;
         const messages = node.querySelectorAll(Selectors.chat.messages[this.platform]);
         const compiled = this.compileMessages(messages);
-        if (compiled) {
-            if (limit.less > 0 && limit.less >= compiled.length) this.deleteContents(node);
-            if (limit.more > 0 && limit.more <= compiled.length) this.deleteContents(node);
-        }
+        if (limit.less > 0 && limit.less >= compiled.joined.length) this.deleteContents(node);
+        if (limit.more > 0 && limit.more <= compiled.joined.length) this.deleteContents(node);
     }
 
     checkEmoteLimit(node: Element) {
@@ -80,21 +83,21 @@ export class ChatFilter {
     }
 
     containsBlockedWord(node: Element) {
-        const maps = this.settings.wordsMaps;
+        const blocklists = this.settings.wordBlocklists;
         const messages = node.querySelectorAll(Selectors.chat.messages[this.platform]);
         const compiled = this.compileMessages(messages);
 
-        for (const [, map] of Object.entries(maps)) {
-            map.forEach((item) => {
+        for (const [, blocklist] of Object.entries(blocklists)) {
+            blocklist.forEach((item) => {
                 if (item[1].active === false) return;
                 const result = isRegExp(item[1].value);
 
-                if (result[0] && result[1].test(compiled)) {
+                if (!result[0] && compiled.joined.includes(item[1].value)) {
                     this.deleteContents(node);
                     return;
                 }
 
-                if (!result[0] && compiled.includes(item[1].value)) {
+                if (result[0] && result[1].test(compiled.joined)) {
                     this.deleteContents(node);
                     return;
                 }
@@ -103,22 +106,21 @@ export class ChatFilter {
     }
 
     containsBlockedUser(node: Element) {
-        const maps = this.settings.usersMaps;
+        const blocklists = this.settings.userBlockelists;
         const userName = node.querySelector(Selectors.chat.userName[this.platform])?.textContent;
         if (!userName) return;
 
-        for (const [, map] of Object.entries(maps)) {
-            const MAP = new Map(map);
-            const active = MAP.get(userName);
+        for (const [, blocklist] of Object.entries(blocklists)) {
+            const map = new Map(blocklist);
 
-            if (active) {
+            if (map.get(userName)?.active) {
                 this.deleteContents(node);
                 return;
             }
 
             map.forEach((item) => {
-                if (item[1].active === false) return;
-                const result = isRegExp(item[1].value);
+                if (item.active === false) return;
+                const result = isRegExp(item.value);
 
                 if (result[0] && result[1].test(userName)) {
                     this.deleteContents(node);
@@ -129,71 +131,86 @@ export class ChatFilter {
     }
 
     containsBlockedEmote(node: Element) {
-        const maps = this.settings.emotesMaps;
+        const blocklists = this.settings.emoteBlocklists;
         const emotes = node.querySelectorAll(Selectors.chat.emotes[this.platform]);
         const compiled = this.compileEmotes(emotes);
 
-        for (const [, map] of Object.entries(maps)) {
-            map.forEach((item) => {
-                if (item[1].active === false) return;
-                const result = isRegExp(item[1].value);
+        for (const [, blocklist] of Object.entries(blocklists)) {
+            const map = new Map(blocklist);
 
-                if (result[0] && result[1].test(compiled)) {
+            for (const emoteName of compiled.strings) {
+                if (map.get(emoteName)?.active) {
                     this.deleteContents(node);
                     return;
                 }
+            }
 
-                if (!result[0] && compiled.includes(item[1].value)) {
-                    this.deleteContents(node);
-                    return;
+            map.forEach((item) => {
+                if (item.active === false) return;
+                const result = isRegExp(item.value);
+
+                for (const emoteName of compiled.strings) {
+                    if (result[0] && result[1].test(emoteName)) {
+                        this.deleteContents(node);
+                        return;
+                    }
                 }
             });
         }
     }
 
-    private compileMessages(messages: NodeListOf<Element>) {
-        let result = "";
+    private compileMessages(messages: NodeListOf<Element>): Compiled {
+        let compiled: Compiled = {
+            joined: "",
+            strings: [],
+        };
+
         for (const message of messages) {
             if (message.textContent) {
-                result += message.textContent;
+                compiled.joined += message.textContent;
             }
         }
-        const compiled = result.replace(/\s+/g, "");
+
+        compiled.joined = compiled.joined.replace(/\s+/g, "");
         return compiled;
     }
 
-    private compileEmotes(emotes: NodeListOf<Element>) {
-        let result = "";
+    private compileEmotes(emotes: NodeListOf<Element>): Compiled {
+        let compiled: Compiled = {
+            joined: "",
+            strings: [],
+        };
+
         for (const emote of emotes) {
             const alt = emote.getAttribute("alt");
             if (alt) {
-                result += alt;
+                compiled.joined += alt;
+                compiled.strings.push(alt);
             }
         }
-        return result;
+
+        return compiled;
     }
 
-    private deleteContents(node: Element) {
+    public deleteContents(node: Element) {
         if (this.settings.filter.range[this.platform]) {
             const e = node as HTMLElement;
             if (isDev()) {
-                e.style.backgroundColor = "red";
+                //e.style.backgroundColor = "red";
 
-                // e.hidden = true;
-                // e.style.display = "none";
+                e.hidden = true;
+                e.style.display = "none";
             } else {
                 e.hidden = true;
                 e.style.display = "none";
             }
         } else {
-            const contents = node.querySelector<HTMLElement>(
-                Selectors.chat.contents[this.platform]
-            );
+            const contents = node.querySelector<HTMLElement>(Selectors.chat.contents[this.platform]);
             if (contents) {
                 if (isDev()) {
-                    contents.style.backgroundColor = "red";
+                    //contents.style.backgroundColor = "red";
 
-                    //contents.hidden = true;
+                    contents.hidden = true;
                 } else {
                     contents.hidden = true;
                 }
