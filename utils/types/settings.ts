@@ -31,6 +31,7 @@ export type Filter = {
     subOnly: PlatformStateRecord;
     charLimit: Limiter;
     emoteLimit: Limiter;
+    requiredFollowDays: number;
     range: PlatformStateRecord;
 };
 

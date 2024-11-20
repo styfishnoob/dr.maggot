@@ -48,11 +48,7 @@ export const TypeGuard = {
             );
         },
         Limiter: function (obj: any): obj is Limiter {
-            return (
-                typeof obj === "object" &&
-                typeof obj.less === "number" &&
-                typeof obj.more === "number"
-            );
+            return typeof obj === "object" && typeof obj.less === "number" && typeof obj.more === "number";
         },
         Display: function (obj: any): obj is Display {
             return (
@@ -74,6 +70,7 @@ export const TypeGuard = {
                 this.PlatformStateRecord(obj.subOnly) &&
                 this.Limiter(obj.charLimit) &&
                 this.Limiter(obj.emoteLimit) &&
+                typeof obj.requiredFollowDays === "number" &&
                 this.PlatformStateRecord(obj.range)
             );
         },

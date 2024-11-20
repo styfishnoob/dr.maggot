@@ -33,6 +33,7 @@ const DefaultFilter: Filter = {
     subOnly: ALL_FALSE,
     charLimit: { less: 0, more: 0 },
     emoteLimit: { less: 0, more: 0 },
+    requiredFollowDays: 100,
     range: ALL_FALSE,
 };
 
