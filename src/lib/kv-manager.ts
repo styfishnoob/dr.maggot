@@ -1,3 +1,14 @@
+import { Unwatch } from "wxt/storage";
+
+type StorageChange = {
+    oldValue?: any;
+    newValue?: any;
+};
+
+type StorageChanges = { [key in string]: StorageChange };
+
+type StorageOnChange = (change: StorageChange) => void;
+
 export class KVManager<T extends KeyValue> {
     private key: KeysOfType<Settings, KeyValue>;
 
@@ -28,14 +39,31 @@ export class KVManager<T extends KeyValue> {
         await this.set(kv);
     }
 
-    async observeItem<K extends keyof T>(key: K, callback: () => void): Promise<void> {
-        browser.storage.local.onChanged.addListener((changes) => {
-            const c = changes[this.key];
-            if (c) {
-                const nv = c.newValue as T;
-                const ov = c.oldValue as T;
-                if (JSON.stringify(nv[key]) !== JSON.stringify(ov[key])) callback();
+    observe(onChange: StorageOnChange): Unwatch {
+        const listener = (changes: StorageChanges) => {
+            const change = changes[this.key];
+            if (change) {
+                const nv = change.newValue as T;
+                const ov = change.oldValue as T;
+                if (JSON.stringify(nv[this.key]) !== JSON.stringify(ov[this.key])) onChange(change);
             }
-        });
+        };
+
+        browser.storage.local.onChanged.addListener(listener);
+        return () => browser.storage.local.onChanged.removeListener(listener);
+    }
+
+    observeItem<K extends keyof T>(key: K, onChange: StorageOnChange): Unwatch {
+        const listener = (changes: StorageChanges) => {
+            const change = changes[this.key];
+            if (change) {
+                const nv = change.newValue as T;
+                const ov = change.oldValue as T;
+                if (JSON.stringify(nv[key]) !== JSON.stringify(ov[key])) onChange(change);
+            }
+        };
+
+        browser.storage.local.onChanged.addListener(listener);
+        return () => browser.storage.local.onChanged.removeListener(listener);
     }
 }
