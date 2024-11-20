@@ -2,11 +2,9 @@ export default defineBackground(() => {
     browser.runtime.onInstalled.addListener(function (details) {
         switch (details.reason) {
             case "install":
-                //setContextMenu();
                 onInstall();
                 break;
             case "update":
-                //setContextMenu();
                 onUpdate();
                 break;
             case "browser_update":
@@ -25,14 +23,16 @@ function onInstall() {
             storage.set({ [key]: DefaultSettings[key] });
         }
     }
-
-    //storage.get(null).then((items) => dcon.log(items));
 }
 
 async function onUpdate() {
     console.log("[dr.maggot - background]: execute onUpdate");
     const storage = browser.storage.local;
     const settings = await storage.get(null);
+
+    storage.set({ ["BackupBlockedWords"]: settings["BlockedWords"] });
+    storage.set({ ["BackupBlockedUsers"]: settings["BlockedUsers"] });
+    storage.set({ ["BackupBlockedEmotes"]: settings["BlockedEmotes"] });
 
     for (const [key, value] of Object.entries(settings)) {
         switch (key) {
@@ -86,46 +86,18 @@ async function onUpdate() {
         }
     }
 
+    dcon.log(await storage.get(null));
+
     browser.tabs.create({
         url: "chrome-extension://" + browser.runtime.id + "/options.html#/notice",
     });
 }
 
-function extractPartial<T extends Object>(
-    key: keyof typeof DefaultSettings,
-    value: any
-): Partial<T> {
+function extractPartial<T extends Object>(key: keyof typeof DefaultSettings, value: any): Partial<T> {
     return Object.keys(DefaultSettings[key]).reduce((_acc, _key) => {
         if (_key in value) {
             _acc[_key as keyof T] = value[_key];
         }
         return _acc;
     }, {} as Partial<T>);
-}
-
-function setContextMenu() {
-    browser.contextMenus.onClicked.addListener(async function (info, tab) {
-        switch (info.menuItemId) {
-            case "emote": {
-                if (tab && tab.id) {
-                    const manager = MapManagerList.emote;
-                    const response = await browser.tabs.sendMessage(tab.id, {
-                        type: MessageType.ContextMenu.BlockEmote,
-                    });
-                    if (response?.platform && response?.alt) {
-                        manager.set(response.platform, response.alt, {
-                            value: response.alt,
-                            active: true,
-                        });
-                    }
-                }
-            }
-        }
-    });
-
-    browser.contextMenus.create({
-        id: "emote",
-        title: "block this emote",
-        contexts: ["image"],
-    });
 }
