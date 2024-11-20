@@ -9,14 +9,15 @@ export type User = {
     displayName: string;
 };
 
-type FollowEdge = {
+export type FollowEdge = {
+    cursor: string;
     followedAt: string;
     node: {
         login: string;
     };
 };
 
-type PageInfo = {
+export type PageInfo = {
     hasNextPage: boolean;
 };
 

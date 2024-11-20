@@ -50,13 +50,14 @@ export const TwitchGqlQuery = {
         });
     },
 
-    getUserFollowsByUserLogin: (userLogin: string) => {
+    getUserFollowsByUserLogin: (userLogin: string, after: string | null) => {
         return JSON.stringify({
             query: `
                 query getUserFollows($userLogin: String!, $after: Cursor) {
                         user(login: $userLogin) {
                                 follows(first: 100, after: $after) {
                                     edges {
+                                            cursor
                                             followedAt
                                             node {
                                                 login
@@ -71,6 +72,7 @@ export const TwitchGqlQuery = {
             `,
             variables: {
                 userLogin,
+                after,
             },
         });
     },

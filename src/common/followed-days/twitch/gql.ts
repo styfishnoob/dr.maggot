@@ -21,6 +21,7 @@ export class TwitchGql {
         const queryResponse: TwitchGqlSchema.QueryResponse = await response.json();
         if (queryResponse.data) return queryResponse.data;
 
+        dcon.error(queryResponse);
         throw new Error("[Twitch-Gql]: request failure");
     }
 
@@ -48,9 +49,10 @@ export class TwitchGql {
     async getUserFollowsByUserLogin(userLogin: string): Promise<Map<string, number>> {
         let followDaysMap: Map<string, number> = new Map([]);
         let hasNextPage = true;
+        let afterCursor: string | null = null;
 
         while (hasNextPage) {
-            const query = TwitchGqlQuery.getUserFollowsByUserLogin(userLogin);
+            const query = TwitchGqlQuery.getUserFollowsByUserLogin(userLogin, afterCursor);
             const response = await this.query(query);
             const follows: TwitchGqlSchema.UserFollows = response.user.follows;
 
@@ -62,8 +64,12 @@ export class TwitchGql {
                 followDaysMap.set(login, elapsed);
             }
 
-            const { hasNextPage: nextPage } = response.user.follows.pageInfo;
-            hasNextPage = nextPage;
+            const pageInfo: TwitchGqlSchema.PageInfo = response.user.follows.pageInfo;
+            hasNextPage = pageInfo.hasNextPage;
+
+            if (hasNextPage) {
+                afterCursor = follows.edges[follows.edges.length - 1].cursor;
+            }
         }
 
         return followDaysMap;
