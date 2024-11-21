@@ -5,6 +5,7 @@ type Props<T extends KeyValue> = {
     guide: string;
     storageKey: KeysOfType<Settings, T>;
     itemKey: KeysOfType<T, number>;
+    style?: string;
     min?: number;
     max?: number;
 };
@@ -32,13 +33,13 @@ const InputNumber = <T extends KeyValue>(props: Props<T>) => {
     }
 
     function onChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const v = e.target.value;
-        const num = Number(v);
+        const v = Number(e.target.value);
         const min = props.min ? `${props.min}` : "0";
         const max = props.max ? `${props.max}` : "500";
-        if (v != "") {
-            if (num <= Number(min)) e.target.value = min;
-            if (num >= Number(max)) e.target.value = max;
+        if (e.target.value != "") {
+            if (v <= Number(min)) e.target.value = min;
+            if (v >= Number(max)) e.target.value = max;
+            const num = Number(e.target.value);
             manager.setItem<number>(props.itemKey, num);
         }
     }
@@ -52,7 +53,7 @@ const InputNumber = <T extends KeyValue>(props: Props<T>) => {
                     key={value}
                     onBlur={onBlur}
                     onChange={onChange}
-                    className="block w-[65px] rounded-lg rounded-e-none border-gray-200 px-2 py-2 text-xs focus:z-10 focus:ring-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                    className={`${props?.style} block w-[65px] min-w-[65px] rounded-lg rounded-e-none border-gray-200 px-2 py-2 text-xs focus:z-10 focus:ring-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:placeholder-neutral-500 dark:focus:ring-neutral-600`}
                 />
                 <div className="flex h-full w-[34px] flex-col justify-center rounded-e-md border border-s-0 border-gray-200 bg-gray-50 dark:border-neutral-600 dark:bg-neutral-700">
                     <div className="text-center">
