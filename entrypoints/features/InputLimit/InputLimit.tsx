@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { KVManager } from "@/src/lib/kv-manager";
 import { Limiter } from "@/utils";
 
@@ -17,7 +17,7 @@ type LimitProps = {
 
 const Limit = (props: LimitProps) => {
     return (
-        <div className="flex rounded-lg">
+        <div className="flex">
             <input
                 type="number"
                 defaultValue={props.limiter[props.limiterKey]}
@@ -72,20 +72,8 @@ const InputLimit = <T extends KeyValue>(props: InputLimitProps<T>) => {
 
     return (
         <div className="flex gap-2">
-            <Limit
-                limiter={limiter}
-                limiterKey={"less"}
-                guide={"≧"}
-                onBlur={onBlur}
-                onChange={onChange}
-            />
-            <Limit
-                limiter={limiter}
-                limiterKey={"more"}
-                guide={"≦"}
-                onBlur={onBlur}
-                onChange={onChange}
-            />
+            <Limit limiter={limiter} limiterKey={"less"} guide={"≧"} onBlur={onBlur} onChange={onChange} />
+            <Limit limiter={limiter} limiterKey={"more"} guide={"≦"} onBlur={onBlur} onChange={onChange} />
         </div>
     );
 };
