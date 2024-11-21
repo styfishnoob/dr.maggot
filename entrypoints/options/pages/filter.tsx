@@ -4,6 +4,7 @@ import Topbar from "@/entrypoints/options/components/Topbar/Topbar";
 import SettingsList from "@/entrypoints/options/components/SettingsList/SettingsList";
 import SettingsCard from "@/entrypoints/options/components/SettingsCard/SettingsCard";
 import PlatformCheckbox from "@/entrypoints/features/PlatformCheckbox/PlatformCheckbox";
+import InputNumber from "@/entrypoints/features/InputNumber/InputNumber";
 import InputLimit from "@/entrypoints/features/InputLimit/InputLimit";
 
 type SettingsCardProps = {
@@ -37,6 +38,19 @@ const SettingsCards: SettingsCardProps[] = [
         title: `${browser.i18n.getMessage("filter_emoteLimit")}`,
         description: `${browser.i18n.getMessage("filter_emoteLimit_description")}`,
         feature: <InputLimit<Filter> storageKey="Filter" itemKey="emoteLimit" />,
+    },
+    {
+        title: `${browser.i18n.getMessage("filter_requiredFollowedDays")}`,
+        description: `${browser.i18n.getMessage("filter_requiredFollowedDays_description")}`,
+        feature: (
+            <InputNumber<Filter>
+                storageKey="Filter"
+                guide="days"
+                style="w-[75px]"
+                max={10000}
+                itemKey="requiredFollowDays"
+            />
+        ),
     },
 ];
 
