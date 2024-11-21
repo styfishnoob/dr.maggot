@@ -54,6 +54,7 @@
     "filter_range": { "message": "削除範囲" },
     "filter_charLimit": { "message": "文字数制限" },
     "filter_emoteLimit": { "message": "エモート数制限" },
+    "filter_requiredFollowedDays": { "message": "フォロー日数制限" },
 
     "filter_filter_description": { "message": "フィルターのオンオフを切り替えできます。" },
     "filter_subOnly_description": {
@@ -64,6 +65,7 @@
     },
     "filter_charLimit_description": { "message": "コメントの文字数を制限します。" },
     "filter_emoteLimit_description": { "message": "コメントに含まれるエモートの数を制限します。" },
+    "filter_requiredFollowedDays_description": { "message": "[Twitch限定][実験機能] フォロー日数が設定したフォロー日数以下のユーザーを削除します。" },
 
     "danmaku_danmaku": { "message": "弾幕切替" },
     "danmaku_font": { "message": "フォント" },

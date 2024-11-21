@@ -52,6 +52,7 @@
     "filter_range": { "message": "Delete Range" },
     "filter_charLimit": { "message": "Character Limit" },
     "filter_emoteLimit": { "message": "Emote Limit" },
+    "filter_requiredFollowDays": { "message": "Follow Duration Restriction" },
 
     "filter_filter_description": { "message": "Toggle the filter on or off." },
     "filter_subOnly_description": { "message": "Pseudo-subscriber-only mode for the chat." },
@@ -60,6 +61,9 @@
     },
     "filter_charLimit_description": { "message": "Limit the number of characters in comments." },
     "filter_emoteLimit_description": { "message": "Limit the number of emotes in comments." },
+    "filter_requiredFollowDays_description": {
+        "message": "[Twitch Exclusive] [Experimental Feature] Removes users whose follow duration is less than the specified number of days."
+    },
 
     "danmaku_danmaku": { "message": "Toggle Danmaku" },
     "danmaku_font": { "message": "Font" },
