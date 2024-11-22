@@ -2,6 +2,10 @@ type Bullet = {
     core: HTMLElement;
     fired: boolean;
     width: number;
+    decoration: {
+        up: boolean;
+        down: boolean;
+    };
 };
 
 type StorageChange = {
@@ -12,6 +16,21 @@ type StorageChange = {
 type StorageAreaOnChangedChangesType = {
     [key: string]: StorageChange;
 };
+
+enum DecorationCommands {
+    up = "up", // 上中央表示
+    dw = "dw", // 下中央表示
+    wh = "wh", // ホワイト
+    re = "re", // レッド
+    pi = "pi", // ピンク
+    or = "or", //　オレンジ
+    yw = "ye", //　イエロー
+    gr = "gr", //　グリーン
+    cy = "cy", //　シアン
+    bu = "bu", //　ブルー
+    pu = "pu", //　パープル
+    bl = "bl", //　ブラック
+}
 
 // コメント表示数の制限をできるようにする
 
@@ -67,8 +86,31 @@ export class Turret {
                     const core = bullet.core;
                     bullet.fired = true;
                     bullet.width = this.getWidth(core);
-                    core.style.top = `${this.rowHeight * i}px`;
-                    core.style.left = `${this.canvas.clientWidth}px`;
+
+                    switch (true) {
+                        case bullet.decoration.up: {
+                            // 重なる場合下へ表示するように
+                            core.style.top = `0px`;
+                            core.style.left = `${this.canvas.clientWidth / 2 - bullet.width / 2}px`;
+                            this.canvas.append(core);
+                            setTimeout(() => core.remove(), this.settings.speed * 1000);
+                            return;
+                        }
+
+                        case bullet.decoration.down: {
+                            // 重なる場合上へ表示するように
+                            core.style.top = `${this.canvas.clientHeight - this.rowHeight}px`;
+                            core.style.left = `${this.canvas.clientWidth / 2 - bullet.width / 2}px`;
+                            this.canvas.append(core);
+                            setTimeout(() => core.remove(), this.settings.speed * 1000);
+                            return;
+                        }
+
+                        default: {
+                            core.style.top = `${this.rowHeight * i}px`;
+                            core.style.left = `${this.canvas.clientWidth}px`;
+                        }
+                    }
 
                     const animate = bullet.core.animate(
                         [
@@ -100,6 +142,8 @@ export class Turret {
         }
 
         const newBullet = this.manufacture(material);
+        this.decoration(newBullet);
+
         for (let i = 0; i <= this.magazine.length; i++) {
             // 全ての行に入れられなかった場合、最後のコメントの位置が最もゴールに違い行に追加
             if (i === this.magazine.length) {
@@ -140,13 +184,87 @@ export class Turret {
         }
     }
 
+    private decoration(bullet: Bullet) {
+        const firstChild = bullet.core.firstChild;
+        if (!firstChild || !firstChild.textContent || firstChild.nodeName != "SPAN") return;
+
+        const validCommands = Object.keys(DecorationCommands).join("|");
+        const commandRegex = new RegExp(`^\\[(${validCommands})+\\]`, "i");
+        const match = firstChild.textContent.match(commandRegex);
+        if (!match) return;
+
+        const matchedCommands = match[0].slice(1, -1);
+        const commands: string[] = [];
+        firstChild.textContent = firstChild.textContent.replace(commandRegex, "");
+
+        for (let i = 0; i < matchedCommands.length; i += 2) {
+            commands.push(matchedCommands.substring(i, i + 2));
+        }
+
+        commands.forEach((command) => {
+            const lowered = command.toLowerCase();
+            if (lowered in DecorationCommands) {
+                switch (lowered) {
+                    case "up":
+                        bullet.decoration.up = true;
+                        bullet.decoration.down = false;
+                        break;
+                    case "dw":
+                        bullet.decoration.up = false;
+                        bullet.decoration.down = true;
+                        break;
+                    case "wh":
+                        bullet.core.style.color = "white";
+                        break;
+                    case "re":
+                        bullet.core.style.color = "red";
+                        break;
+                    case "pi":
+                        bullet.core.style.color = "pink";
+                        break;
+                    case "or":
+                        bullet.core.style.color = "orange";
+                        break;
+                    case "yw":
+                        bullet.core.style.color = "yellow";
+                        break;
+                    case "gr":
+                        bullet.core.style.color = "green";
+                        break;
+                    case "cy":
+                        bullet.core.style.color = "cyan";
+                        break;
+                    case "bu":
+                        bullet.core.style.color = "blue";
+                        break;
+                    case "pu":
+                        bullet.core.style.color = "purple";
+                        break;
+                    case "bl":
+                        bullet.core.style.color = "black";
+                        break;
+                    default:
+                        dcon.log(`登録されていないコマンドです: ${lowered}`);
+                }
+            }
+        });
+    }
+
     private manufacture(material: HTMLElement): Bullet {
         const display = window.getComputedStyle(material).display; // サブ限などで非表示になっている場合
         const contents = material.querySelector<HTMLElement>(Selectors.chat.contents[this.platform]);
         const core: HTMLElement = document.createElement("div");
-        const bullet: Bullet = { core: core, fired: false, width: 0 };
-        if (!contents || contents.hidden || material.hidden || display === "none") return bullet;
+        const bullet: Bullet = {
+            core: core,
+            fired: false,
+            width: 0,
+            decoration: {
+                up: false,
+                down: false,
+            },
+        };
 
+        if (!contents || contents.hidden || material.hidden || display === "none") return bullet;
         core.style.height = `${this.rowHeight}px`;
 
         contents.childNodes.forEach((child) => {
