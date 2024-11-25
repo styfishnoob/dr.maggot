@@ -4,7 +4,7 @@ export const Selectors: WebSelectors = {
     videoPlayer: {
         youtube: `#movie_player`,
         twitch: `[data-a-target="video-player"]`,
-        kick: `#injected-embedded-channel-player-video`,
+        kick: `#injected-embedded-channel-player-video > div`,
         openrec: `.Component__VideoWrapper-sc-1x94c9l-6`,
         twicas: `.tw-player`,
     },
