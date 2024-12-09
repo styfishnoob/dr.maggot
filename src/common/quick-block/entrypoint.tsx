@@ -7,38 +7,12 @@ import { getPlatform } from "@/src/lib/get-platform";
     const platform = getPlatform();
     if (!platform) return;
 
-    setListenerBlockEmoteContextMenu(platform);
-
     new DOMObserver().add.added(Selectors.chat.cell[platform], {
-        main: function (chatList) {
-            mountQuickblock(platform, chatList);
+        main: function (cell) {
+            mountQuickblock(platform, cell);
         },
     });
 })();
-
-function setListenerBlockEmoteContextMenu(platform: Platforms) {
-    let emote: EventTarget | null = null;
-
-    document.addEventListener("contextmenu", function (event) {
-        emote = event.target;
-    });
-
-    browser.runtime.onMessage.addListener(function (message) {
-        if (
-            emote &&
-            emote instanceof HTMLImageElement &&
-            message.type === MessageType.ContextMenu.BlockEmote
-        ) {
-            const container = document.querySelector(Selectors.chat.container[platform]);
-            if (container?.contains(emote)) {
-                return Promise.resolve({
-                    platform: platform,
-                    alt: emote.alt,
-                });
-            }
-        }
-    });
-}
 
 function mountQuickblock(platform: Platforms, e: HTMLElement) {
     (async () => {
