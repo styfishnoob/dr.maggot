@@ -66,19 +66,27 @@
     },
 
     "danmaku_danmaku": { "message": "Toggle Danmaku" },
+    "danmaku_decoration": { "message": "Decoration" },
     "danmaku_font": { "message": "Font" },
     "danmaku_fontSize": { "message": "Font Size" },
     "danmaku_opacity": { "message": "Opacity" },
-    "danmaku_speed": { "message": "Display Time" },
+    "danmaku_time": { "message": "Display Time" },
+    "danmaku_limit": { "message": "Display Limit" },
 
     "danmaku_danmaku_description": {
         "message": "Toggle danmaku on or off. Reload if it doesn't display."
     },
+    "danmaku_decoration_description": {
+        "message": "It applies decorations such as coloring bullet comments or adding fixed comments. Decorations can be specified using commands."
+    },
     "danmaku_font_description": { "message": "Set the font for the danmaku." },
     "danmaku_fontSize_description": { "message": "Set the font size for the danmaku." },
     "danmaku_opacity_description": { "message": "Setting to 0% makes it completely transparent." },
-    "danmaku_speed_description": {
+    "danmaku_time_description": {
         "message": "Set to 10, it will take 10 seconds to scroll from right to left."
+    },
+    "danmaku_limit_description": {
+        "message": "You can set the maximum number of bullet comments displayed on the screen. Setting it to 0 removes the limit."
     },
 
     "other_quickBlock": { "message": "Add Block Button" },

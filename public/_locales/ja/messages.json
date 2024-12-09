@@ -1,6 +1,6 @@
 {
     "extension_description": {
-        "message": "Youtube/Twitch/OPENREC/ツイキャスのチャット欄に蔓延る蛆虫を駆除！"
+        "message": "Youtube/Twitch/Kick/OPENREC/ツイキャスのチャット欄に蔓延る蛆虫を駆除！"
     },
 
     "input_text_currentValue": { "message": "現在の値" },
@@ -54,7 +54,7 @@
     "filter_range": { "message": "削除範囲" },
     "filter_charLimit": { "message": "文字数制限" },
     "filter_emoteLimit": { "message": "エモート数制限" },
-    "filter_requiredFollowedDays": { "message": "フォロー日数制限" },
+    "filter_requiredFollowDays": { "message": "フォロー日数制限" },
 
     "filter_filter_description": { "message": "フィルターのオンオフを切り替えできます。" },
     "filter_subOnly_description": {
@@ -65,21 +65,31 @@
     },
     "filter_charLimit_description": { "message": "コメントの文字数を制限します。" },
     "filter_emoteLimit_description": { "message": "コメントに含まれるエモートの数を制限します。" },
-    "filter_requiredFollowedDays_description": { "message": "[Twitch限定][実験機能] フォロー日数が設定したフォロー日数以下のユーザーを削除します。" },
+    "filter_requiredFollowDays_description": {
+        "message": "[Twitch限定][実験機能] フォロー日数が設定したフォロー日数以下のユーザーを削除します。"
+    },
 
     "danmaku_danmaku": { "message": "弾幕切替" },
+    "danmaku_decoration": { "message": "装飾" },
     "danmaku_font": { "message": "フォント" },
     "danmaku_fontSize": { "message": "フォントサイズ" },
     "danmaku_opacity": { "message": "不透明度" },
-    "danmaku_speed": { "message": "表示時間" },
+    "danmaku_time": { "message": "表示時間" },
+    "danmaku_limit": { "message": "表示上限数" },
 
     "danmaku_danmaku_description": {
         "message": "弾幕のオンオフを切替できます。表示されない場合は再読み込みしてください。"
     },
+    "danmaku_decoration_description": {
+        "message": "弾幕の色付けや固定コメントといった装飾を行います。装飾はコマンドで指定できます。"
+    },
     "danmaku_font_description": { "message": "弾幕のフォントを設定できます。" },
     "danmaku_fontSize_description": { "message": "弾幕のフォントサイズを設定できます。" },
     "danmaku_opacity_description": { "message": "0%にすると完全に透明となります。" },
-    "danmaku_speed_description": { "message": "10と設定すると、10秒かけて右から左へと流れます。" },
+    "danmaku_time_description": { "message": "10と設定すると、10秒かけて右から左へと流れます。" },
+    "danmaku_limit_description": {
+        "message": "画面に表示する弾幕の上限数を設定できます。0にすると上限がなくなります。"
+    },
 
     "other_quickBlock": { "message": "ブロックボタンの設置" },
     "other_autoBonus": { "message": "オートボーナス" },
