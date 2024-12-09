@@ -85,8 +85,8 @@ function setTurret(root: HTMLElement, platform: Platforms, canvas: HTMLElement) 
     const turret = new Turret(platform, canvas);
 
     new DOMObserver().add.added(Selectors.chat.cell[platform], {
-        main: function (chatList) {
-            turret.load(chatList);
+        main: function (cell) {
+            turret.load(cell);
         },
         stop: function () {
             turret.unwatch();

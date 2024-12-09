@@ -1,5 +1,5 @@
 :root {
-    --drmaggot__danmaku-font: 'Arial';
+    --drmaggot__danmaku-font: "Arial";
     --drmaggot__danmaku-fontSize: 28px;
     --drmaggot__danmaku-opacity: 50%;
 }
@@ -7,7 +7,7 @@
 #drmaggot__danmaku-canvas {
     backface-visibility: hidden;
     color: white;
-    font-family: var(--drmaggot__danmaku-font), 'Arial' !important;
+    font-family: var(--drmaggot__danmaku-font), "Arial" !important;
     font-size: var(--drmaggot__danmaku-fontSize) !important;
     opacity: var(--drmaggot__danmaku-opacity) !important;
     pointer-events: none;

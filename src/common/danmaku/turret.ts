@@ -1,5 +1,5 @@
-type Bullet = {
-    core: HTMLElement;
+type Cartridge = {
+    bullet: HTMLElement;
     fired: boolean;
     width: number;
     decoration: {
@@ -39,7 +39,7 @@ export class Turret {
     private canvasClientHeight: number;
     private platform: Platforms;
     private settings: Danmaku;
-    private magazine: Bullet[][] = [];
+    private magazine: Cartridge[][] = [];
     private rowsNum: number = 0;
     private rowHeight: number = 0;
 
@@ -82,53 +82,53 @@ export class Turret {
         for (let i = 0; i < this.magazine.length; i++) {
             for (let j = 0; j < this.magazine[i].length; j++) {
                 if (this.magazine[i][j].fired === false) {
-                    const bullet = this.magazine[i][j];
-                    const core = bullet.core;
-                    bullet.fired = true;
-                    bullet.width = this.getWidth(core);
+                    const cartridge = this.magazine[i][j];
+                    const bullet = cartridge.bullet;
+                    cartridge.fired = true;
+                    cartridge.width = this.getWidth(bullet);
 
                     switch (true) {
-                        case bullet.decoration.up: {
+                        case cartridge.decoration.up: {
                             // 重なる場合下へ表示するように
-                            core.style.top = `0px`;
-                            core.style.left = `${this.canvas.clientWidth / 2 - bullet.width / 2}px`;
-                            this.canvas.append(core);
-                            setTimeout(() => core.remove(), this.settings.speed * 1000);
+                            bullet.style.top = `0px`;
+                            bullet.style.left = `${this.canvas.clientWidth / 2 - cartridge.width / 2}px`;
+                            this.canvas.append(bullet);
+                            setTimeout(() => bullet.remove(), this.settings.time * 1000);
                             return;
                         }
 
-                        case bullet.decoration.down: {
+                        case cartridge.decoration.down: {
                             // 重なる場合上へ表示するように
-                            core.style.top = `${this.canvas.clientHeight - this.rowHeight}px`;
-                            core.style.left = `${this.canvas.clientWidth / 2 - bullet.width / 2}px`;
-                            this.canvas.append(core);
-                            setTimeout(() => core.remove(), this.settings.speed * 1000);
+                            bullet.style.top = `${this.canvas.clientHeight - this.rowHeight}px`;
+                            bullet.style.left = `${this.canvas.clientWidth / 2 - cartridge.width / 2}px`;
+                            this.canvas.append(bullet);
+                            setTimeout(() => bullet.remove(), this.settings.time * 1000);
                             return;
                         }
 
                         default: {
-                            core.style.top = `${this.rowHeight * i}px`;
-                            core.style.left = `${this.canvas.clientWidth}px`;
+                            bullet.style.top = `${this.rowHeight * i}px`;
+                            bullet.style.left = `${this.canvas.clientWidth}px`;
                         }
                     }
 
-                    const animate = bullet.core.animate(
+                    const animate = cartridge.bullet.animate(
                         [
                             {
-                                transform: `translate3d(${-(this.canvas.clientWidth + bullet.width)}px, 0px, 0px)`,
+                                transform: `translate3d(${-(this.canvas.clientWidth + cartridge.width)}px, 0px, 0px)`,
                             },
                         ],
-                        this.settings.speed * 1000
+                        this.settings.time * 1000
                     );
 
                     animate.onfinish = () => {
                         if (this.magazine[i]) {
-                            this.magazine[i] = this.magazine[i].filter((_bullet) => _bullet !== bullet);
+                            this.magazine[i] = this.magazine[i].filter((_cartridge) => _cartridge !== cartridge);
                         }
-                        bullet.core.remove();
+                        cartridge.bullet.remove();
                     };
 
-                    this.canvas.append(core);
+                    this.canvas.append(bullet);
                 }
             }
         }
@@ -136,33 +136,39 @@ export class Turret {
 
     public load(material: HTMLElement) {
         if (!this.settings.danmaku[this.platform]) return;
+
         if (this.canvas.clientHeight != this.canvasClientHeight) {
             this.canvasClientHeight = this.canvas.clientHeight;
             this.update();
         }
 
-        const newBullet = this.manufacture(material);
-        this.decoration(newBullet);
+        const loadedCartridges = this.magazine.reduce((acc, arr) => acc + arr.length, 0);
+        dcon.log(loadedCartridges, this.settings.limit);
+        if (this.settings.limit > 0 && loadedCartridges >= this.settings.limit) return;
+        dcon.log("A");
+
+        const newCartridge = this.manufacture(material);
+        this.decoration(newCartridge);
 
         for (let i = 0; i <= this.magazine.length; i++) {
             // 全ての行に入れられなかった場合、最後のコメントの位置が最もゴールに違い行に追加
             if (i === this.magazine.length) {
                 let min = 0;
                 for (let j = 1; j < this.magazine.length; j++) {
-                    const minLastBullet = this.magazine[min][this.magazine[min].length - 1];
-                    const lastBullet = this.magazine[j][this.magazine[j].length - 1];
-                    const min_lb_pos_x = this.getPosX(minLastBullet.core) + minLastBullet.width;
-                    const lb_pos_x = this.getPosX(lastBullet.core) + lastBullet.width;
+                    const minLastCartridge = this.magazine[min][this.magazine[min].length - 1];
+                    const lastCartridge = this.magazine[j][this.magazine[j].length - 1];
+                    const min_lb_pos_x = this.getPosX(minLastCartridge.bullet) + minLastCartridge.width;
+                    const lb_pos_x = this.getPosX(lastCartridge.bullet) + lastCartridge.width;
                     if (lb_pos_x <= min_lb_pos_x) {
                         min = j;
                     }
                 }
-                this.magazine[min].push(newBullet);
+                this.magazine[min].push(newCartridge);
                 this.fire();
                 return;
             }
 
-            const lastBullet = this.magazine[i][this.magazine[i].length - 1];
+            const lastCartridge = this.magazine[i][this.magazine[i].length - 1];
             switch (true) {
                 case this.magazine[i].length > 100: {
                     while (this.magazine[i].length > 100) {
@@ -170,9 +176,9 @@ export class Turret {
                     }
                 }
 
-                case lastBullet === undefined:
-                case this.checkCollision(newBullet, lastBullet): {
-                    this.magazine[i].push(newBullet);
+                case lastCartridge === undefined:
+                case this.checkCollision(newCartridge, lastCartridge): {
+                    this.magazine[i].push(newCartridge);
                     this.fire();
                     return;
                 }
@@ -184,8 +190,8 @@ export class Turret {
         }
     }
 
-    private decoration(bullet: Bullet) {
-        const firstChild = bullet.core.firstChild;
+    private decoration(cartridge: Cartridge) {
+        const firstChild = cartridge.bullet.firstChild;
         if (!firstChild || !firstChild.textContent || firstChild.nodeName != "SPAN") return;
 
         const validCommands = Object.keys(DecorationCommands).join("|");
@@ -206,42 +212,42 @@ export class Turret {
             if (lowered in DecorationCommands) {
                 switch (lowered) {
                     case "up":
-                        bullet.decoration.up = true;
-                        bullet.decoration.down = false;
+                        cartridge.decoration.up = true;
+                        cartridge.decoration.down = false;
                         break;
                     case "dw":
-                        bullet.decoration.up = false;
-                        bullet.decoration.down = true;
+                        cartridge.decoration.up = false;
+                        cartridge.decoration.down = true;
                         break;
                     case "wh":
-                        bullet.core.style.color = "white";
+                        cartridge.bullet.style.color = "white";
                         break;
                     case "re":
-                        bullet.core.style.color = "red";
+                        cartridge.bullet.style.color = "red";
                         break;
                     case "pi":
-                        bullet.core.style.color = "pink";
+                        cartridge.bullet.style.color = "pink";
                         break;
                     case "or":
-                        bullet.core.style.color = "orange";
+                        cartridge.bullet.style.color = "orange";
                         break;
                     case "yw":
-                        bullet.core.style.color = "yellow";
+                        cartridge.bullet.style.color = "yellow";
                         break;
                     case "gr":
-                        bullet.core.style.color = "green";
+                        cartridge.bullet.style.color = "green";
                         break;
                     case "cy":
-                        bullet.core.style.color = "cyan";
+                        cartridge.bullet.style.color = "cyan";
                         break;
                     case "bu":
-                        bullet.core.style.color = "blue";
+                        cartridge.bullet.style.color = "blue";
                         break;
                     case "pu":
-                        bullet.core.style.color = "purple";
+                        cartridge.bullet.style.color = "purple";
                         break;
                     case "bl":
-                        bullet.core.style.color = "black";
+                        cartridge.bullet.style.color = "black";
                         break;
                     default:
                         dcon.log(`登録されていないコマンドです: ${lowered}`);
@@ -250,12 +256,12 @@ export class Turret {
         });
     }
 
-    private manufacture(material: HTMLElement): Bullet {
+    private manufacture(material: HTMLElement): Cartridge {
         const display = window.getComputedStyle(material).display; // サブ限などで非表示になっている場合
         const contents = material.querySelector<HTMLElement>(Selectors.chat.contents[this.platform]);
-        const core: HTMLElement = document.createElement("div");
-        const bullet: Bullet = {
-            core: core,
+        const bullet: HTMLElement = document.createElement("div");
+        const cartridge: Cartridge = {
+            bullet: bullet,
             fired: false,
             width: 0,
             decoration: {
@@ -264,8 +270,8 @@ export class Turret {
             },
         };
 
-        if (!contents || contents.hidden || material.hidden || display === "none") return bullet;
-        core.style.height = `${this.rowHeight}px`;
+        if (!contents || contents.hidden || material.hidden || display === "none") return cartridge;
+        bullet.style.height = `${this.rowHeight}px`;
 
         contents.childNodes.forEach((child) => {
             const c = child as HTMLElement;
@@ -273,13 +279,13 @@ export class Turret {
                 case c.nodeName === "#text": {
                     const span = document.createElement("span");
                     span.textContent = c.textContent;
-                    core.append(span);
+                    bullet.append(span);
                     break;
                 }
 
                 case c.matches(Selectors.chat.messages[this.platform]): {
                     const clone = c.cloneNode(true);
-                    core.append(clone);
+                    bullet.append(clone);
                     break;
                 }
 
@@ -288,22 +294,22 @@ export class Turret {
                     const clone = img.cloneNode(true) as HTMLImageElement;
                     clone.width = img.width;
                     clone.height = img.height;
-                    core.append(clone);
+                    bullet.append(clone);
                     break;
                 }
 
                 case !!c.querySelector(Selectors.chat.emotes[this.platform]): {
                     const clone = c.cloneNode(true);
-                    core.append(clone);
+                    bullet.append(clone);
                     break;
                 }
             }
         });
 
-        bullet.core = core;
-        bullet.core.className = "drmaggot__danmaku-bullet";
-        bullet.width = this.getWidth(bullet.core);
-        return bullet;
+        cartridge.bullet = bullet;
+        cartridge.bullet.className = "drmaggot__danmaku-bullet";
+        cartridge.width = this.getWidth(cartridge.bullet);
+        return cartridge;
     }
 
     private update() {
@@ -333,19 +339,19 @@ export class Turret {
         })();
     }
 
-    private checkCollision(newBullet: Bullet, lastBullet: Bullet) {
+    private checkCollision(newCartridge: Cartridge, lastCartridge: Cartridge) {
         // 衝突しない -> true 衝突する -> false
-        const nb_width = newBullet.width;
-        const lb_width = lastBullet.width;
+        const nb_width = newCartridge.width;
+        const lb_width = lastCartridge.width;
 
         // キャンバスの横幅とコメントの横幅を足して実際に流れる距離を計算
         const nb_travel_distance = this.canvas.clientWidth + nb_width;
         const lb_travel_distance = this.canvas.clientWidth + lb_width;
 
-        const nb_speed = nb_travel_distance / this.settings.speed;
-        const lb_speed = lb_travel_distance / this.settings.speed;
+        const nb_speed = nb_travel_distance / this.settings.time;
+        const lb_speed = lb_travel_distance / this.settings.time;
 
-        const lb_pos_x = this.getPosX(lastBullet.core) + lb_width; // コメントの右端を基準にしたいため、コメントの横幅を足す
+        const lb_pos_x = this.getPosX(lastCartridge.bullet) + lb_width; // コメントの右端を基準にしたいため、コメントの横幅を足す
         const lb_traveled = lb_travel_distance - lb_pos_x;
         const lb_elapsed_time = lb_traveled / lb_speed;
         const lb_is_appeared = lb_traveled >= lb_width;
@@ -361,11 +367,11 @@ export class Turret {
         // lb_elapsed_time - lb_time_to_appear は　lb が完全に表示されてから何秒経過したか
         // つまり、コメントの右端基準で経過時間を測定している
         const catch_up_time = (lb_speed * (lb_elapsed_time - lb_time_to_appear)) / (nb_speed - lb_speed);
-        return lb_is_appeared && catch_up_time >= this.settings.speed - lb_elapsed_time;
+        return lb_is_appeared && catch_up_time >= this.settings.time - lb_elapsed_time;
     }
 
-    private getWidth(core: HTMLElement): number {
-        const clone = core.cloneNode(true) as HTMLElement;
+    private getWidth(bullet: HTMLElement): number {
+        const clone = bullet.cloneNode(true) as HTMLElement;
         clone.className = "drmaggot__danmaku-check";
         this.canvas.append(clone);
         const result = clone.clientWidth;
@@ -373,10 +379,10 @@ export class Turret {
         return result;
     }
 
-    private getPosX(core: HTMLElement) {
+    private getPosX(bullet: HTMLElement) {
         const canvasRect = this.canvas.getBoundingClientRect();
-        const bulletRect = core.getBoundingClientRect();
-        return bulletRect.left - canvasRect.left;
+        const cartridgeRect = bullet.getBoundingClientRect();
+        return cartridgeRect.left - canvasRect.left;
     }
 
     private getHeight(): number {
