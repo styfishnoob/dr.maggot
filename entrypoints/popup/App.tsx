@@ -1,33 +1,32 @@
-import { useState } from "react";
-import { AllPlatforms } from "@/utils";
-
 import Button from "../features/Button/Button";
-import InputLimit from "../features/InputLimit/InputLimit";
+import InputLimitersWithUnit from "../features/InputLimitersWithUnit/InputLimitersWithUnit";
 import InputText from "../features/InputText/InputText";
-import PlatformCheckboxList from "../features/PlatformCheckbox/PlatformCheckbox";
-import PlatformSelect from "../options/components/PlatformSelect/PlatformSelect";
+import PlatformCheckboxes from "../features/PlatformCheckboxes/PlatformCheckboxes";
+import PlatformSelect from "../features/PlatformSelect/PlatformSelect";
 
-type SettingsCardProp = {
-    name: string;
+type Prop = {
+    title: string;
     feature: JSX.Element;
 };
 
-const SettingsCard = (props: SettingsCardProp) => {
+const SettingsCard = (props: Prop) => {
     return (
         <div className="-mt-px flex p-1">
             <div className="flex flex-col justify-center">
-                <span>{props.name}</span>
+                <span>{props.title}</span>
             </div>
             <div className="ml-auto">{props.feature}</div>
         </div>
     );
 };
 
-function App() {
-    const [wordAllPlatform, setWordAllPlatform] = useState<AllPlatforms>("all");
-    const [emoteAllPlatform, setEmoteAllPlatform] = useState<AllPlatforms>("all");
+const App = () => {
     const wordManager = MapManagerList.word;
     const emoteManager = MapManagerList.emote;
+    const [wordPlatform, setWordPlatform] = useState<AllPlatforms>("all");
+    const [emotePlatform, setEmotePlatform] = useState<AllPlatforms>("all");
+    const [InputBlockWordValue, setInputBlockWordValue] = useState<string>("");
+    const [InputBlockEmoteValue, setInputBlockEmoteValue] = useState<string>("");
 
     function onSelectChange(
         e: React.ChangeEvent<HTMLSelectElement>,
@@ -37,69 +36,70 @@ function App() {
         setAllPlatform(value);
     }
 
-    function onEnter(
-        value: string,
+    function onInputTextEnter(
+        event: React.KeyboardEvent<HTMLInputElement>,
         manager: (typeof MapManagerList)[keyof typeof MapManagerList],
-        allPlatform: AllPlatforms
+        setInputValue: React.Dispatch<React.SetStateAction<string>>,
+        platform: AllPlatforms
     ) {
-        (async function () {
-            if (value === "") return;
-            await manager.set(allPlatform, value, {
-                value: value,
-                active: true,
-            });
-        })();
+        const value = event.currentTarget.value;
+        const isComposing = event.nativeEvent.isComposing;
+
+        if (event.key === "Enter" && !isComposing) {
+            if (value !== "") {
+                manager.set(platform, value, { value: value, active: true });
+                setInputValue("");
+            }
+        }
     }
 
-    const SettingsCardProps: SettingsCardProp[] = [
+    const SettingsCards: Prop[] = [
         {
-            name: `${browser.i18n.getMessage("filter_filter")}`,
-            feature: <PlatformCheckboxList<Filter> storageKey="Filter" itemKey="filter" />,
+            title: `${browser.i18n.getMessage("filter_filter")}`,
+            feature: <PlatformCheckboxes<Filter> storageKey="Filter" itemKey="filter" />,
         },
         {
-            name: `${browser.i18n.getMessage("danmaku_danmaku")}`,
-            feature: <PlatformCheckboxList<Danmaku> storageKey="Danmaku" itemKey="danmaku" />,
+            title: `${browser.i18n.getMessage("danmaku_danmaku")}`,
+            feature: <PlatformCheckboxes<Danmaku> storageKey="Danmaku" itemKey="danmaku" />,
         },
         {
-            name: `${browser.i18n.getMessage("popup_subOnly")}`,
-            feature: <PlatformCheckboxList<Filter> storageKey="Filter" itemKey="subOnly" />,
+            title: `${browser.i18n.getMessage("popup_subOnly")}`,
+            feature: <PlatformCheckboxes<Filter> storageKey="Filter" itemKey="subOnly" />,
         },
         {
-            name: `${browser.i18n.getMessage("popup_charLimit")}`,
-            feature: <InputLimit<Filter> storageKey="Filter" itemKey="charLimit" />,
+            title: `${browser.i18n.getMessage("popup_charLimit")}`,
+            feature: <InputLimitersWithUnit<Filter> storageKey="Filter" itemKey="charLimit" />,
         },
         {
-            name: `${browser.i18n.getMessage("popup_emoteLimit")}`,
-            feature: <InputLimit<Filter> storageKey="Filter" itemKey="emoteLimit" />,
+            title: `${browser.i18n.getMessage("popup_emoteLimit")}`,
+            feature: <InputLimitersWithUnit<Filter> storageKey="Filter" itemKey="emoteLimit" />,
         },
         {
-            name: `${browser.i18n.getMessage("popup_blockedWords")}`,
+            title: `${browser.i18n.getMessage("popup_blockedWords")}`,
             feature: (
                 <div className="flex gap-2">
-                    <PlatformSelect
-                        defaultValue={"all"}
-                        onChange={(e) => onSelectChange(e, setWordAllPlatform)}
-                    />
+                    <PlatformSelect defaultValue={"all"} onChange={(e) => onSelectChange(e, setWordPlatform)} />
                     <InputText
-                        staticPlaceholder={""}
                         style={"max-w-[253px]"}
-                        onEnter={(v) => onEnter(v, wordManager, wordAllPlatform)}
+                        onChange={(e) => setInputBlockWordValue(e.target.value)}
+                        onKeyDown={(e) => onInputTextEnter(e, wordManager, setInputBlockWordValue, wordPlatform)}
+                        placeholder=""
+                        value={InputBlockWordValue}
                     />
                 </div>
             ),
         },
         {
-            name: `${browser.i18n.getMessage("popup_blockedEmotes")}`,
+            title: `${browser.i18n.getMessage("popup_blockedEmotes")}`,
             feature: (
                 <div className="flex gap-2">
-                    <PlatformSelect
-                        defaultValue={"all"}
-                        onChange={(e) => onSelectChange(e, setEmoteAllPlatform)}
-                    />
+                    <PlatformSelect defaultValue={"all"} onChange={(e) => onSelectChange(e, setEmotePlatform)} />
                     <InputText
-                        staticPlaceholder={""}
                         style={"max-w-[253px]"}
-                        onEnter={(v) => onEnter(v, emoteManager, emoteAllPlatform)}
+                        onChange={(e) => setInputBlockEmoteValue(e.target.value)}
+                        onKeyDown={(e) => onInputTextEnter(e, emoteManager, setInputBlockEmoteValue, emotePlatform)}
+                        placeholder=""
+                        value={InputBlockEmoteValue}
                     />
                 </div>
             ),
@@ -111,18 +111,18 @@ function App() {
             <div className="flex justify-center text-lg font-bold">
                 <span>{browser.i18n.getMessage("popup_title")}</span>
             </div>
-            {SettingsCardProps.map((card, key) => (
-                <SettingsCard key={key} name={card.name} feature={card.feature} />
+            {SettingsCards.map((card, key) => (
+                <SettingsCard key={key} title={card.title} feature={card.feature} />
             ))}
-            <div className="p-1">
+            <div className="m-1">
                 <Button
                     title={browser.i18n.getMessage("popup_button")}
-                    style="w-full"
+                    style="w-full p-1 bg-blue-600 hover:bg-blue-700"
                     onClick={() => browser.runtime.openOptionsPage()}
                 />
             </div>
         </main>
     );
-}
+};
 
 export default App;

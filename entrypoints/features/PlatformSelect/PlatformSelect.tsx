@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-
 type Props<T extends AllPlatforms> = {
     defaultValue: T;
-    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    style?: string;
+    onChange: React.ChangeEventHandler<HTMLSelectElement>;
 };
 
 const PlatformSelect = <T extends AllPlatforms>(props: Props<T>) => {
@@ -23,7 +22,7 @@ const PlatformSelect = <T extends AllPlatforms>(props: Props<T>) => {
     };
 
     return (
-        <div className="relative inline-block w-[95px]">
+        <div className={`${props.style} relative inline-block`}>
             <select
                 value={selectedValue}
                 onChange={handleChange}

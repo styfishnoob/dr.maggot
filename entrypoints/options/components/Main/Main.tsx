@@ -3,7 +3,7 @@ type Props = {
 };
 
 const Main = (props: Props) => {
-    return <div className="flex h-screen w-screen grow flex-col bg-white dark:bg-black">{props.children}</div>;
+    return <main className="flex h-screen text-black dark:text-white">{props.children}</main>;
 };
 
 export default Main;

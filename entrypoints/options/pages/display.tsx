@@ -1,109 +1,64 @@
-import Sidebar from "@/entrypoints/options/components/Sidebar/Sidebar";
 import Main from "@/entrypoints/options/components/Main/Main";
-import Topbar from "@/entrypoints/options/components/Topbar/Topbar";
-import SettingsList from "@/entrypoints/options/components/SettingsList/SettingsList";
-import SettingsCard from "@/entrypoints/options/components/SettingsCard/SettingsCard";
-import PlatformCheckbox from "@/entrypoints/features/PlatformCheckbox/PlatformCheckbox";
-import InputNumber from "@/entrypoints/features/InputNumber/InputNumber";
-import InputText from "@/entrypoints/features/InputText/InputText";
+import Navigation from "@/entrypoints/options/components/Navigation/Navigation";
+import Dashboard from "@/entrypoints/options/components/Dashboard/Dashboard";
+import Settings from "../components/Settings/Settings";
+import SettingsCard from "../components/Settings/SettingsCard";
+import PlatformCheckboxes from "@/entrypoints/features/PlatformCheckboxes/PlatformCheckboxes";
+import InputNumberWithUnit from "@/entrypoints/features/InputNumberWithUnit/InputNumberWithUnit";
 import ColorPicker from "@/entrypoints/features/ColorPicker/ColorPicker";
+import InputTextWithDynamicPlaceholder from "@/entrypoints/features/InputTextWithDynamicPlaceholer/InputTextWithDynamicPlaceholder";
 
-function InputTextUnifyNameOnEnter(itemKey: KeysOfType<Display, string>, value: string) {
-    if (value != "") {
-        const manager = KVManagerList.display;
-        manager.setItem<string>(itemKey, `"${value}"`);
-    }
-}
-
-function InputTextFontOnEnter(itemKey: KeysOfType<Display, string>, value: string) {
-    const manager = KVManagerList.display;
-    manager.setItem<string>(itemKey, value);
-}
-
-const SettingsCards: React.ComponentProps<typeof SettingsCard>[] = [
+const settingsCards: React.ComponentProps<typeof SettingsCard>[] = [
     {
         title: `${browser.i18n.getMessage("display_hideName")}`,
         description: `${browser.i18n.getMessage("display_hideName_description")}`,
-        children: <PlatformCheckbox<Display> storageKey="Display" itemKey="hideName" />,
+        feature: <PlatformCheckboxes<Display> storageKey="Display" itemKey="hideName" />,
     },
     {
         title: `${browser.i18n.getMessage("display_unifyName")}`,
         description: `${browser.i18n.getMessage("display_unifyName_description")}`,
-        children: <PlatformCheckbox<Display> storageKey="Display" itemKey="unifyName" />,
+        feature: <PlatformCheckboxes<Display> storageKey="Display" itemKey="unifyName" />,
     },
     {
         title: `${browser.i18n.getMessage("display_break")}`,
         description: `${browser.i18n.getMessage("display_break_description")}`,
-        children: <PlatformCheckbox<Display> storageKey="Display" itemKey="break" />,
+        feature: <PlatformCheckboxes<Display> storageKey="Display" itemKey="break" />,
     },
     {
         title: `${browser.i18n.getMessage("display_stripe")}`,
         description: `${browser.i18n.getMessage("display_stripe_description")}`,
-        children: (
-            <PlatformCheckbox<Display>
-                storageKey="Display"
-                itemKey="stripe"
-                disabled={{
-                    youtube: false,
-                    twitch: false,
-                    kick: false,
-                    openrec: true,
-                    twicas: false,
-                }}
-            />
-        ),
+        feature: <PlatformCheckboxes<Display> storageKey="Display" itemKey="stripe" disabled={["openrec"]} />,
     },
     {
         title: `${browser.i18n.getMessage("display_stripeColor")}`,
         description: `${browser.i18n.getMessage("display_stripeColor_description")}`,
-        children: <ColorPicker<Display> storageKey="Display" itemKey="stripeColor" />,
+        feature: <ColorPicker<Display> storageKey="Display" itemKey="stripeColor" style="h-[35px] w-[100px]" />,
     },
     {
         title: `${browser.i18n.getMessage("display_unifyNameValue")}`,
         description: `${browser.i18n.getMessage("display_unifyNameValue_description")}`,
-        children: (
-            <InputText<Display>
-                dynamicPlaceholder={true}
-                storageKey="Display"
-                itemKey="unifyNameValue"
-                onEnter={(v) => InputTextUnifyNameOnEnter("unifyNameValue", v)}
-            />
-        ),
+        feature: <InputTextWithDynamicPlaceholder<Display> storageKey="Display" itemKey="unifyNameValue" />,
     },
     {
         title: `${browser.i18n.getMessage("display_font")}`,
         description: `${browser.i18n.getMessage("display_font_description")}`,
-        children: (
-            <InputText<Display>
-                dynamicPlaceholder={true}
-                storageKey="Display"
-                itemKey="font"
-                onEnter={(v) => InputTextFontOnEnter("font", v)}
-            />
-        ),
+        feature: <InputTextWithDynamicPlaceholder<Display> allowEmpty storageKey="Display" itemKey="font" />,
     },
     {
         title: `${browser.i18n.getMessage("display_fontSize")}`,
         description: `${browser.i18n.getMessage("display_fontSize_description")}`,
-        children: <InputNumber<Display> storageKey="Display" guide="px" itemKey="fontSize" />,
+        feature: <InputNumberWithUnit<Display> storageKey="Display" itemKey="fontSize" unit="px" style="w-[65px]" />,
     },
 ];
 
 const Display = () => {
     return (
-        <main className="flex h-screen">
-            <Sidebar />
-            <Main>
-                <Topbar title={browser.i18n.getMessage("menu_display")} />
-                <SettingsList>
-                    {SettingsCards.map((item, index) => (
-                        <SettingsCard key={index} title={item.title} description={item.description}>
-                            {item.children}
-                        </SettingsCard>
-                    ))}
-                </SettingsList>
-            </Main>
-        </main>
+        <Main>
+            <Navigation />
+            <Dashboard title={browser.i18n.getMessage("menu_display")}>
+                <Settings settingsCards={settingsCards} />
+            </Dashboard>
+        </Main>
     );
 };
 

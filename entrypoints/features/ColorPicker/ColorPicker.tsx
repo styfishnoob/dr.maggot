@@ -1,9 +1,9 @@
 import { KVManager } from "@/src/lib/kv-manager";
-import { useEffect, useState } from "react";
 
 type Props<T extends KeyValue> = {
     storageKey: KeysOfType<Settings, T>;
     itemKey: KeysOfType<T, string>;
+    style?: string;
 };
 
 const ColorPicker = <T extends KeyValue>(props: Props<T>) => {
@@ -25,7 +25,7 @@ const ColorPicker = <T extends KeyValue>(props: Props<T>) => {
     return (
         <input
             type="color"
-            className="block h-[35px] w-[80px] cursor-pointer rounded-lg border border-gray-200 bg-white p-1 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900"
+            className={`${props.style} rounded-md p-1 border border-gray-200 bg-white cursor-pointer dark:border-neutral-700 dark:bg-neutral-900`}
             defaultValue={color}
             onBlur={(e) => onBlur(e)}
         ></input>

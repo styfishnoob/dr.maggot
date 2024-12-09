@@ -1,54 +1,49 @@
-import Main from "@/entrypoints/options/components/Main/Main";
-import Sidebar from "@/entrypoints/options/components/Sidebar/Sidebar";
-import Topbar from "@/entrypoints/options/components/Topbar/Topbar";
-import SettingsList from "@/entrypoints/options/components/SettingsList/SettingsList";
-import SettingsCard from "@/entrypoints/options/components/SettingsCard/SettingsCard";
-import PlatformCheckbox from "@/entrypoints/features/PlatformCheckbox/PlatformCheckbox";
-import InputNumber from "@/entrypoints/features/InputNumber/InputNumber";
-import InputLimit from "@/entrypoints/features/InputLimit/InputLimit";
+import PlatformCheckboxes from "@/entrypoints/features/PlatformCheckboxes/PlatformCheckboxes";
+import Dashboard from "../components/Dashboard/Dashboard";
+import Main from "../components/Main/Main";
+import Navigation from "../components/Navigation/Navigation";
+import Settings from "../components/Settings/Settings";
+import SettingsCard from "../components/Settings/SettingsCard";
+import InputLimitersWithUnit from "@/entrypoints/features/InputLimitersWithUnit/InputLimitersWithUnit";
+import InputNumberWithUnit from "@/entrypoints/features/InputNumberWithUnit/InputNumberWithUnit";
 
-type SettingsCardProps = {
-    title: string;
-    description: string;
-    feature: JSX.Element;
-};
-
-const SettingsCards: SettingsCardProps[] = [
+const settingsCards: React.ComponentProps<typeof SettingsCard>[] = [
     {
         title: `${browser.i18n.getMessage("filter_filter")}`,
         description: `${browser.i18n.getMessage("filter_filter_description")}`,
-        feature: <PlatformCheckbox<Filter> storageKey="Filter" itemKey="filter" />,
+        feature: <PlatformCheckboxes<Filter> storageKey="Filter" itemKey="filter" />,
     },
     {
         title: `${browser.i18n.getMessage("filter_subOnly")}`,
         description: `${browser.i18n.getMessage("filter_subOnly_description")}`,
-        feature: <PlatformCheckbox<Filter> storageKey="Filter" itemKey="subOnly" />,
+        feature: <PlatformCheckboxes<Filter> storageKey="Filter" itemKey="subOnly" />,
     },
     {
         title: `${browser.i18n.getMessage("filter_range")}`,
         description: `${browser.i18n.getMessage("filter_range_description")}`,
-        feature: <PlatformCheckbox<Filter> storageKey="Filter" itemKey="range" />,
+        feature: <PlatformCheckboxes<Filter> storageKey="Filter" itemKey="range" />,
     },
     {
         title: `${browser.i18n.getMessage("filter_charLimit")}`,
         description: `${browser.i18n.getMessage("filter_charLimit_description")}`,
-        feature: <InputLimit<Filter> storageKey="Filter" itemKey="charLimit" />,
+        feature: <InputLimitersWithUnit<Filter> storageKey="Filter" itemKey="charLimit" />,
     },
     {
         title: `${browser.i18n.getMessage("filter_emoteLimit")}`,
         description: `${browser.i18n.getMessage("filter_emoteLimit_description")}`,
-        feature: <InputLimit<Filter> storageKey="Filter" itemKey="emoteLimit" />,
+        feature: <InputLimitersWithUnit<Filter> storageKey="Filter" itemKey="emoteLimit" />,
     },
     {
         title: `${browser.i18n.getMessage("filter_requiredFollowedDays")}`,
         description: `${browser.i18n.getMessage("filter_requiredFollowedDays_description")}`,
         feature: (
-            <InputNumber<Filter>
+            <InputNumberWithUnit<Filter>
                 storageKey="Filter"
-                guide="days"
-                style="w-[75px]"
-                max={10000}
                 itemKey="requiredFollowDays"
+                unit="days"
+                min={0}
+                max={10000}
+                style="w-[75px]"
             />
         ),
     },
@@ -56,19 +51,12 @@ const SettingsCards: SettingsCardProps[] = [
 
 const Filter = () => {
     return (
-        <main className="flex h-screen">
-            <Sidebar />
-            <Main>
-                <Topbar title={browser.i18n.getMessage("menu_filter")} />
-                <SettingsList>
-                    {SettingsCards.map((item, index) => (
-                        <SettingsCard key={index} title={item.title} description={item.description}>
-                            {item.feature}
-                        </SettingsCard>
-                    ))}
-                </SettingsList>
-            </Main>
-        </main>
+        <Main>
+            <Navigation />
+            <Dashboard title={browser.i18n.getMessage("menu_filter")}>
+                <Settings settingsCards={settingsCards} />
+            </Dashboard>
+        </Main>
     );
 };
 

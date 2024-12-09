@@ -1,45 +1,51 @@
-import { createHashRouter, RouterProvider } from 'react-router-dom';
-import Display from '@/entrypoints/options/pages/display';
-import Filter from '@/entrypoints/options/pages/filter';
-import Danmaku from '@/entrypoints/options/pages/danmaku';
-import Other from '@/entrypoints/options/pages/other';
-import Notice from '@/entrypoints/options/pages/notice';
-import BlocklistWord from '@/entrypoints/options/pages/blocklist-word';
-import BlocklistUser from '@/entrypoints/options/pages/blocklist-user';
-import BlocklistEmote from '@/entrypoints/options/pages/blocklist-emote';
+import { createHashRouter, RouterProvider } from "react-router-dom";
+
+import Display from "@/entrypoints/options/pages/display";
+import Filter from "./pages/filter";
+import Danmaku from "./pages/danmaku";
+import Other from "./pages/other";
+import BlocklistWord from "./pages/blocklist-word";
+import BlocklistUser from "./pages/blocklist-user";
+import BlocklistEmote from "./pages/blocklist-emote";
+import Notice from "./pages/notice";
+import CommandList from "./pages/command-list";
 
 const router = createHashRouter([
     {
-        path: '/',
+        path: "/",
         element: <Display />,
     },
     {
-        path: 'filter',
+        path: "filter",
         element: <Filter />,
     },
     {
-        path: 'danmaku',
+        path: "danmaku",
         element: <Danmaku />,
     },
     {
-        path: 'other',
+        path: "other",
         element: <Other />,
     },
     {
-        path: 'blocklist-word',
+        path: "blocklist-word",
         element: <BlocklistWord />,
     },
     {
-        path: 'blocklist-user',
+        path: "blocklist-user",
         element: <BlocklistUser />,
     },
     {
-        path: 'blocklist-emote',
+        path: "blocklist-emote",
         element: <BlocklistEmote />,
     },
     {
-        path: 'notice',
+        path: "notice",
         element: <Notice />,
+    },
+    {
+        path: "command-list",
+        element: <CommandList />,
     },
 ]);
 

@@ -1,36 +1,24 @@
-import Main from "@/entrypoints/options/components/Main/Main";
-import Sidebar from "@/entrypoints/options/components/Sidebar/Sidebar";
-import Topbar from "@/entrypoints/options/components/Topbar/Topbar";
-import SettingsList from "@/entrypoints/options/components/SettingsList/SettingsList";
-import SettingsCard from "@/entrypoints/options/components/SettingsCard/SettingsCard";
-import PlatformCheckboxList from "@/entrypoints/features/PlatformCheckbox/PlatformCheckbox";
+import PlatformCheckboxes from "@/entrypoints/features/PlatformCheckboxes/PlatformCheckboxes";
+import Dashboard from "../components/Dashboard/Dashboard";
+import Main from "../components/Main/Main";
+import Navigation from "../components/Navigation/Navigation";
+import Settings from "../components/Settings/Settings";
+import SettingsCard from "../components/Settings/SettingsCard";
 
-type SettingsCardProps = {
-    title: string;
-    description: string;
-    feature: JSX.Element;
-};
-
-const SettingsCards: SettingsCardProps[] = [
+const settingsCards: React.ComponentProps<typeof SettingsCard>[] = [
     {
         title: `${browser.i18n.getMessage("other_quickBlock")}`,
         description: `${browser.i18n.getMessage("other_quickBlock_description")}`,
-        feature: <PlatformCheckboxList<Other> storageKey="Other" itemKey="quickBlock" />,
+        feature: <PlatformCheckboxes<Other> storageKey="Other" itemKey="quickBlock" />,
     },
     {
         title: `${browser.i18n.getMessage("other_autoBonus")}`,
         description: `${browser.i18n.getMessage("other_autoBonus_description")}`,
         feature: (
-            <PlatformCheckboxList<Other>
+            <PlatformCheckboxes<Other>
                 storageKey="Other"
                 itemKey="autoBonus"
-                disabled={{
-                    youtube: true,
-                    twitch: false,
-                    kick: true,
-                    openrec: true,
-                    twicas: true,
-                }}
+                disabled={["youtube", "kick", "openrec", "twicas"]}
             />
         ),
     },
@@ -38,31 +26,24 @@ const SettingsCards: SettingsCardProps[] = [
         title: `${browser.i18n.getMessage("other_countdown")}`,
         description: `${browser.i18n.getMessage("other_countdown_description")}`,
         feature: (
-            <PlatformCheckboxList<Other>
+            <PlatformCheckboxes<Other>
                 storageKey="Other"
                 itemKey="countdown"
-                disabled={{ youtube: true, twitch: false, kick: true, openrec: true, twicas: true }}
+                disabled={["youtube", "kick", "openrec", "twicas"]}
             />
         ),
     },
 ];
 
-const Filter = () => {
+const Other = () => {
     return (
-        <main className="flex h-screen">
-            <Sidebar />
-            <Main>
-                <Topbar title={browser.i18n.getMessage("menu_other")} />
-                <SettingsList>
-                    {SettingsCards.map((item, index) => (
-                        <SettingsCard key={index} title={item.title} description={item.description}>
-                            {item.feature}
-                        </SettingsCard>
-                    ))}
-                </SettingsList>
-            </Main>
-        </main>
+        <Main>
+            <Navigation />
+            <Dashboard title={browser.i18n.getMessage("menu_other")}>
+                <Settings settingsCards={settingsCards} />
+            </Dashboard>
+        </Main>
     );
 };
 
-export default Filter;
+export default Other;
