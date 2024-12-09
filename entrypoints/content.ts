@@ -1,4 +1,3 @@
-import { TwitchGql } from "@/src/common/followed-days/twitch/gql";
 export default defineContentScript({
     matches: [
         "*://*.youtube.com/*",
