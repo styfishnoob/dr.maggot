@@ -1,8 +1,7 @@
 {
-    "name": "wxt-react-starter",
-    "description": "manifest.json description",
+    "name": "dr.maggot",
     "private": true,
-    "version": "0.0.0",
+    "version": "13.5",
     "type": "module",
     "scripts": {
         "dev": "wxt",
