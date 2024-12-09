@@ -37,10 +37,12 @@ export type Filter = {
 
 export type Danmaku = {
     danmaku: PlatformStateRecord;
+    decoration: PlatformStateRecord;
     font: string;
     fontSize: number;
     opacity: number;
-    speed: number;
+    time: number;
+    limit: number;
 };
 
 export type Other = {

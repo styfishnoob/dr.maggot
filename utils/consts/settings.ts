@@ -9,9 +9,9 @@ export const KVManagerList = {
 };
 
 export const MapManagerList = {
-    word: new MapManager<AllPlatformBlocklistRecord, BlocklistItem>("BlockedWords"),
-    user: new MapManager<AllPlatformBlocklistRecord, BlocklistItem>("BlockedUsers"),
-    emote: new MapManager<AllPlatformBlocklistRecord, BlocklistItem>("BlockedEmotes"),
+    word: new MapManager<AllPlatformBlocklistRecord, BlocklistItemValue>("BlockedWords"),
+    user: new MapManager<AllPlatformBlocklistRecord, BlocklistItemValue>("BlockedUsers"),
+    emote: new MapManager<AllPlatformBlocklistRecord, BlocklistItemValue>("BlockedEmotes"),
 };
 
 const ALL_FALSE = { youtube: false, twitch: false, kick: false, openrec: false, twicas: false };
@@ -33,16 +33,18 @@ const DefaultFilter: Filter = {
     subOnly: ALL_FALSE,
     charLimit: { less: 0, more: 0 },
     emoteLimit: { less: 0, more: 0 },
-    requiredFollowDays: 100,
+    requiredFollowDays: 0,
     range: ALL_FALSE,
 };
 
 const DefaultDanmaku: Danmaku = {
     danmaku: ALL_FALSE,
+    decoration: ALL_FALSE,
     font: "",
     fontSize: 28,
     opacity: 50,
-    speed: 10,
+    time: 10,
+    limit: 0,
 };
 
 const DefaultOther: Other = {
