@@ -14,6 +14,11 @@ const settingsCards: React.ComponentProps<typeof SettingsCard>[] = [
         feature: <PlatformCheckboxes<Danmaku> storageKey="Danmaku" itemKey="danmaku" />,
     },
     {
+        title: `${browser.i18n.getMessage("danmaku_decoration")}`,
+        description: `${browser.i18n.getMessage("danmaku_decoration_description")}`,
+        feature: <PlatformCheckboxes<Danmaku> storageKey="Danmaku" itemKey="decoration" />,
+    },
+    {
         title: `${browser.i18n.getMessage("danmaku_font")}`,
         description: `${browser.i18n.getMessage("danmaku_font_description")}`,
         feature: <InputTextWithDynamicPlaceholder<Danmaku> storageKey="Danmaku" itemKey="font" />,

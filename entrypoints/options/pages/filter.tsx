@@ -34,8 +34,8 @@ const settingsCards: React.ComponentProps<typeof SettingsCard>[] = [
         feature: <InputLimitersWithUnit<Filter> storageKey="Filter" itemKey="emoteLimit" />,
     },
     {
-        title: `${browser.i18n.getMessage("filter_requiredFollowedDays")}`,
-        description: `${browser.i18n.getMessage("filter_requiredFollowedDays_description")}`,
+        title: `${browser.i18n.getMessage("filter_requiredFollowDays")}`,
+        description: `${browser.i18n.getMessage("filter_requiredFollowDays_description")}`,
         feature: (
             <InputNumberWithUnit<Filter>
                 storageKey="Filter"
