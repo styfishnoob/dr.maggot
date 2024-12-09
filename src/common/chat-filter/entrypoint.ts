@@ -8,8 +8,8 @@ import { DOMObserver } from "@/src/lib/dom-observer";
 
     const cf = new ChatFilter(platform);
     new DOMObserver().add.added(Selectors.chat.cell[platform], {
-        main: function (chatList) {
-            cf.run(chatList);
+        main: function (cell) {
+            cf.run(cell);
         },
         stop: function () {
             cf.unwatch();

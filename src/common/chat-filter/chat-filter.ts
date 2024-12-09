@@ -2,9 +2,9 @@ import { isRegExp } from "@/src/lib/is-regexp";
 
 type Settings = {
     filter: Filter;
-    wordBlocklists: { all: Blocklist[]; platform: Blocklist[] };
-    userBlockelists: { all: Blocklist[]; platform: Blocklist[] };
-    emoteBlocklists: { all: Blocklist[]; platform: Blocklist[] };
+    wordBlocklists: { all: Blocklist; platform: Blocklist };
+    userBlockelists: { all: Blocklist; platform: Blocklist };
+    emoteBlocklists: { all: Blocklist; platform: Blocklist };
 };
 
 const defaultSettings: Settings = {
@@ -196,10 +196,9 @@ export class ChatFilter {
         if (this.settings.filter.range[this.platform]) {
             const e = node as HTMLElement;
             if (isDev()) {
-                //e.style.backgroundColor = "red";
-
-                e.hidden = true;
-                e.style.display = "none";
+                e.style.backgroundColor = "red";
+                // e.hidden = true;
+                // e.style.display = "none";
             } else {
                 e.hidden = true;
                 e.style.display = "none";
@@ -208,9 +207,8 @@ export class ChatFilter {
             const contents = node.querySelector<HTMLElement>(Selectors.chat.contents[this.platform]);
             if (contents) {
                 if (isDev()) {
-                    //contents.style.backgroundColor = "red";
-
-                    contents.hidden = true;
+                    contents.style.backgroundColor = "red";
+                    //contents.hidden = true;
                 } else {
                     contents.hidden = true;
                 }
