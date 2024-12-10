@@ -80,7 +80,7 @@ const App = () => {
                 <div className="flex gap-2">
                     <PlatformSelect defaultValue={"all"} onChange={(e) => onSelectChange(e, setWordPlatform)} />
                     <InputText
-                        style={"max-w-[253px]"}
+                        style={"w-[222px]"}
                         onChange={(e) => setInputBlockWordValue(e.target.value)}
                         onKeyDown={(e) => onInputTextEnter(e, wordManager, setInputBlockWordValue, wordPlatform)}
                         placeholder=""
@@ -95,7 +95,7 @@ const App = () => {
                 <div className="flex gap-2">
                     <PlatformSelect defaultValue={"all"} onChange={(e) => onSelectChange(e, setEmotePlatform)} />
                     <InputText
-                        style={"max-w-[253px]"}
+                        style={"w-[222px]"}
                         onChange={(e) => setInputBlockEmoteValue(e.target.value)}
                         onKeyDown={(e) => onInputTextEnter(e, emoteManager, setInputBlockEmoteValue, emotePlatform)}
                         placeholder=""
