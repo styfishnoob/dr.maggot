@@ -1,54 +1,22 @@
-type Cartridge = {
-    bullet: HTMLElement;
-    fired: boolean;
-    width: number;
-    decoration: {
-        up: boolean;
-        down: boolean;
-    };
-};
-
-type StorageChange = {
-    oldValue?: any;
-    newValue?: any;
-};
-
-type StorageAreaOnChangedChangesType = {
-    [key: string]: StorageChange;
-};
-
-enum DecorationCommands {
-    up = "up", // 上中央表示
-    dw = "dw", // 下中央表示
-    wh = "wh", // ホワイト
-    re = "re", // レッド
-    pi = "pi", // ピンク
-    or = "or", //　オレンジ
-    yw = "ye", //　イエロー
-    gr = "gr", //　グリーン
-    cy = "cy", //　シアン
-    bu = "bu", //　ブルー
-    pu = "pu", //　パープル
-    bl = "bl", //　ブラック
-}
-
-// コメント表示数の制限をできるようにする
+import { Cartridge, Magazine, DecorationMagazines, StorageAreaOnChangedChangesType } from "./turret-type";
+import { applyCommands } from "./decoration-commands";
 
 export class Turret {
     public canvas: HTMLElement;
     private canvasClientHeight: number;
-    private platform: Platforms;
-    private settings: Danmaku;
-    private magazine: Cartridge[][] = [];
     private rowsNum: number = 0;
     private rowHeight: number = 0;
+    private platform: Platforms;
+    private settings: Danmaku;
+    private normalMagazine: Magazine = [];
+    private decorationMagazines: DecorationMagazines = { up: [], down: [] };
 
     constructor(platform: Platforms, canvas: HTMLElement) {
         this.platform = platform;
         this.canvas = canvas;
         this.canvasClientHeight = this.canvas.clientHeight;
         this.settings = DefaultSettings.Danmaku;
-        this.update();
+        this.updateSettings();
         this.watch();
     }
 
@@ -56,13 +24,13 @@ export class Turret {
         storageOnChanged: (changes: StorageAreaOnChangedChangesType) => {
             Object.keys(changes).forEach((key) => {
                 if (key === "Danmaku") {
-                    this.update();
+                    this.updateSettings();
                 }
             });
         },
 
         windowResized: () => {
-            requestAnimationFrame(() => this.update());
+            requestAnimationFrame(() => this.updateSettings());
         },
     };
 
@@ -75,42 +43,19 @@ export class Turret {
         browser.storage.local.onChanged.removeListener(this.watcher.storageOnChanged);
         window.removeEventListener("resize", this.watcher.windowResized);
         while (this.canvas.firstChild) this.canvas.firstChild.remove();
-        this.magazine = [];
+        this.normalMagazine = [];
     }
 
     private fire() {
-        for (let i = 0; i < this.magazine.length; i++) {
-            for (let j = 0; j < this.magazine[i].length; j++) {
-                if (this.magazine[i][j].fired === false) {
-                    const cartridge = this.magazine[i][j];
+        for (let i = 0; i < this.normalMagazine.length; i++) {
+            for (let j = 0; j < this.normalMagazine[i].length; j++) {
+                if (this.normalMagazine[i][j].fired === false) {
+                    const cartridge = this.normalMagazine[i][j];
                     const bullet = cartridge.bullet;
                     cartridge.fired = true;
-                    cartridge.width = this.getWidth(bullet);
-
-                    switch (true) {
-                        case cartridge.decoration.up: {
-                            // 重なる場合下へ表示するように
-                            bullet.style.top = `0px`;
-                            bullet.style.left = `${this.canvas.clientWidth / 2 - cartridge.width / 2}px`;
-                            this.canvas.append(bullet);
-                            setTimeout(() => bullet.remove(), this.settings.time * 1000);
-                            return;
-                        }
-
-                        case cartridge.decoration.down: {
-                            // 重なる場合上へ表示するように
-                            bullet.style.top = `${this.canvas.clientHeight - this.rowHeight}px`;
-                            bullet.style.left = `${this.canvas.clientWidth / 2 - cartridge.width / 2}px`;
-                            this.canvas.append(bullet);
-                            setTimeout(() => bullet.remove(), this.settings.time * 1000);
-                            return;
-                        }
-
-                        default: {
-                            bullet.style.top = `${this.rowHeight * i}px`;
-                            bullet.style.left = `${this.canvas.clientWidth}px`;
-                        }
-                    }
+                    cartridge.width = getWidth(this.canvas, bullet);
+                    bullet.style.top = `${this.rowHeight * i}px`;
+                    bullet.style.left = `${this.canvas.clientWidth}px`;
 
                     const animate = cartridge.bullet.animate(
                         [
@@ -122,8 +67,10 @@ export class Turret {
                     );
 
                     animate.onfinish = () => {
-                        if (this.magazine[i]) {
-                            this.magazine[i] = this.magazine[i].filter((_cartridge) => _cartridge !== cartridge);
+                        if (this.normalMagazine[i]) {
+                            this.normalMagazine[i] = this.normalMagazine[i].filter(
+                                (_cartridge) => _cartridge !== cartridge
+                            );
                         }
                         cartridge.bullet.remove();
                     };
@@ -132,128 +79,65 @@ export class Turret {
                 }
             }
         }
+
+        Object.entries(this.decorationMagazines).forEach(([key, magazine]) => {
+            for (let i = 0; i < magazine.length; i++) {
+                for (let j = 0; j < magazine[i].length; j++) {
+                    if (magazine[i][j].fired === false) {
+                        const cartridge = magazine[i][j];
+                        const bullet = cartridge.bullet;
+                        cartridge.fired = true;
+                        cartridge.width = getWidth(this.canvas, bullet);
+
+                        if (key == "up") bullet.style.top = `${this.rowHeight * i}px`;
+                        if (key == "down")
+                            bullet.style.top = `${this.rowHeight * (this.rowsNum - 1) - this.rowHeight * i}px`;
+                        bullet.style.left = `${this.canvas.clientWidth / 2 - cartridge.width / 2}px`;
+
+                        setTimeout(() => {
+                            if (magazine[i]) {
+                                magazine[i] = magazine[i].filter((_cartridge) => _cartridge !== cartridge);
+                            }
+                            cartridge.bullet.remove();
+                        }, this.settings.time * 1000);
+
+                        this.canvas.append(bullet);
+                    }
+                }
+            }
+        });
     }
 
     public load(material: HTMLElement) {
         if (!this.settings.danmaku[this.platform]) return;
 
-        if (this.canvas.clientHeight != this.canvasClientHeight) {
-            this.canvasClientHeight = this.canvas.clientHeight;
-            this.update();
-        }
+        // 画面の大きさが異なっている場合更新
+        const clientHeight = this.canvas.clientHeight;
+        if (clientHeight != this.canvasClientHeight) this.updateSettings();
 
-        const loadedCartridges = this.magazine.reduce((acc, arr) => acc + arr.length, 0);
-        dcon.log(loadedCartridges, this.settings.limit);
+        // 現在装填されている弾幕の数を算出
+        const loadedCartridges = this.normalMagazine.reduce((acc, arr) => acc + arr.length, 0);
         if (this.settings.limit > 0 && loadedCartridges >= this.settings.limit) return;
-        dcon.log("A");
 
+        // 弾幕を生産し、装飾も行う
         const newCartridge = this.manufacture(material);
-        this.decoration(newCartridge);
+        if (this.settings.decoration[this.platform]) applyCommands(newCartridge);
 
-        for (let i = 0; i <= this.magazine.length; i++) {
-            // 全ての行に入れられなかった場合、最後のコメントの位置が最もゴールに違い行に追加
-            if (i === this.magazine.length) {
-                let min = 0;
-                for (let j = 1; j < this.magazine.length; j++) {
-                    const minLastCartridge = this.magazine[min][this.magazine[min].length - 1];
-                    const lastCartridge = this.magazine[j][this.magazine[j].length - 1];
-                    const min_lb_pos_x = this.getPosX(minLastCartridge.bullet) + minLastCartridge.width;
-                    const lb_pos_x = this.getPosX(lastCartridge.bullet) + lastCartridge.width;
-                    if (lb_pos_x <= min_lb_pos_x) {
-                        min = j;
-                    }
-                }
-                this.magazine[min].push(newCartridge);
-                this.fire();
-                return;
+        switch (true) {
+            case newCartridge.decoration.up: {
+                this.loadToDecorationMagazine("up", newCartridge);
+                break;
             }
 
-            const lastCartridge = this.magazine[i][this.magazine[i].length - 1];
-            switch (true) {
-                case this.magazine[i].length > 100: {
-                    while (this.magazine[i].length > 100) {
-                        this.magazine[i].shift();
-                    }
-                }
-
-                case lastCartridge === undefined:
-                case this.checkCollision(newCartridge, lastCartridge): {
-                    this.magazine[i].push(newCartridge);
-                    this.fire();
-                    return;
-                }
-
-                default: {
-                    continue;
-                }
+            case newCartridge.decoration.down: {
+                this.loadToDecorationMagazine("down", newCartridge);
+                break;
             }
+
+            default:
+                this.loadToNormalMagazine(newCartridge);
+                break;
         }
-    }
-
-    private decoration(cartridge: Cartridge) {
-        const firstChild = cartridge.bullet.firstChild;
-        if (!firstChild || !firstChild.textContent || firstChild.nodeName != "SPAN") return;
-
-        const validCommands = Object.keys(DecorationCommands).join("|");
-        const commandRegex = new RegExp(`^\\[(${validCommands})+\\]`, "i");
-        const match = firstChild.textContent.match(commandRegex);
-        if (!match) return;
-
-        const matchedCommands = match[0].slice(1, -1);
-        const commands: string[] = [];
-        firstChild.textContent = firstChild.textContent.replace(commandRegex, "");
-
-        for (let i = 0; i < matchedCommands.length; i += 2) {
-            commands.push(matchedCommands.substring(i, i + 2));
-        }
-
-        commands.forEach((command) => {
-            const lowered = command.toLowerCase();
-            if (lowered in DecorationCommands) {
-                switch (lowered) {
-                    case "up":
-                        cartridge.decoration.up = true;
-                        cartridge.decoration.down = false;
-                        break;
-                    case "dw":
-                        cartridge.decoration.up = false;
-                        cartridge.decoration.down = true;
-                        break;
-                    case "wh":
-                        cartridge.bullet.style.color = "white";
-                        break;
-                    case "re":
-                        cartridge.bullet.style.color = "red";
-                        break;
-                    case "pi":
-                        cartridge.bullet.style.color = "pink";
-                        break;
-                    case "or":
-                        cartridge.bullet.style.color = "orange";
-                        break;
-                    case "yw":
-                        cartridge.bullet.style.color = "yellow";
-                        break;
-                    case "gr":
-                        cartridge.bullet.style.color = "green";
-                        break;
-                    case "cy":
-                        cartridge.bullet.style.color = "cyan";
-                        break;
-                    case "bu":
-                        cartridge.bullet.style.color = "blue";
-                        break;
-                    case "pu":
-                        cartridge.bullet.style.color = "purple";
-                        break;
-                    case "bl":
-                        cartridge.bullet.style.color = "black";
-                        break;
-                    default:
-                        dcon.log(`登録されていないコマンドです: ${lowered}`);
-                }
-            }
-        });
     }
 
     private manufacture(material: HTMLElement): Cartridge {
@@ -308,11 +192,11 @@ export class Turret {
 
         cartridge.bullet = bullet;
         cartridge.bullet.className = "drmaggot__danmaku-bullet";
-        cartridge.width = this.getWidth(cartridge.bullet);
+        cartridge.width = getWidth(this.canvas, cartridge.bullet);
         return cartridge;
     }
 
-    private update() {
+    private updateSettings() {
         function setProperty(settings: Danmaku) {
             document.documentElement.style.setProperty("--drmaggot__danmaku-font", settings.font);
             document.documentElement.style.setProperty("--drmaggot__danmaku-fontSize", `${settings.fontSize}px`);
@@ -331,67 +215,142 @@ export class Turret {
         (async () => {
             this.settings = await KVManagerList.danmaku.get();
             setProperty(this.settings);
-            this.magazine = [];
-            this.rowHeight = this.getHeight();
+            this.canvasClientHeight = this.canvas.clientHeight;
+            this.normalMagazine = [];
+            this.decorationMagazines = { up: [], down: [] };
+            this.rowHeight = getHeight(this.canvas);
             this.rowsNum = Math.floor(this.canvas.clientHeight / this.rowHeight);
-            for (let i = 0; i < this.rowsNum; i++) this.magazine.push([]);
-            if (!this.settings.danmaku[this.platform]) while (this.canvas.firstChild) this.canvas.firstChild.remove();
+
+            for (let i = 0; i < this.rowsNum; i++) {
+                this.normalMagazine.push([]);
+                this.decorationMagazines.up.push([]);
+                this.decorationMagazines.down.push([]);
+            }
+
+            if (!this.settings.danmaku[this.platform]) {
+                while (this.canvas.firstChild) this.canvas.firstChild.remove();
+            }
         })();
+    }
+
+    private loadToNormalMagazine(newCartridge: Cartridge) {
+        for (let i = 0; i <= this.normalMagazine.length; i++) {
+            // 全ての行に入れられなかった場合、最後のコメントの位置が最もゴールに違い行に追加
+            if (i === this.normalMagazine.length) {
+                let min = 0;
+                for (let j = 1; j < this.normalMagazine.length; j++) {
+                    const minLastCartridge = this.normalMagazine[min][this.normalMagazine[min].length - 1];
+                    const lastCartridge = this.normalMagazine[j][this.normalMagazine[j].length - 1];
+                    const min_lc_pos_x = getPosX(this.canvas, minLastCartridge.bullet) + minLastCartridge.width;
+                    const lc_pos_x = getPosX(this.canvas, lastCartridge.bullet) + lastCartridge.width;
+                    if (lc_pos_x <= min_lc_pos_x) {
+                        min = j;
+                    }
+                }
+                this.normalMagazine[min].push(newCartridge);
+                this.fire();
+                return;
+            }
+
+            const lastCartridge = this.normalMagazine[i][this.normalMagazine[i].length - 1];
+
+            switch (true) {
+                case this.normalMagazine[i].length > 100: {
+                    while (this.normalMagazine[i].length > 100) {
+                        this.normalMagazine[i].shift();
+                    }
+                }
+
+                case lastCartridge === undefined:
+                case this.checkCollision(newCartridge, lastCartridge): {
+                    this.normalMagazine[i].push(newCartridge);
+                    this.fire();
+                    return;
+                }
+
+                default: {
+                    continue;
+                }
+            }
+        }
+    }
+
+    private loadToDecorationMagazine(key: keyof DecorationMagazines, newCartridge: Cartridge) {
+        const decorationMagazine = this.decorationMagazines[key];
+        for (let i = 0; i <= decorationMagazine.length; i++) {
+            if (i === decorationMagazine.length) {
+                let min = 0;
+                for (let j = 1; j < decorationMagazine.length; j++) {
+                    if (decorationMagazine[min].length > decorationMagazine[j].length) {
+                        min = j;
+                    }
+                }
+                decorationMagazine[min].push(newCartridge);
+                this.fire();
+                return;
+            }
+
+            if (decorationMagazine[i].length === 0) {
+                decorationMagazine[i].push(newCartridge);
+                this.fire();
+                return;
+            }
+        }
     }
 
     private checkCollision(newCartridge: Cartridge, lastCartridge: Cartridge) {
         // 衝突しない -> true 衝突する -> false
-        const nb_width = newCartridge.width;
-        const lb_width = lastCartridge.width;
+        const nc_width = newCartridge.width;
+        const lc_width = lastCartridge.width;
 
         // キャンバスの横幅とコメントの横幅を足して実際に流れる距離を計算
-        const nb_travel_distance = this.canvas.clientWidth + nb_width;
-        const lb_travel_distance = this.canvas.clientWidth + lb_width;
+        const nc_travel_distance = this.canvas.clientWidth + nc_width;
+        const lc_travel_distance = this.canvas.clientWidth + lc_width;
 
-        const nb_speed = nb_travel_distance / this.settings.time;
-        const lb_speed = lb_travel_distance / this.settings.time;
+        const nc_speed = nc_travel_distance / this.settings.time;
+        const lc_speed = lc_travel_distance / this.settings.time;
 
-        const lb_pos_x = this.getPosX(lastCartridge.bullet) + lb_width; // コメントの右端を基準にしたいため、コメントの横幅を足す
-        const lb_traveled = lb_travel_distance - lb_pos_x;
-        const lb_elapsed_time = lb_traveled / lb_speed;
-        const lb_is_appeared = lb_traveled >= lb_width;
-        const lb_time_to_appear = lb_width / lb_speed; // 完全にコメントが表示されるまでの時間(コメントの右端がスタートラインに触れるまで)
+        const lc_pos_x = getPosX(this.canvas, lastCartridge.bullet) + lc_width; // コメントの右端を基準にしたいため、コメントの横幅を足す
+        const lc_traveled = lc_travel_distance - lc_pos_x;
+        const lc_elapsed_time = lc_traveled / lc_speed;
+        const lc_is_appeared = lc_traveled >= lc_width;
+        const lc_time_to_appear = lc_width / lc_speed; // 完全にコメントが表示されるまでの時間(コメントの右端がスタートラインに触れるまで)
 
-        // lb が完全に表示されていない場合
-        if (!lb_is_appeared) return false;
+        // lc が完全に表示されていない場合
+        if (!lc_is_appeared) return false;
 
-        // nb　の速度が lb より遅い場合
-        if (nb_speed <= lb_speed) return true;
+        // nc　の速度が lc より遅い場合
+        if (nc_speed <= lc_speed) return true;
 
-        // catch_up_time は nb が lb に追いつくまでの時間
-        // lb_elapsed_time - lb_time_to_appear は　lb が完全に表示されてから何秒経過したか
+        // catch_up_time は nc が lc に追いつくまでの時間
+        // lc_elapsed_time - lc_time_to_appear は　lc が完全に表示されてから何秒経過したか
         // つまり、コメントの右端基準で経過時間を測定している
-        const catch_up_time = (lb_speed * (lb_elapsed_time - lb_time_to_appear)) / (nb_speed - lb_speed);
-        return lb_is_appeared && catch_up_time >= this.settings.time - lb_elapsed_time;
+        const catch_up_time = (lc_speed * (lc_elapsed_time - lc_time_to_appear)) / (nc_speed - lc_speed);
+        return lc_is_appeared && catch_up_time >= this.settings.time - lc_elapsed_time;
     }
+}
 
-    private getWidth(bullet: HTMLElement): number {
-        const clone = bullet.cloneNode(true) as HTMLElement;
-        clone.className = "drmaggot__danmaku-check";
-        this.canvas.append(clone);
-        const result = clone.clientWidth;
-        clone.remove();
-        return result;
-    }
+function getWidth(canvas: HTMLElement, bullet: HTMLElement): number {
+    const clone = bullet.cloneNode(true) as HTMLElement;
+    clone.className = "drmaggot__danmaku-check";
+    canvas.append(clone);
+    const result = clone.clientWidth;
+    clone.remove();
+    return result;
+}
 
-    private getPosX(bullet: HTMLElement) {
-        const canvasRect = this.canvas.getBoundingClientRect();
-        const cartridgeRect = bullet.getBoundingClientRect();
-        return cartridgeRect.left - canvasRect.left;
-    }
+function getPosX(canvas: HTMLElement, bullet: HTMLElement) {
+    const canvasRect = canvas.getBoundingClientRect();
+    const cartridgeRect = bullet.getBoundingClientRect();
+    return cartridgeRect.left - canvasRect.left;
+}
 
-    private getHeight(): number {
-        const div = document.createElement("div");
-        div.textContent = "TESTHEIGHT";
-        div.className = "drmaggot__danmaku-check";
-        this.canvas.append(div);
-        const result = div.clientHeight;
-        div.remove();
-        return result;
-    }
+function getHeight(canvas: HTMLElement): number {
+    const div = document.createElement("div");
+    div.textContent = "TESTHEIGHT";
+    div.className = "drmaggot__danmaku-check";
+    canvas.append(div);
+    const result = div.clientHeight;
+    div.remove();
+    return result;
 }
