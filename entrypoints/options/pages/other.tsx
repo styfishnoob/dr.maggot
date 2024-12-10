@@ -39,7 +39,7 @@ const Other = () => {
     return (
         <Main>
             <Navigation />
-            <Dashboard title={browser.i18n.getMessage("menu_other")}>
+            <Dashboard title={browser.i18n.getMessage("navigation_other")}>
                 <Settings settingsCards={settingsCards} />
             </Dashboard>
         </Main>

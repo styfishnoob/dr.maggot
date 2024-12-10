@@ -129,7 +129,7 @@ const BlocklistUser = () => {
     return (
         <Main>
             <Navigation />
-            <Dashboard title={`${browser.i18n.getMessage("menu_blockedUsers")}`}>
+            <Dashboard title={browser.i18n.getMessage("navigation_blockedUsers")}>
                 <div className="flex flex-col gap-1.5">
                     <div className="flex gap-1.5">
                         <PlatformSelect

@@ -149,7 +149,7 @@ const Notice = () => {
     return (
         <Main>
             <Navigation />
-            <Dashboard title={browser.i18n.getMessage("menu_display")}>
+            <Dashboard title={browser.i18n.getMessage("navigation_notice")}>
                 {noticeCards.map((card, index) => (
                     <NoticeCard
                         key={index}

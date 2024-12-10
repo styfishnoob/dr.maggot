@@ -155,7 +155,7 @@ const CommandList = () => {
     return (
         <Main>
             <Navigation />
-            <Dashboard title="コマンドリスト">
+            <Dashboard title={browser.i18n.getMessage("navigation_commandList")}>
                 <Table
                     header={Header}
                     body={TableRowMaterials.map((material) => {

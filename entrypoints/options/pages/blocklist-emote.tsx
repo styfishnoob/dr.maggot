@@ -129,7 +129,7 @@ const BlocklistEmote = () => {
     return (
         <Main>
             <Navigation />
-            <Dashboard title={`${browser.i18n.getMessage("menu_blockedEmotes")}`}>
+            <Dashboard title={browser.i18n.getMessage("navigation_blockedEmotes")}>
                 <div className="flex flex-col gap-1.5">
                     <div className="flex gap-1.5">
                         <PlatformSelect

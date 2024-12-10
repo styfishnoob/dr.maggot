@@ -53,7 +53,7 @@ const Filter = () => {
     return (
         <Main>
             <Navigation />
-            <Dashboard title={browser.i18n.getMessage("menu_filter")}>
+            <Dashboard title={browser.i18n.getMessage("navigation_filter")}>
                 <Settings settingsCards={settingsCards} />
             </Dashboard>
         </Main>

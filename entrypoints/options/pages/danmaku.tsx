@@ -49,7 +49,7 @@ const Danmaku = () => {
     return (
         <Main>
             <Navigation />
-            <Dashboard title={browser.i18n.getMessage("menu_danmaku")}>
+            <Dashboard title={browser.i18n.getMessage("navigation_danmaku")}>
                 <Settings settingsCards={settingsCards} />
             </Dashboard>
         </Main>

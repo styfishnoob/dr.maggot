@@ -55,7 +55,7 @@ const Display = () => {
     return (
         <Main>
             <Navigation />
-            <Dashboard title={browser.i18n.getMessage("menu_display")}>
+            <Dashboard title={browser.i18n.getMessage("navigation_display")}>
                 <Settings settingsCards={settingsCards} />
             </Dashboard>
         </Main>
