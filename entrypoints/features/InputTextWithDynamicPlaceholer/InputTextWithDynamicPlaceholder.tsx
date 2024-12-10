@@ -34,7 +34,13 @@ const InputTextWithDynamicPlaceholder = <T extends KeyValue>(props: Props<T>) =>
         const isComposing = event.nativeEvent.isComposing; // 予測変換中とかだったらtrue
 
         if (event.key === "Enter" && !isComposing) {
-            if (props.allowEmpty || val !== "") {
+            if (props.allowEmpty && val === "") {
+                manager.setItem(props.itemKey, val);
+                setValue("");
+                setPlaceholder(`${PLACEHOLDER_HEADER}: DEFAULT`);
+            }
+
+            if (val !== "") {
                 manager.setItem(props.itemKey, val);
                 setValue("");
                 setPlaceholder(`${PLACEHOLDER_HEADER}: ${val}`);
