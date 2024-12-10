@@ -27,27 +27,30 @@ const TableRowMaterials: TableRowMaterial[] = [
         effect: (
             <div className="flex flex-col gap-2">
                 <div className="flex">
-                    <div className="w-[100px]">[ReUp]ああああ</div>
+                    <div className="w-[100px]">[blueUp]やあ</div>
                     <div className="mr-2">-&gt;</div>
-                    <div>画面上に赤で表示</div>
+                    <div className="text-[#0000FF]">画面上に青色で表示</div>
                 </div>
                 <div className="flex">
-                    <div className="w-[100px]">[DwPi]ああああ</div>
+                    <div className="w-[100px]">[DOWNyellow]やあ</div>
                     <div className="mr-2">-&gt;</div>
-                    <div>画面下にピンクで表示</div>
+                    <div className="text-[#FFFF00]">画面下に黄色で表示</div>
                 </div>
                 <div className="flex">
-                    <div className="w-[100px]">[Gr]ああああ</div>
+                    <div className="w-[100px]">[rEd]やあ</div>
                     <div className="mr-2">-&gt;</div>
-                    <div>緑コメントを通常表示</div>
+                    <div className="text-[#FF0000]">赤色コメントを通常表示</div>
+                </div>
+                <div>
+                    <span>※大文字小文字は区別しません</span>
                 </div>
             </div>
         ),
     },
-    { command: "Up", effect: <span>コメントを画面中央上部に表示します。</span> },
-    { command: "Dw", effect: <span>コメントを画面中央下部に表示します。</span> },
+    { command: "up", effect: <span>コメントを画面中央上部に表示します。</span> },
+    { command: "down", effect: <span>コメントを画面中央下部に表示します。</span> },
     {
-        command: "Wh",
+        command: "white",
         effect: (
             <span>
                 コメントの色を
@@ -57,7 +60,7 @@ const TableRowMaterials: TableRowMaterial[] = [
         ),
     },
     {
-        command: "Re",
+        command: "red",
         effect: (
             <span>
                 コメントの色を
@@ -67,7 +70,7 @@ const TableRowMaterials: TableRowMaterial[] = [
         ),
     },
     {
-        command: "Pi",
+        command: "pink",
         effect: (
             <span>
                 コメントの色を
@@ -77,7 +80,7 @@ const TableRowMaterials: TableRowMaterial[] = [
         ),
     },
     {
-        command: "Or",
+        command: "orange",
         effect: (
             <span>
                 コメントの色を
@@ -87,7 +90,7 @@ const TableRowMaterials: TableRowMaterial[] = [
         ),
     },
     {
-        command: "Ye",
+        command: "yellow",
         effect: (
             <span>
                 コメントの色を
@@ -97,7 +100,7 @@ const TableRowMaterials: TableRowMaterial[] = [
         ),
     },
     {
-        command: "Gr",
+        command: "green",
         effect: (
             <span>
                 コメントの色を
@@ -107,7 +110,7 @@ const TableRowMaterials: TableRowMaterial[] = [
         ),
     },
     {
-        command: "Cy",
+        command: "cyan",
         effect: (
             <span>
                 コメントの色を
@@ -117,7 +120,7 @@ const TableRowMaterials: TableRowMaterial[] = [
         ),
     },
     {
-        command: "Bu",
+        command: "blue",
         effect: (
             <span>
                 コメントの色を
@@ -127,7 +130,7 @@ const TableRowMaterials: TableRowMaterial[] = [
         ),
     },
     {
-        command: "Pu",
+        command: "purple",
         effect: (
             <span>
                 コメントの色を
@@ -137,7 +140,7 @@ const TableRowMaterials: TableRowMaterial[] = [
         ),
     },
     {
-        command: "Bl",
+        command: "black",
         effect: (
             <span>
                 コメントの色を
