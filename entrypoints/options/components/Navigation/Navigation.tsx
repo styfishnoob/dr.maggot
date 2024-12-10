@@ -17,25 +17,25 @@ import github from "@/assets/link_icons/github.svg";
 const SettingsLinks: React.ComponentProps<typeof NavigationLink>[] = [
     {
         to: "/",
-        title: "ディスプレイ設定",
+        title: `${browser.i18n.getMessage("navigation_display")}`,
         imgSrc: monitor,
         gradationKey: "green",
     },
     {
         to: "/filter",
-        title: "フィルター設定",
+        title: `${browser.i18n.getMessage("navigation_filter")}`,
         imgSrc: robot,
         gradationKey: "blue",
     },
     {
         to: "/danmaku",
-        title: "弾幕設定",
+        title: `${browser.i18n.getMessage("navigation_danmaku")}`,
         imgSrc: megaphone,
         gradationKey: "amber",
     },
     {
         to: "/other",
-        title: "その他の設定",
+        title: `${browser.i18n.getMessage("navigation_other")}`,
         imgSrc: other,
         gradationKey: "gray",
     },
@@ -44,19 +44,19 @@ const SettingsLinks: React.ComponentProps<typeof NavigationLink>[] = [
 const BlocklistLinks: React.ComponentProps<typeof NavigationLink>[] = [
     {
         to: "/blocklist-word",
-        title: "ワードリスト",
+        title: `${browser.i18n.getMessage("navigation_blockedWords")}`,
         imgSrc: book,
         gradationKey: "red",
     },
     {
         to: "/blocklist-user",
-        title: "ユーザーリスト",
+        title: `${browser.i18n.getMessage("navigation_blockedUsers")}`,
         imgSrc: users,
         gradationKey: "red",
     },
     {
         to: "/blocklist-emote",
-        title: "エモートリスト",
+        title: `${browser.i18n.getMessage("navigation_blockedEmotes")}`,
         imgSrc: gem,
         gradationKey: "red",
     },
@@ -65,13 +65,13 @@ const BlocklistLinks: React.ComponentProps<typeof NavigationLink>[] = [
 const OtherLinks: React.ComponentProps<typeof NavigationLink>[] = [
     {
         to: "/notice",
-        title: "お知らせ",
+        title: `${browser.i18n.getMessage("navigation_notice")}`,
         imgSrc: bell,
         gradationKey: "slate",
     },
     {
         to: "/command-list",
-        title: "コマンドリスト",
+        title: `${browser.i18n.getMessage("navigation_commandList")}`,
         imgSrc: code,
         gradationKey: "slate",
     },
