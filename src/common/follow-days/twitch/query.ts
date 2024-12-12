@@ -50,10 +50,10 @@ export const TwitchGqlQuery = {
         });
     },
 
-    getUserFollowsByUserLogin: (userLogin: string, after: string | null) => {
+    getUserFollowsByUserLogin: (userLogin: string, channelID: string, after: string | null) => {
         return JSON.stringify({
             query: `
-                query getUserFollows($userLogin: String!, $after: Cursor) {
+                query getUserFollowsByUserLogin($userLogin: String!, $channelID: String!, $after: Cursor) {
                         user(login: $userLogin) {
                                 follows(first: 100, after: $after) {
                                     edges {
@@ -67,11 +67,13 @@ export const TwitchGqlQuery = {
                                             hasNextPage
                                     }
                                 }
+                                isModerator(channelID: $channelID)
                         }
                 }
             `,
             variables: {
                 userLogin,
+                channelID,
                 after,
             },
         });
