@@ -78,9 +78,13 @@ const App = () => {
             title: `${browser.i18n.getMessage("popup_blockedWords")}`,
             feature: (
                 <div className="flex gap-2">
-                    <PlatformSelect defaultValue={"all"} onChange={(e) => onSelectChange(e, setWordPlatform)} />
+                    <PlatformSelect
+                        defaultValue={"all"}
+                        style="w-[95px]"
+                        onChange={(e) => onSelectChange(e, setWordPlatform)}
+                    />
                     <InputText
-                        style={"w-[222px]"}
+                        style={"w-[262px]"}
                         onChange={(e) => setInputBlockWordValue(e.target.value)}
                         onKeyDown={(e) => onInputTextEnter(e, wordManager, setInputBlockWordValue, wordPlatform)}
                         placeholder=""
@@ -93,9 +97,13 @@ const App = () => {
             title: `${browser.i18n.getMessage("popup_blockedEmotes")}`,
             feature: (
                 <div className="flex gap-2">
-                    <PlatformSelect defaultValue={"all"} onChange={(e) => onSelectChange(e, setEmotePlatform)} />
+                    <PlatformSelect
+                        defaultValue={"all"}
+                        style="w-[95px]"
+                        onChange={(e) => onSelectChange(e, setEmotePlatform)}
+                    />
                     <InputText
-                        style={"w-[222px]"}
+                        style={"w-[262px]"}
                         onChange={(e) => setInputBlockEmoteValue(e.target.value)}
                         onKeyDown={(e) => onInputTextEnter(e, emoteManager, setInputBlockEmoteValue, emotePlatform)}
                         placeholder=""
