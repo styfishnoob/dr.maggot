@@ -1,5 +1,3 @@
-export type PlatformStateRecord = PlatformRecord<boolean>;
-
 export type Limiter = {
     less: number;
     more: number;
@@ -16,28 +14,28 @@ export type Settings = {
 };
 
 export type Display = {
-    hideName: PlatformStateRecord;
-    unifyName: PlatformStateRecord;
+    hideName: PlatformRecord<boolean>;
+    unifyName: PlatformRecord<boolean>;
     unifyNameValue: string;
-    stripe: PlatformStateRecord;
+    stripe: PlatformRecord<boolean>;
     stripeColor: string;
-    break: PlatformStateRecord;
+    break: PlatformRecord<boolean>;
     font: string;
     fontSize: number;
 };
 
 export type Filter = {
-    filter: PlatformStateRecord;
-    subOnly: PlatformStateRecord;
+    filter: PlatformRecord<boolean>;
+    subOnly: PlatformRecord<boolean>;
     charLimit: Limiter;
     emoteLimit: Limiter;
     requiredFollowDays: number;
-    range: PlatformStateRecord;
+    range: PlatformRecord<boolean>;
 };
 
 export type Danmaku = {
-    danmaku: PlatformStateRecord;
-    decoration: PlatformStateRecord;
+    danmaku: PlatformRecord<boolean>;
+    decoration: PlatformRecord<boolean>;
     font: string;
     fontSize: number;
     opacity: number;
@@ -46,7 +44,7 @@ export type Danmaku = {
 };
 
 export type Other = {
-    quickBlock: PlatformStateRecord;
-    autoBonus: PlatformStateRecord;
-    countdown: PlatformStateRecord;
+    quickBlock: PlatformRecord<boolean>;
+    autoBonus: PlatformRecord<boolean>;
+    countdown: PlatformRecord<boolean>;
 };
