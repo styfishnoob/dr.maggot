@@ -20,7 +20,7 @@ const ALL_TRUE = { youtube: true, twitch: true, kick: true, openrec: true, twica
 const DefaultDisplay: Display = {
     hideName: ALL_FALSE,
     unifyName: ALL_FALSE,
-    unifyNameValue: `'@'`,
+    unifyNameValue: `@`,
     stripe: ALL_FALSE,
     stripeColor: "#2563eb",
     break: ALL_FALSE,
