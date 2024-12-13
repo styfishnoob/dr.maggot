@@ -1,3 +1,5 @@
+import { TypeGuard } from "@/utils/type-guard";
+
 export default defineBackground(() => {
     browser.runtime.onInstalled.addListener(function (details) {
         switch (details.reason) {
@@ -7,8 +9,6 @@ export default defineBackground(() => {
             case "update":
                 onUpdate();
                 break;
-            case "browser_update":
-                break;
         }
     });
 });
@@ -16,8 +16,8 @@ export default defineBackground(() => {
 function onInstall() {
     console.log("[dr.maggot - background]: execute onInstall");
     const storage = browser.storage.local;
-
     const settingsKeys = Object.keys(DefaultSettings) as Array<keyof Settings>;
+
     for (const key of settingsKeys) {
         if (Object.hasOwn(DefaultSettings, key)) {
             storage.set({ [key]: DefaultSettings[key] });
@@ -38,35 +38,29 @@ async function onUpdate() {
         switch (key) {
             case "Display": {
                 if (!TypeGuard.is.Display(value)) {
-                    const extracted = extractPartial<Display>(key, value);
-                    const merged: Display = { ...DefaultSettings[key], ...extracted };
-                    storage.set({ [key]: merged });
-                    break;
+                    const updated = updateSettings(DefaultSettings[key], value);
+                    storage.set({ [key]: updated });
                 }
                 break;
             }
             case "Filter": {
                 if (!TypeGuard.is.Filter(value)) {
-                    const extracted = extractPartial<Filter>(key, value);
-                    const merged: Filter = { ...DefaultSettings[key], ...extracted };
-                    storage.set({ ["BackupFilter"]: value });
-                    storage.set({ [key]: merged });
+                    const updated = updateSettings(DefaultSettings[key], value);
+                    storage.set({ [key]: updated });
                 }
                 break;
             }
             case "Danmaku": {
                 if (!TypeGuard.is.Danmaku(value)) {
-                    const extracted = extractPartial<Danmaku>(key, value);
-                    const merged: Danmaku = { ...DefaultSettings[key], ...extracted };
-                    storage.set({ [key]: merged });
+                    const updated = updateSettings(DefaultSettings[key], value);
+                    storage.set({ [key]: updated });
                 }
                 break;
             }
             case "Other": {
                 if (!TypeGuard.is.Other(value)) {
-                    const extracted = extractPartial<Other>(key, value);
-                    const merged: Other = { ...DefaultSettings[key], ...extracted };
-                    storage.set({ [key]: merged });
+                    const updated = updateSettings(DefaultSettings[key], value);
+                    storage.set({ [key]: updated });
                 }
                 break;
             }
@@ -74,12 +68,8 @@ async function onUpdate() {
             case "BlockedUsers":
             case "BlockedEmotes": {
                 if (!TypeGuard.is.AllPlatformRecord(value)) {
-                    const extracted = extractPartial<AllPlatformBlocklistRecord>(key, value);
-                    const merged: AllPlatformBlocklistRecord = {
-                        ...DefaultSettings[key],
-                        ...extracted,
-                    };
-                    storage.set({ [key]: merged });
+                    const updated = updateSettings(DefaultSettings[key], value);
+                    storage.set({ [key]: updated });
                 }
                 break;
             }
@@ -93,11 +83,27 @@ async function onUpdate() {
     });
 }
 
-function extractPartial<T extends Object>(key: keyof typeof DefaultSettings, value: any): Partial<T> {
-    return Object.keys(DefaultSettings[key]).reduce((_acc, _key) => {
-        if (_key in value) {
-            _acc[_key as keyof T] = value[_key];
+function checkSettingsProperties<T>(defaultSettings: T, currentSettings: Partial<T>): T {
+    const result: Partial<T> = {};
+    for (const key in defaultSettings) {
+        result[key] = currentSettings[key] !== undefined ? currentSettings[key] : defaultSettings[key];
+    }
+    return result as T;
+}
+
+function updateSettings<T>(defaultSettings: T, currentSettings: Partial<T>): T {
+    const result: Partial<T> = {};
+
+    for (const key in defaultSettings) {
+        const defaultValue = defaultSettings[key];
+        const currentValue = currentSettings[key];
+
+        if (typeof defaultValue === "object" && !Array.isArray(defaultValue) && defaultValue !== null) {
+            result[key] = checkSettingsProperties(defaultValue, currentValue || {});
+        } else {
+            result[key] = currentValue !== undefined ? currentValue : defaultValue;
         }
-        return _acc;
-    }, {} as Partial<T>);
+    }
+
+    return result as T;
 }
