@@ -35,14 +35,26 @@ type CustomProperty = [keyof Display, string];
         const update = async () => {
             const settings = await manager.get();
             const property = settings[customProperty[0]];
-            document.documentElement.style.setProperty(
-                `--drmaggot__${customProperty[0]}`,
-                `${property + customProperty[1]}`
-            );
-            window.parent.document.documentElement.style.setProperty(
-                `--drmaggot__${customProperty[0]}`,
-                `${property + customProperty[1]}`
-            );
+
+            if (customProperty[0] === "unifyNameValue") {
+                document.documentElement.style.setProperty(
+                    `--drmaggot__${customProperty[0]}`,
+                    `"${property}"${customProperty[1]}`
+                );
+                window.parent.document.documentElement.style.setProperty(
+                    `--drmaggot__${customProperty[0]}`,
+                    `"${property}"${customProperty[1]}`
+                );
+            } else {
+                document.documentElement.style.setProperty(
+                    `--drmaggot__${customProperty[0]}`,
+                    `${property + customProperty[1]}`
+                );
+                window.parent.document.documentElement.style.setProperty(
+                    `--drmaggot__${customProperty[0]}`,
+                    `${property + customProperty[1]}`
+                );
+            }
         };
 
         update();
