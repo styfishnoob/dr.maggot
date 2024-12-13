@@ -1,96 +1,196 @@
+import { AllPlatformBlocklistRecord } from "./types/blocklist";
 import { AllPlatformRecord, PlatformRecord } from "./types/platform";
+
+type TypeGuardRecord<T> = Record<keyof T, (v: unknown) => boolean>;
+
+function checkUserDefinedTypeObject<T>(value: unknown, guards: TypeGuardRecord<T>): boolean {
+    if (!TypeGuard.is.Object(value)) return false;
+
+    for (const key in value) {
+        if (!(key in guards)) {
+            dcon.log("定義されていないプロパティ", key);
+            return false;
+        }
+    }
+
+    for (const key in guards) {
+        const guard = guards[key];
+        const vkey = (value as any)[key];
+
+        if (!(key in value)) {
+            dcon.error(`不足しているプロパティ: ${key}`);
+            return false;
+        }
+
+        if (!guard(vkey)) {
+            dcon.error(`型に異常があるプロパティ: ${key}`);
+            return false;
+        }
+    }
+
+    return true;
+}
 
 export const TypeGuard = {
     is: {
-        PlatformRecord: function <T>(obj: any): obj is PlatformRecord<T> {
+        Boolean: (value: unknown): value is boolean => typeof value === "boolean",
+        Number: (value: unknown): value is number => typeof value === "number",
+        String: (value: unknown): value is string => typeof value === "string",
+        Object: (value: unknown): value is object => typeof value === "object",
+
+        PlatformRecord: function (value: unknown): value is PlatformRecord<unknown> {
+            if (!this.Object(value)) return false;
+
+            for (const [key] of Object.entries(value)) {
+                if (!PLATFORMS.some((p) => p === key)) {
+                    dcon.log("定義されていないプロパティ", key);
+                    return false;
+                }
+            }
+
             for (const key of PLATFORMS) {
-                if (!(key in obj)) return false;
+                if (!(key in value)) {
+                    dcon.log("不足しているプロパティ", key);
+                    return false;
+                }
+            }
+
+            return true;
+        },
+
+        AllPlatformRecord: function (value: unknown): value is AllPlatformRecord<unknown> {
+            if (!this.Object(value)) return false;
+
+            for (const [key] of Object.entries(value)) {
+                if (!ALL_PLATFORMS.some((p) => p === key)) {
+                    dcon.log("定義されていないプロパティ", key);
+                    return false;
+                }
+            }
+
+            for (const key of ALL_PLATFORMS) {
+                if (!(key in value)) {
+                    dcon.log("不足しているプロパティ", key);
+                    return false;
+                }
+            }
+
+            return true;
+        },
+
+        PlatformBooleanRecord: function (value: unknown): value is PlatformRecord<boolean> {
+            if (!this.Object(value)) return false;
+            if (!this.PlatformRecord(value)) return false;
+            for (const [, v] of Object.entries(value)) {
+                if (typeof v !== "boolean") return false;
             }
             return true;
         },
-        AllPlatformRecord: function <T>(obj: any): obj is AllPlatformRecord<T> {
-            if (!("all" in obj)) return false;
-            if (!this.PlatformRecord(obj)) return false;
-            return true;
-        },
-        PlatformStateRecord: function (obj: any): obj is PlatformStateRecord {
-            return (
-                typeof obj === "object" &&
-                typeof obj.youtube === "boolean" &&
-                typeof obj.twitch === "boolean" &&
-                typeof obj.openrec === "boolean" &&
-                typeof obj.twicas === "boolean"
-            );
-        },
-        AllPlatformBlocklistRecord: function (obj: any): obj is AllPlatformBlocklistRecord {
-            if (typeof obj !== "object" || obj === null) {
-                return false;
-            }
 
-            const keys = Object.keys(obj) as AllPlatforms[];
-            const validKeys = ["all", ...PLATFORMS];
+        BlocklistItemValue: function (value: unknown): value is BlocklistItemValue {
+            if (!this.Object(value)) return false;
 
-            return keys.every(
-                (key) =>
-                    validKeys.includes(key) &&
-                    Array.isArray(obj[key]) &&
-                    obj[key].every((blocklist: any) => this.Blocklist(blocklist))
-            );
+            const guards: TypeGuardRecord<BlocklistItemValue> = {
+                value: (v) => this.String(v),
+                active: (v) => this.Boolean(v),
+            };
+
+            return checkUserDefinedTypeObject(value, guards);
         },
-        Blocklist: function (arr: Array<any>) {
-            if (Array.isArray(arr) && arr.length === 0) return true;
-            return (
-                Array.isArray(arr) &&
-                typeof arr[0] === "string" &&
-                typeof arr[1] === "object" &&
-                typeof arr[1].value === "string" &&
-                typeof arr[1].active === "boolean"
-            );
+
+        BlocklistItem: function (value: unknown): value is BlocklistItem {
+            if (!Array.isArray(value) || value.length !== 2) return false;
+            return this.String(value[0]) && this.BlocklistItemValue(value[1]);
         },
-        Limiter: function (obj: any): obj is Limiter {
-            return typeof obj === "object" && typeof obj.less === "number" && typeof obj.more === "number";
+
+        Blocklist: function (value: unknown): value is Blocklist {
+            return Array.isArray(value) && value.every((v) => this.BlocklistItem(v));
         },
-        Display: function (obj: any): obj is Display {
-            return (
-                typeof obj === "object" &&
-                this.PlatformStateRecord(obj.hideName) &&
-                this.PlatformStateRecord(obj.unifyName) &&
-                typeof obj.unifyNameValue === "string" &&
-                this.PlatformStateRecord(obj.stripe) &&
-                typeof obj.stripeColor === "string" &&
-                this.PlatformStateRecord(obj.break) &&
-                typeof obj.font === "string" &&
-                typeof obj.fontSize === "number"
-            );
+
+        AllPlatformBlocklistRecord: function (value: unknown): value is AllPlatformBlocklistRecord {
+            if (!this.Object(value)) return false;
+
+            const guards: TypeGuardRecord<AllPlatformBlocklistRecord> = {
+                all: (v) => this.Blocklist(v),
+                youtube: (v) => this.Blocklist(v),
+                twitch: (v) => this.Blocklist(v),
+                kick: (v) => this.Blocklist(v),
+                openrec: (v) => this.Blocklist(v),
+                twicas: (v) => this.Blocklist(v),
+            };
+
+            return checkUserDefinedTypeObject(value, guards);
         },
-        Filter: function Filter(obj: any): obj is Filter {
-            return (
-                typeof obj === "object" &&
-                this.PlatformStateRecord(obj.filter) &&
-                this.PlatformStateRecord(obj.subOnly) &&
-                this.Limiter(obj.charLimit) &&
-                this.Limiter(obj.emoteLimit) &&
-                typeof obj.requiredFollowDays === "number" &&
-                this.PlatformStateRecord(obj.range)
-            );
+
+        Limiter: function (value: unknown): value is Limiter {
+            if (!this.Object(value)) return false;
+
+            const guards: TypeGuardRecord<Limiter> = {
+                less: (v) => this.Number(v),
+                more: (v) => this.Number(v),
+            };
+
+            return checkUserDefinedTypeObject(value, guards);
         },
-        Danmaku: function (obj: any): obj is Danmaku {
-            return (
-                typeof obj === "object" &&
-                this.PlatformStateRecord(obj.danmaku) &&
-                typeof obj.font === "string" &&
-                typeof obj.fontSize === "number" &&
-                typeof obj.opacity === "number" &&
-                typeof obj.speed === "number"
-            );
+
+        Display: function (value: unknown): value is Display {
+            if (!this.Object(value)) return false;
+
+            const guards: TypeGuardRecord<Display> = {
+                hideName: (v) => this.PlatformBooleanRecord(v),
+                unifyName: (v) => this.PlatformBooleanRecord(v),
+                unifyNameValue: (v) => this.String(v),
+                stripe: (v) => this.PlatformBooleanRecord(v),
+                stripeColor: (v) => this.String(v),
+                break: (v) => this.PlatformBooleanRecord(v),
+                font: (v) => this.String(v),
+                fontSize: (v) => this.Number(v),
+            };
+
+            return checkUserDefinedTypeObject(value, guards);
         },
-        Other: function (obj: any): obj is Other {
-            return (
-                typeof obj === "object" &&
-                this.PlatformStateRecord(obj.quickBlock) &&
-                this.PlatformStateRecord(obj.autoBonus) &&
-                this.PlatformStateRecord(obj.countdown)
-            );
+
+        Filter: function (value: unknown): value is Filter {
+            if (!this.Object(value)) return false;
+
+            const guards: TypeGuardRecord<Filter> = {
+                filter: (v) => this.PlatformBooleanRecord(v),
+                subOnly: (v) => this.PlatformBooleanRecord(v),
+                charLimit: (v) => this.Limiter(v),
+                emoteLimit: (v) => this.Limiter(v),
+                requiredFollowDays: (v) => this.Number(v),
+                range: (v) => this.PlatformBooleanRecord(v),
+            };
+
+            return checkUserDefinedTypeObject(value, guards);
+        },
+
+        Danmaku: function (value: unknown): value is Danmaku {
+            if (!this.Object(value)) return false;
+
+            const guards: TypeGuardRecord<Danmaku> = {
+                danmaku: (v) => this.PlatformBooleanRecord(v),
+                decoration: (v) => this.PlatformBooleanRecord(v),
+                font: (v) => this.String(v),
+                fontSize: (v) => this.Number(v),
+                opacity: (v) => this.Number(v),
+                time: (v) => this.Number(v),
+                limit: (v) => this.Number(v),
+            };
+
+            return checkUserDefinedTypeObject(value, guards);
+        },
+
+        Other: function (value: unknown): value is Other {
+            if (!this.Object(value)) return false;
+
+            const guards: TypeGuardRecord<Other> = {
+                quickBlock: (v) => this.PlatformBooleanRecord(v),
+                autoBonus: (v) => this.PlatformBooleanRecord(v),
+                countdown: (v) => this.PlatformBooleanRecord(v),
+            };
+
+            return checkUserDefinedTypeObject(value, guards);
         },
     },
 };
