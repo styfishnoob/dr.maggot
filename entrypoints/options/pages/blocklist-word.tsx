@@ -146,7 +146,7 @@ const BlocklistWord = () => {
                         />
                         <Button
                             title="DELETE ALL"
-                            style="text-white bg-red-600 hover:bg-red-700 active:bg-red-600 w-[95px]"
+                            style="text-xs text-white bg-red-600 hover:bg-red-700 active:bg-red-600 w-[95px]"
                             onClick={() => onAllDeleteButtonClick()}
                         />
                     </div>
