@@ -21,7 +21,7 @@ type Props = {
 export const NavigationLink = (props: Props) => {
     const Child = (props: Props) => {
         return (
-            <div className="text-xm flex items-center gap-1.5 px-1.5 py-1 bg-inherit rounded-md">
+            <div className="text-xs flex items-center gap-1.5 px-1.5 py-1 bg-inherit rounded-md">
                 <div className={`rounded-md p-1 ${gradationList[props.gradationKey]}`}>
                     <img src={props.imgSrc} width={16} height={16} />
                 </div>
