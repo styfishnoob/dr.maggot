@@ -6,8 +6,8 @@ type Props = {
 
 export const SettingsCard = (props: Props) => {
     return (
-        <div className="-mt-px flex items-center gap-2 p-2.5 bg-slate-50 border border-gray-200 first:rounded-t-lg last:rounded-b-lg dark:bg-neutral-900 dark:border-neutral-700 ">
-            <div className="flex flex-col align-center gap-1">
+        <div className="-mt-px flex text-xs items-center gap-2 p-3 bg-slate-50 border border-gray-200 first:rounded-t-lg last:rounded-b-lg dark:bg-neutral-900 dark:border-neutral-700 ">
+            <div className="flex flex-col align-center gap-1.5">
                 <div>
                     <span>{props.title}</span>
                 </div>
