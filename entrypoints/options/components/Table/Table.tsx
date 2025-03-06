@@ -20,7 +20,7 @@ const Table = <T extends TableRow>(props: Props<T>) => {
                         ))}
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
                     {props.body.length > 0 ? (
                         props.body.map((row, index) => (
                             <tr key={index} className="divide-x dark:divide-neutral-700">

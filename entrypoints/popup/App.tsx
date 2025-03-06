@@ -119,13 +119,15 @@ const App = () => {
             <div className="flex justify-center text-lg font-bold">
                 <span>{browser.i18n.getMessage("popup_title")}</span>
             </div>
-            {SettingsCards.map((card, key) => (
-                <SettingsCard key={key} title={card.title} feature={card.feature} />
-            ))}
+            <div className="text-xs">
+                {SettingsCards.map((card, key) => (
+                    <SettingsCard key={key} title={card.title} feature={card.feature} />
+                ))}
+            </div>
             <div className="m-1">
                 <Button
                     title={browser.i18n.getMessage("popup_button")}
-                    style="w-full p-1 bg-blue-600 hover:bg-blue-700"
+                    style="w-full text-xs p-1 bg-blue-600 hover:bg-blue-700"
                     onClick={() => browser.runtime.openOptionsPage()}
                 />
             </div>

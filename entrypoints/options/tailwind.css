@@ -11,7 +11,7 @@ html {
 }
 
 @supports (-moz-appearance: none) {
-    * {
+    table * {
         /* firefoxでは、background-colorが設定されているとtableのborderが消えてしまう仕様のため、これでborderを表示させる */
         /* https://satoimo.blog/css-border-disappears-in-firefox-fix/ */
         background-clip: padding-box;

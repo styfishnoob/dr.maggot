@@ -3,5 +3,12 @@
 @tailwind utilities;
 
 html {
+    font-size: 16px !important;
     width: 500px;
+    max-width: 500px;
+    min-width: 500px;
+}
+
+* {
+    box-sizing: border-box !important;
 }
