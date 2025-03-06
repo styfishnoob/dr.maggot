@@ -50,7 +50,7 @@
 
     "filter_filter": { "message": "Toggle Filter" },
     "filter_subOnly": { "message": "Pseudo-Subscriber Only Mode" },
-    "filter_range": { "message": "Delete Range" },
+    "filter_range": { "message": "Comment Delete Range" },
     "filter_charLimit": { "message": "Character Limit" },
     "filter_emoteLimit": { "message": "Emote Limit" },
     "filter_requiredFollowDays": { "message": "Follow Duration Restriction" },
