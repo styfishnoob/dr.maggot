@@ -5,9 +5,9 @@ import { getPlatform } from "@/src/lib/get-platform";
 
 (function () {
     const platform = getPlatform();
+    cleanCanvas();
     if (!platform) return;
 
-    cleanCanvas();
     const ctx = new ContentScriptContext("danmaku");
     const origin = document.documentElement;
     const parent = window.parent.document.documentElement;

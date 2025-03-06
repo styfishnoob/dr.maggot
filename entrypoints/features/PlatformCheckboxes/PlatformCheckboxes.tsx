@@ -8,7 +8,7 @@ import twicas from "@/assets/platform_icons/twicas.png";
 
 type Props<T extends KeyValue> = {
     storageKey: KeysOfType<Settings, T>;
-    itemKey: KeysOfType<T, PlatformStateRecord>;
+    itemKey: KeysOfType<T, PlatformRecord<boolean>>;
     disabled?: Platforms[];
 };
 

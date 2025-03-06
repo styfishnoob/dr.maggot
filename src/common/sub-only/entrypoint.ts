@@ -14,8 +14,8 @@ import { getPlatform } from "@/src/lib/get-platform";
     const fm = KVManagerList.filter;
     const dm = KVManagerList.display;
 
-    const subOnly = await fm.getItem<PlatformStateRecord>("subOnly");
-    const stripe = await dm.getItem<PlatformStateRecord>("stripe");
+    const subOnly = await fm.getItem<PlatformRecord<boolean>>("subOnly");
+    const stripe = await dm.getItem<PlatformRecord<boolean>>("stripe");
     const stripeColor = await dm.getItem<string>("stripeColor");
 
     if (subOnly[platform]) ch_SubOnly.add();
@@ -24,25 +24,22 @@ import { getPlatform } from "@/src/lib/get-platform";
     document.documentElement.style.setProperty(`--drmaggot__subOnlyStripeColor`, `${stripeColor}`);
 
     fm.observeItem("subOnly", async () => {
-        const subOnly = await fm.getItem<PlatformStateRecord>("subOnly");
-        const stripe = await dm.getItem<PlatformStateRecord>("stripe");
+        const subOnly = await fm.getItem<PlatformRecord<boolean>>("subOnly");
+        const stripe = await dm.getItem<PlatformRecord<boolean>>("stripe");
         ch_SubOnly.check(subOnly[platform]);
         if (!subOnly[platform] || !stripe[platform]) ch_Stripe.rm();
         if (subOnly[platform] && stripe[platform]) ch_Stripe.add();
     });
 
     dm.observeItem("stripe", async () => {
-        const subOnly = await fm.getItem<PlatformStateRecord>("subOnly");
-        const stripe = await dm.getItem<PlatformStateRecord>("stripe");
+        const subOnly = await fm.getItem<PlatformRecord<boolean>>("subOnly");
+        const stripe = await dm.getItem<PlatformRecord<boolean>>("stripe");
         if (subOnly[platform] && stripe[platform]) ch_Stripe.add();
         else ch_Stripe.rm();
     });
 
     dm.observeItem("stripeColor", async () => {
         const stripeColor = await dm.getItem<string>("stripeColor");
-        document.documentElement.style.setProperty(
-            `--drmaggot__subOnlyStripeColor`,
-            `${stripeColor}`
-        );
+        document.documentElement.style.setProperty(`--drmaggot__subOnlyStripeColor`, `${stripeColor}`);
     });
 })();
