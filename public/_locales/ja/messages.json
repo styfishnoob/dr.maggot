@@ -52,7 +52,7 @@
 
     "filter_filter": { "message": "フィルター切替" },
     "filter_subOnly": { "message": "擬似サブスクライバー限定モード" },
-    "filter_range": { "message": "削除範囲" },
+    "filter_range": { "message": "コメントの削除範囲" },
     "filter_charLimit": { "message": "文字数制限" },
     "filter_emoteLimit": { "message": "エモート数制限" },
     "filter_requiredFollowDays": { "message": "フォロー日数制限" },
