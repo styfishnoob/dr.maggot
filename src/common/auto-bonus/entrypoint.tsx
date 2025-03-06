@@ -8,14 +8,10 @@ import { getPlatform } from "@/src/lib/get-platform";
 
     new ContentScriptContext("auto-bonus").setInterval(async function () {
         const manager = KVManagerList.other;
-        const summary = document.querySelector<HTMLElement>(
-            `[data-test-selector="community-points-summary"]`
-        );
-        const bonus = summary?.querySelector<HTMLElement>(
-            `button[class*="ScCoreButton"]:has(+ div[role="tooltip"])`
-        );
-        const autobonus = await manager.getItem<PlatformStateRecord>("autoBonus");
-        const countdown = await manager.getItem<PlatformStateRecord>("countdown");
+        const summary = document.querySelector<HTMLElement>(`[data-test-selector="community-points-summary"]`);
+        const bonus = summary?.querySelector<HTMLElement>(`button[class*="ScCoreButton"]:has(+ div[role="tooltip"])`);
+        const autobonus = await manager.getItem<PlatformRecord<boolean>>("autoBonus");
+        const countdown = await manager.getItem<PlatformRecord<boolean>>("countdown");
         if (bonus && autobonus.twitch) {
             bonus.click();
             if (summary && countdown.twitch) {

@@ -17,7 +17,7 @@ import { getPlatform } from "@/src/lib/get-platform";
 function mountQuickblock(platform: Platforms, e: HTMLElement) {
     (async () => {
         const manager = KVManagerList.other;
-        const quickBlock = await manager.getItem<PlatformStateRecord>("quickBlock");
+        const quickBlock = await manager.getItem<PlatformRecord<boolean>>("quickBlock");
         if (!quickBlock[platform]) return;
 
         const user = e.querySelector<HTMLElement>(Selectors.chat.userName[platform]);

@@ -5,7 +5,7 @@ import InputCheckbox from "../InputCheckbox/InputCheckbox";
 type Props<T extends KeyValue> = {
     platform: Platforms;
     storageKey: KeysOfType<Settings, T>;
-    itemKey: KeysOfType<T, PlatformStateRecord>;
+    itemKey: KeysOfType<T, PlatformRecord<boolean>>;
     imgSrc: string;
 };
 
@@ -16,17 +16,17 @@ const PlatformCheckbox = <T extends KeyValue>(props: Props<T>) => {
 
     useEffect(() => {
         (async function () {
-            const item = await manager.getItem<PlatformStateRecord>(props.itemKey);
+            const item = await manager.getItem<PlatformRecord<boolean>>(props.itemKey);
             setState(item[props.platform]);
         })();
     }, []);
 
     function onChange() {
         (async () => {
-            const item = await manager.getItem<PlatformStateRecord>(props.itemKey);
+            const item = await manager.getItem<PlatformRecord<boolean>>(props.itemKey);
             item[props.platform] = !state;
             setState(!state);
-            manager.setItem<PlatformStateRecord>(props.itemKey, item);
+            manager.setItem<PlatformRecord<boolean>>(props.itemKey, item);
         })();
     }
 
