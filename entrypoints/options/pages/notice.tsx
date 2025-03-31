@@ -11,7 +11,7 @@ type Props = {
 
 const noticeCards: Props[] = [
     {
-        date: "2025/4/1",
+        date: "2025/04/01",
         title: "以下の修正を行いました。",
         changes: ["OPENRECにて動作しない不具合"],
         descriptions: [
