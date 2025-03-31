@@ -1,15 +1,6 @@
 import { AllPlatformBlocklistRecord } from "@/utils";
 import { describe, it, expect } from "vitest";
 
-function extractPartial<T extends Object>(key: keyof typeof DefaultSettings, value: any): Partial<T> {
-    return Object.keys(DefaultSettings[key]).reduce((_acc, _key) => {
-        if (_key in value) {
-            _acc[_key as keyof T] = value[_key];
-        }
-        return _acc;
-    }, {} as Partial<T>);
-}
-
 function checkSettingsProperties<T>(defaultSettings: T, currentSettings: Partial<T>): T {
     const result: Partial<T> = {};
     for (const key in defaultSettings) {
