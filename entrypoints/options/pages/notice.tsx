@@ -11,6 +11,34 @@ type Props = {
 
 const noticeCards: Props[] = [
     {
+        date: "2025/4/1",
+        title: "以下の修正を行いました。",
+        changes: ["OPENRECにて動作しない不具合"],
+        descriptions: [
+            "OPENRECのサイトが刷新されたため、それに伴う修正を行いました。",
+            "また就職活動による対応の遅延ですが、終了したため、今後は通常通りの対応を行ってまいります。",
+            "バグや追加して欲しい機能といった要望などあれば気軽に投稿ください。",
+        ],
+    },
+    {
+        date: "2025/01/20",
+        title: "以下の対応を行いました。",
+        changes: ["firefoxの対応"],
+        descriptions: [
+            "多数の要望をいただいていた、Firefoxへの対応を行いました。",
+            "https://addons.mozilla.org/ja/firefox/addon/dr-maggot/ (01/20現在審査中)",
+            "バグやUIで気になる点などありましたら、報告していただけますと幸いです。",
+            "また、私事で恐縮ですが、今年から就職活動が始まるため対応が遅れる場合があると思われます。",
+            "その際は申し訳ありませんがご容赦いただけますと幸いです。",
+        ],
+    },
+    {
+        date: "2024/12/18",
+        title: "以下の修正を行いました。",
+        changes: ["軽微なバグの修正"],
+        descriptions: [],
+    },
+    {
         date: "2024/12/10",
         title: "以下の修正と新しい機能の追加を行いました。",
         changes: [
@@ -134,7 +162,7 @@ const noticeCards: Props[] = [
 
 const NoticeCard = (props: Props) => {
     return (
-        <div className="flex flex-col mb-5 bg-white border rounded-md dark:bg-neutral-900 dark:border-neutral-700">
+        <div className="flex flex-col mb-5 text-xs bg-white border rounded-md dark:bg-neutral-900 dark:border-neutral-700">
             <div className="rounded-t-md px-5 py-3 border-b text-lg font-bold text-blue-500 bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800">
                 <span>{props.date}</span>
             </div>
