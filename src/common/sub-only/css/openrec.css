@@ -1,9 +1,9 @@
 .chat-list-content {
-    & .ChatList__CellContainer-sc-69ljpb-1 {
+    > div {
         display: none;
     }
 
-    & .ChatList__CellContainer-sc-69ljpb-1:has(span[class*='SubsBadge'] > img) {
+    > div:has(img[class="sc-1i0rd20-4 dlTyus"]) {
         display: block;
     }
 }

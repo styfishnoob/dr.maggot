@@ -1,9 +1,9 @@
 .chat-list-content {
-    & .UserName__Wrapper-sc-1i0rd20-0 {
+    & .sc-1i0rd20-0 {
         display: none !important;
     }
 
-    & .Chat__UserNameWrapper-sc-bmdkpm-2 {
+    & .sc-bmdkpm-2 {
         margin: 0px;
     }
 }

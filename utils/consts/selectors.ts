@@ -5,7 +5,7 @@ export const Selectors: WebSelectors = {
         youtube: `#movie_player`,
         twitch: `[data-a-target="video-player"]`,
         kick: `#injected-embedded-channel-player-video > div`,
-        openrec: `.Component__VideoWrapper-sc-1x94c9l-6`,
+        openrec: `.video-player-wrapper`,
         twicas: `.tw-player`,
     },
 
@@ -22,7 +22,7 @@ export const Selectors: WebSelectors = {
             youtube: `yt-live-chat-text-message-renderer`,
             twitch: `[data-a-target="chat-line-message"], .video-chat__message-list-wrapper li`,
             kick: `#chatroom-messages > div.no-scrollbar > div[data-index]`,
-            openrec: `.ChatList__CellContainer-sc-69ljpb-1`,
+            openrec: `.sc-69ljpb-1`,
             twicas: `.tw-comment-item`,
         },
 
@@ -30,7 +30,7 @@ export const Selectors: WebSelectors = {
             youtube: `#menu`,
             twitch: `.chat-line__icons, div.vod-message`,
             kick: `.group`,
-            openrec: `.ChatCell__Cell-sc-1ey02g1-4`,
+            openrec: `.sc-1ey02g1-4`,
             twicas: `.tw-comment-item-dropdown`,
         },
 
@@ -38,7 +38,7 @@ export const Selectors: WebSelectors = {
             youtube: `#message`,
             twitch: `[data-a-target="chat-line-message-body"], .video-chat__message > span[class=""]`,
             kick: `.font-normal`,
-            openrec: `.chat-content`,
+            openrec: `.sc-bmdkpm-0`,
             twicas: `.tw-comment-item-comment`,
         },
 
@@ -46,7 +46,7 @@ export const Selectors: WebSelectors = {
             youtube: `#author-name`,
             twitch: `[data-a-user]`,
             kick: `button[class="inline font-bold"]`,
-            openrec: `.UserName__Name-sc-1i0rd20-1`,
+            openrec: `.sc-1i0rd20-1`,
             twicas: `.tw-comment-item-name`,
         },
 
@@ -62,7 +62,7 @@ export const Selectors: WebSelectors = {
             youtube: `.emoji`,
             twitch: `img[class*="chat-line__message--emote"]`,
             kick: `[data-emote-id][data-emote-name]`,
-            openrec: `.ChatCell__StampContainer-sc-1ey02g1-7`,
+            openrec: `.sc-1ey02g1-7`,
             twicas: `${NULL}`,
         },
     },

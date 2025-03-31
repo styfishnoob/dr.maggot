@@ -34,6 +34,6 @@ html[mode="light"] {
     filter: var(--drmaggot__quick-block_brightness);
 }
 
-.ChatCell__Cell-sc-1ey02g1-4:hover .openrec__quick-block {
+.chat-cell:hover .openrec__quick-block {
     display: block;
 }
