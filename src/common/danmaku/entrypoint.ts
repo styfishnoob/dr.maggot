@@ -5,19 +5,21 @@ import { getPlatform } from "@/src/lib/get-platform";
 
 (function () {
     const platform = getPlatform();
-    cleanCanvas();
+    cleanCanvas(platform);
     if (!platform) return;
 
     const ctx = new ContentScriptContext("danmaku");
-    const origin = document.documentElement;
-    const parent = window.parent.document.documentElement;
-    const player_origin = document.querySelector<HTMLElement>(Selectors.videoPlayer[platform]);
-    const player_parent = window.parent.document.documentElement.querySelector<HTMLElement>(
-        Selectors.videoPlayer[platform]
-    );
+    let doc = document.documentElement;
+    let player = document.querySelector<HTMLElement>(Selectors.videoPlayer[platform]);
+
+    // youtubeは動画プレイヤーがiframe内にあるため、親のdocumentを取得する
+    if (platform === "youtube") {
+        doc = window.parent.document.documentElement;
+        player = window.parent.document.documentElement.querySelector<HTMLElement>(Selectors.videoPlayer[platform]);
+    }
 
     ctx.addEventListener(window, "wxt:locationchange", function () {
-        cleanCanvas();
+        cleanCanvas(platform);
     });
 
     (async () => {
@@ -26,46 +28,32 @@ import { getPlatform } from "@/src/lib/get-platform";
         handler.add();
     })();
 
-    if (player_origin) {
-        const canvas = mountCanvas(origin, player_origin);
-        setTurret(origin, platform, canvas);
+    if (player) {
+        const canvas = mountCanvas(doc, player);
+        setTurret(doc, platform, canvas);
         return;
     }
 
-    if (player_parent) {
-        const canvas = mountCanvas(parent, player_parent);
-        setTurret(parent, platform, canvas);
-        return;
-    }
+    const obs_doc = new DOMObserver(doc);
 
-    const obs_origin = new DOMObserver(origin);
-    const obs_parent = new DOMObserver(parent);
-
-    obs_origin.add.added(Selectors.videoPlayer[platform], {
-        main: function (player) {
-            const canvas = mountCanvas(origin, player);
-            setTurret(origin, platform, canvas);
-            obs_origin.stop();
-            obs_parent.stop();
-        },
-    });
-
-    obs_parent.add.added(Selectors.videoPlayer[platform], {
-        main: function (player) {
-            const canvas = mountCanvas(parent, player);
-            setTurret(parent, platform, canvas);
-            obs_origin.stop();
-            obs_parent.stop();
+    obs_doc.add.added(Selectors.videoPlayer[platform], {
+        main: function (_player) {
+            const canvas = mountCanvas(doc, _player);
+            setTurret(doc, platform, canvas);
+            obs_doc.stop();
         },
     });
 })();
 
-function cleanCanvas() {
+function cleanCanvas(platform: Platforms | undefined) {
     const id = "drmaggot__danmaku-canvas";
     const originCanvas = document.querySelector<HTMLElement>(`#${id}`);
-    const parentCanvas = window.parent.document.querySelector<HTMLElement>(`#${id}`);
     while (originCanvas?.firstChild) originCanvas.firstChild.remove();
-    while (parentCanvas?.firstChild) parentCanvas.firstChild.remove();
+
+    if (platform === "youtube") {
+        const parentCanvas = window.parent.document.querySelector<HTMLElement>(`#${id}`);
+        while (parentCanvas?.firstChild) parentCanvas.firstChild.remove();
+    }
 }
 
 function mountCanvas(root: HTMLElement, player: HTMLElement): HTMLElement {

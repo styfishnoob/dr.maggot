@@ -89,9 +89,14 @@ export class Turret {
                         cartridge.fired = true;
                         cartridge.width = getWidth(this.canvas, bullet);
 
-                        if (key == "up") bullet.style.top = `${this.rowHeight * i}px`;
-                        if (key == "down")
+                        if (key == "up") {
+                            bullet.style.top = `${this.rowHeight * i}px`;
+                        }
+
+                        if (key == "down") {
                             bullet.style.top = `${this.rowHeight * (this.rowsNum - 1) - this.rowHeight * i}px`;
+                        }
+
                         bullet.style.left = `${this.canvas.clientWidth / 2 - cartridge.width / 2}px`;
 
                         setTimeout(() => {
