@@ -1,22 +1,29 @@
 import { isRegExp } from "@/src/lib/is-regexp";
+import { Trie } from "./trie";
 
 type Settings = {
     filter: Filter;
-    wordBlocklists: { all: Blocklist; platform: Blocklist };
-    userBlockelists: { all: Blocklist; platform: Blocklist };
-    emoteBlocklists: { all: Blocklist; platform: Blocklist };
+    wordTrie: Trie;
+    userBlocklist: Blocklist;
+    emoteBlocklist: Blocklist;
+    wordRegexList: Blocklist;
+    userRegexList: Blocklist;
+    emoteRegexList: Blocklist;
 };
 
 const defaultSettings: Settings = {
     filter: DefaultSettings.Filter,
-    wordBlocklists: { all: [], platform: [] },
-    userBlockelists: { all: [], platform: [] },
-    emoteBlocklists: { all: [], platform: [] },
+    wordTrie: new Trie(),
+    userBlocklist: [],
+    emoteBlocklist: [],
+    wordRegexList: [],
+    userRegexList: [],
+    emoteRegexList: [],
 };
 
 type Compiled = {
     joined: string;
-    strings: string[];
+    parts: string[];
 };
 
 export class ChatFilter {
@@ -51,18 +58,41 @@ export class ChatFilter {
 
     async update() {
         this.settings.filter = await KVManagerList.filter.get();
-        this.settings.wordBlocklists = {
-            all: await MapManagerList.word.getMap("all"),
-            platform: await MapManagerList.word.getMap(this.platform),
-        };
-        this.settings.userBlockelists = {
-            all: await MapManagerList.user.getMap("all"),
-            platform: await MapManagerList.user.getMap(this.platform),
-        };
-        this.settings.emoteBlocklists = {
-            all: await MapManagerList.emote.getMap("all"),
-            platform: await MapManagerList.emote.getMap(this.platform),
-        };
+
+        const wordBlocklist = [
+            ...(await MapManagerList.word.getMap("all")),
+            ...(await MapManagerList.word.getMap(this.platform)),
+        ];
+        const userBlockelist = [
+            ...(await MapManagerList.user.getMap("all")),
+            ...(await MapManagerList.user.getMap(this.platform)),
+        ];
+        const emoteBlocklist = [
+            ...(await MapManagerList.emote.getMap("all")),
+            ...(await MapManagerList.emote.getMap(this.platform)),
+        ];
+
+        const wordTrie = new Trie();
+        const wordRegexList = wordTrie.add(wordBlocklist);
+
+        this.settings.wordTrie = wordTrie;
+        this.settings.wordRegexList = wordRegexList;
+
+        for (const item of userBlockelist) {
+            if (isRegExp(item[0])[0]) {
+                this.settings.userRegexList.push(item);
+            } else {
+                this.settings.userBlocklist.push(item);
+            }
+        }
+
+        for (const item of emoteBlocklist) {
+            if (isRegExp(item[0])[0]) {
+                this.settings.emoteRegexList.push(item);
+            } else {
+                this.settings.emoteBlocklist.push(item);
+            }
+        }
     }
 
     checkCharLimit(node: Element) {
@@ -83,86 +113,77 @@ export class ChatFilter {
     }
 
     containsBlockedWord(node: Element) {
-        const blocklists = this.settings.wordBlocklists;
         const messages = node.querySelectorAll(Selectors.chat.messages[this.platform]);
         const compiled = this.compileMessages(messages);
+        this.settings.wordTrie.check();
 
-        for (const [, blocklist] of Object.entries(blocklists)) {
-            blocklist.forEach((item) => {
-                if (item[1].active === false) return;
-                const result = isRegExp(item[1].value);
+        if (this.settings.wordTrie.includes(compiled.joined)) {
+            this.deleteContents(node);
+            return;
+        }
 
-                if (!result[0] && compiled.joined.includes(item[1].value)) {
-                    this.deleteContents(node);
-                    return;
-                }
+        for (const item of this.settings.wordRegexList) {
+            const result = isRegExp(item[1].value);
 
-                if (result[0] && result[1].test(compiled.joined)) {
-                    this.deleteContents(node);
-                    return;
-                }
-            });
+            if (result[0] && result[1].test(compiled.joined)) {
+                this.deleteContents(node);
+                return;
+            }
         }
     }
 
     containsBlockedUser(node: Element) {
-        const blocklists = this.settings.userBlockelists;
         const userName = node.querySelector(Selectors.chat.userName[this.platform])?.textContent;
         if (!userName) return;
 
-        for (const [, blocklist] of Object.entries(blocklists)) {
-            const map = new Map(blocklist);
+        const map = new Map(this.settings.userBlocklist);
 
-            if (map.get(userName)?.active) {
+        if (map.get(userName)?.active) {
+            this.deleteContents(node);
+            return;
+        }
+
+        for (const item of this.settings.userRegexList) {
+            if (item[1].active === false) return;
+            const result = isRegExp(item[1].value);
+
+            if (result[0] && result[1].test(userName)) {
                 this.deleteContents(node);
                 return;
             }
-
-            map.forEach((item) => {
-                if (item.active === false) return;
-                const result = isRegExp(item.value);
-
-                if (result[0] && result[1].test(userName)) {
-                    this.deleteContents(node);
-                    return;
-                }
-            });
         }
     }
 
     containsBlockedEmote(node: Element) {
-        const blocklists = this.settings.emoteBlocklists;
         const emotes = node.querySelectorAll(Selectors.chat.emotes[this.platform]);
         const compiled = this.compileEmotes(emotes);
 
-        for (const [, blocklist] of Object.entries(blocklists)) {
-            const map = new Map(blocklist);
+        const map = new Map(this.settings.emoteBlocklist);
 
-            for (const emoteName of compiled.strings) {
-                if (map.get(emoteName)?.active) {
+        for (const emoteName of compiled.parts) {
+            if (map.get(emoteName)?.active) {
+                this.deleteContents(node);
+                return;
+            }
+        }
+
+        for (const item of this.settings.userRegexList) {
+            if (item[1].active === false) return;
+            const result = isRegExp(item[1].value);
+
+            for (const emoteName of compiled.parts) {
+                if (result[0] && result[1].test(emoteName)) {
                     this.deleteContents(node);
                     return;
                 }
             }
-
-            map.forEach((item) => {
-                if (item.active === false) return;
-                const result = isRegExp(item.value);
-
-                for (const emoteName of compiled.strings) {
-                    if (result[0] && result[1].test(emoteName)) {
-                        this.deleteContents(node);
-                        return;
-                    }
-                }
-            });
         }
     }
 
     private compileMessages(messages: NodeListOf<Element>): Compiled {
         let compiled: Compiled = {
             joined: "",
-            strings: [],
+            parts: [],
         };
 
         for (const message of messages) {
@@ -178,14 +199,14 @@ export class ChatFilter {
     private compileEmotes(emotes: NodeListOf<Element>): Compiled {
         let compiled: Compiled = {
             joined: "",
-            strings: [],
+            parts: [],
         };
 
         for (const emote of emotes) {
             const alt = emote.getAttribute("alt");
             if (alt) {
                 compiled.joined += alt;
-                compiled.strings.push(alt);
+                compiled.parts.push(alt);
             }
         }
 
