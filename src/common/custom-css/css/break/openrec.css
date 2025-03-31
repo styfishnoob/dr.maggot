@@ -1,5 +1,5 @@
 .chat-list-content {
-    & .chat-cell {
+    & .chat-cell-wrapper {
         white-space: nowrap !important;
     }
 }

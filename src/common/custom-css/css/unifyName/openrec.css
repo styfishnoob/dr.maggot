@@ -1,17 +1,17 @@
 :root {
-    --drmaggot__unifyNameValue: '>';
+    --drmaggot__unifyNameValue: ">";
 }
 
 .chat-list-content {
-    & .UserName__Name-sc-1i0rd20-1 {
+    & .sc-1i0rd20-1 {
         font-size: 0px;
     }
 
-    & .UserName__BadgeWrapper-sc-1i0rd20-2 {
+    & .sc-1i0rd20-2 {
         display: none;
     }
 
-    & .UserName__Name-sc-1i0rd20-1::before {
+    & .sc-1i0rd20-1::before {
         content: var(--drmaggot__unifyNameValue);
         font-size: var(--drmaggot__fontSize);
     }
