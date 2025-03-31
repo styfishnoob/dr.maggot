@@ -6,7 +6,6 @@
 
 #drmaggot__danmaku-canvas {
     backface-visibility: hidden;
-    color: white;
     font-family: var(--drmaggot__danmaku-font), "Arial" !important;
     font-size: var(--drmaggot__danmaku-fontSize) !important;
     opacity: var(--drmaggot__danmaku-opacity) !important;
@@ -33,6 +32,7 @@
     }
 
     > span {
+        color: white;
         font-weight: bold !important;
     }
 }
