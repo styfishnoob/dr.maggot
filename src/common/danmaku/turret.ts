@@ -203,28 +203,25 @@ export class Turret {
 
     private updateSettings() {
         function setProperty(settings: Danmaku) {
-            document.documentElement.style.setProperty("--drmaggot__danmaku-font", settings.font);
-            document.documentElement.style.setProperty("--drmaggot__danmaku-fontSize", `${settings.fontSize}px`);
-            document.documentElement.style.setProperty("--drmaggot__danmaku-opacity", `${settings.opacity}%`);
-            window.parent.document.documentElement.style.setProperty("--drmaggot__danmaku-font", settings.font);
-            window.parent.document.documentElement.style.setProperty(
-                "--drmaggot__danmaku-fontSize",
-                `${settings.fontSize}px`
-            );
-            window.parent.document.documentElement.style.setProperty(
-                "--drmaggot__danmaku-opacity",
-                `${settings.opacity}%`
-            );
+            const currentDoc = document.documentElement;
+            const parentDoc = window.parent.document.documentElement;
+            currentDoc.style.setProperty("--drmaggot__danmaku-font", settings.font);
+            currentDoc.style.setProperty("--drmaggot__danmaku-fontSize", `${settings.fontSize}px`);
+            currentDoc.style.setProperty("--drmaggot__danmaku-opacity", `${settings.opacity}%`);
+            parentDoc.style.setProperty("--drmaggot__danmaku-font", settings.font);
+            parentDoc.style.setProperty("--drmaggot__danmaku-fontSize", `${settings.fontSize}px`);
+            parentDoc.style.setProperty("--drmaggot__danmaku-opacity", `${settings.opacity}%`);
         }
 
         (async () => {
             this.settings = await KVManagerList.danmaku.get();
             setProperty(this.settings);
+
             this.canvasClientHeight = this.canvas.clientHeight;
             this.normalMagazine = [];
             this.decorationMagazines = { up: [], down: [] };
             this.rowHeight = getHeight(this.canvas);
-            this.rowsNum = Math.floor(this.canvas.clientHeight / this.rowHeight);
+            this.rowsNum = Math.floor(this.canvas.clientHeight / this.rowHeight) * (this.settings.displayRange / 100);
 
             for (let i = 0; i < this.rowsNum; i++) {
                 this.normalMagazine.push([]);
@@ -258,7 +255,7 @@ export class Turret {
             }
 
             const lastCartridge = this.normalMagazine[i][this.normalMagazine[i].length - 1];
-
+            dcon.log(this.normalMagazine);
             switch (true) {
                 case this.normalMagazine[i].length > 100: {
                     while (this.normalMagazine[i].length > 100) {
