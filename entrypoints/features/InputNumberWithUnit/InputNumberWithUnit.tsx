@@ -6,6 +6,7 @@ type Props<T extends KeyValue> = {
     itemKey: KeysOfType<T, number>;
     min?: number;
     max?: number;
+    step?: number;
     style?: string;
     unit: string;
 };
@@ -28,7 +29,7 @@ const InputNumberWithUnit = <T extends KeyValue>(props: Props<T>) => {
 
     function onBlur(event: React.FocusEvent<HTMLInputElement>) {
         if (event.target.value === "") {
-            update(0);
+            update(props.min ?? 0);
         }
     }
 
@@ -44,7 +45,13 @@ const InputNumberWithUnit = <T extends KeyValue>(props: Props<T>) => {
 
     return (
         <div className="flex">
-            <InputNumber style={`${props.style} rounded-e-none`} value={value} onBlur={onBlur} onChange={onChange} />
+            <InputNumber
+                style={`${props.style} rounded-e-none`}
+                value={value}
+                step={props.step}
+                onBlur={onBlur}
+                onChange={onChange}
+            />
             <div className="flex items-center justify-center py-2 w-[36px] rounded-e-md border border-s-0 border-gray-200 bg-gray-50 dark:border-neutral-600 dark:bg-neutral-700">
                 <span>{props.unit}</span>
             </div>
