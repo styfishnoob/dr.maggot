@@ -77,6 +77,7 @@
     "danmaku_opacity": { "message": "不透明度" },
     "danmaku_time": { "message": "表示時間" },
     "danmaku_limit": { "message": "表示上限数" },
+    "danmaku_displayRange": { "message": "表示範囲" },
 
     "danmaku_danmaku_description": {
         "message": "弾幕のオンオフを切替できます。表示されない場合は再読み込みしてください。"
@@ -90,6 +91,9 @@
     "danmaku_time_description": { "message": "10と設定すると、10秒かけて右から左へと流れます。" },
     "danmaku_limit_description": {
         "message": "画面に表示する弾幕の上限数を設定できます。0にすると上限がなくなります。"
+    },
+    "danmaku_displayRange_description": {
+        "message": "弾幕を表示する範囲を設定できます。例として50%と設定すると画面半分の範囲に表示されます。"
     },
 
     "other_quickBlock": { "message": "ブロックボタンの設置" },

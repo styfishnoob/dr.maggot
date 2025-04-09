@@ -17,7 +17,7 @@
     "navigation_danmaku": { "message": "Danmaku Settings" },
     "navigation_other": { "message": "Other Settings" },
     "navigation_notice": { "message": "Notice" },
-    "navigation_commandList" : {"message": "CommandList"},
+    "navigation_commandList": { "message": "CommandList" },
     "navigation_blockedWords": { "message": "Blocked Words List" },
     "navigation_blockedUsers": { "message": "Blocked Users List" },
     "navigation_blockedEmotes": { "message": "Blocked Emotes List" },
@@ -73,6 +73,7 @@
     "danmaku_opacity": { "message": "Opacity" },
     "danmaku_time": { "message": "Display Time" },
     "danmaku_limit": { "message": "Display Limit" },
+    "danmaku_displayRange": { "message": "Display Range" },
 
     "danmaku_danmaku_description": {
         "message": "Toggle danmaku on or off. Reload if it doesn't display."
@@ -88,6 +89,9 @@
     },
     "danmaku_limit_description": {
         "message": "You can set the maximum number of bullet comments displayed on the screen. Setting it to 0 removes the limit."
+    },
+    "danmaku_displayRange_description": {
+        "message": "You can set the display range for the bullet patterns. For example, setting it to 50% will display them in half of the screen area."
     },
 
     "other_quickBlock": { "message": "Add Block Button" },
