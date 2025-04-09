@@ -19,7 +19,7 @@ export const Selectors: WebSelectors = {
         },
 
         cell: {
-            youtube: `yt-live-chat-text-message-renderer`,
+            youtube: `yt-live-chat-text-message-renderer, yt-live-chat-paid-message-renderer`,
             twitch: `[data-a-target="chat-line-message"], .video-chat__message-list-wrapper li`,
             kick: `#chatroom-messages > div.no-scrollbar > div[data-index]`,
             openrec: `.sc-69ljpb-1`,
