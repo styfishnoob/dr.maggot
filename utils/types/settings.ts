@@ -41,6 +41,7 @@ export type Danmaku = {
     opacity: number;
     time: number;
     limit: number;
+    displayRange: number;
 };
 
 export type Other = {
