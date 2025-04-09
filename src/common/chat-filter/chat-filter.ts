@@ -115,7 +115,6 @@ export class ChatFilter {
     containsBlockedWord(node: Element) {
         const messages = node.querySelectorAll(Selectors.chat.messages[this.platform]);
         const compiled = this.compileMessages(messages);
-        this.settings.wordTrie.check();
 
         if (this.settings.wordTrie.includes(compiled.joined)) {
             this.deleteContents(node);
