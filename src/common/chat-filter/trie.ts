@@ -17,10 +17,6 @@ export class Trie {
         this.root = new TrieNode();
     }
 
-    check() {
-        dcon.log(this.root);
-    }
-
     add(blocklist: Blocklist): Blocklist {
         let regexList: Blocklist = [];
 
