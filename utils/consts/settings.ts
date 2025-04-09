@@ -45,6 +45,7 @@ const DefaultDanmaku: Danmaku = {
     opacity: 50,
     time: 10,
     limit: 0,
+    displayRange: 1,
 };
 
 const DefaultOther: Other = {
