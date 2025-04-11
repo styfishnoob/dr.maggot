@@ -4,6 +4,7 @@ import Select from "../Select/Select";
 type Props<T> = {
     storageKey: KeysOfType<Settings, T>;
     itemKey: KeysOfType<T, string>;
+    style?: string;
 };
 
 const SelectFont = <T extends KeyValue>(props: Props<T>) => {
@@ -27,7 +28,7 @@ const SelectFont = <T extends KeyValue>(props: Props<T>) => {
     }
 
     return (
-        <Select onChange={onChange} value={registeredFont}>
+        <Select style={props.style} onChange={onChange} value={registeredFont}>
             <option value={""}>Default</option>
             {fonts.map((font, index) => {
                 return (
