@@ -43,7 +43,7 @@ const settingsCards: React.ComponentProps<typeof SettingsCard>[] = [
     {
         title: `${browser.i18n.getMessage("display_font")}`,
         description: `${browser.i18n.getMessage("display_font_description")}`,
-        feature: <SelectFont<Display> storageKey="Display" itemKey="font" />,
+        feature: <SelectFont<Display> storageKey="Display" itemKey="font" style="w-[200px]" />,
     },
     {
         title: `${browser.i18n.getMessage("display_fontSize")}`,
