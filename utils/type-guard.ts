@@ -176,6 +176,7 @@ export const TypeGuard = {
                 opacity: (v) => this.Number(v),
                 time: (v) => this.Number(v),
                 limit: (v) => this.Number(v),
+                displayRange: (v) => this.Number(v),
             };
 
             return checkUserDefinedTypeObject(value, guards);
