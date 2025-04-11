@@ -21,7 +21,7 @@ const settingsCards: React.ComponentProps<typeof SettingsCard>[] = [
     {
         title: `${browser.i18n.getMessage("danmaku_font")}`,
         description: `${browser.i18n.getMessage("danmaku_font_description")}`,
-        feature: <SelectFont<Danmaku> storageKey="Danmaku" itemKey="font" />,
+        feature: <SelectFont<Danmaku> storageKey="Danmaku" itemKey="font" style="w-[200px]" />,
     },
     {
         title: `${browser.i18n.getMessage("danmaku_fontSize")}`,
