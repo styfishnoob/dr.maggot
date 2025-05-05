@@ -5,22 +5,12 @@
 
 /* live */
 [data-test-selector="chat-scrollable-area__message-container"] {
-    font-family: var(--drmaggot__font), Inter, Roobert, "Helvetica Neue", Helvetica, Arial,
-        sans-serif !important;
+    font-family: var(--drmaggot__font), Inter, Roobert, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     font-size: var(--drmaggot__fontSize) !important;
 }
 
 /* archive */
-ul > li {
-    padding: 0.2rem 1.5rem;
-}
-
-.vod-message__header {
-    display: none !important;
-}
-
 ul > li span {
-    font-family: var(--drmaggot__font), Inter, Roobert, "Helvetica Neue", Helvetica, Arial,
-        sans-serif !important;
+    font-family: var(--drmaggot__font), Inter, Roobert, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     font-size: var(--drmaggot__fontSize) !important;
 }
