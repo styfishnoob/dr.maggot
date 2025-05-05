@@ -1,7 +1,8 @@
 import { CSSHandler } from "@/src/lib/css-handler";
 import { getPlatform } from "@/src/lib/get-platform";
+import { ContentScriptContext } from "wxt/client";
 
-(async function () {
+export default async function entrypoint(ctx: ContentScriptContext) {
     const platform = getPlatform();
     if (!platform) return;
 
@@ -42,4 +43,4 @@ import { getPlatform } from "@/src/lib/get-platform";
         const stripeColor = await dm.getItem<string>("stripeColor");
         document.documentElement.style.setProperty(`--drmaggot__subOnlyStripeColor`, `${stripeColor}`);
     });
-})();
+}

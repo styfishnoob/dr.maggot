@@ -2,13 +2,13 @@ import { DOMObserver } from "@/src/lib/dom-observer";
 import { Turret } from "./turret";
 import { CSSHandler } from "@/src/lib/css-handler";
 import { getPlatform } from "@/src/lib/get-platform";
+import { ContentScriptContext } from "wxt/client";
 
-(function () {
+export default async function entrypoint(ctx: ContentScriptContext) {
     const platform = getPlatform();
-    cleanCanvas(platform);
+    clearCanvas(platform);
     if (!platform) return;
 
-    const ctx = new ContentScriptContext("danmaku");
     let doc = document.documentElement;
     let player = document.querySelector<HTMLElement>(Selectors.videoPlayer[platform]);
 
@@ -17,10 +17,6 @@ import { getPlatform } from "@/src/lib/get-platform";
         doc = window.parent.document.documentElement;
         player = window.parent.document.documentElement.querySelector<HTMLElement>(Selectors.videoPlayer[platform]);
     }
-
-    ctx.addEventListener(window, "wxt:locationchange", function () {
-        cleanCanvas(platform);
-    });
 
     (async () => {
         const inline = await import("./danmaku.css?inline");
@@ -43,9 +39,13 @@ import { getPlatform } from "@/src/lib/get-platform";
             obs_doc.stop();
         },
     });
-})();
 
-function cleanCanvas(platform: Platforms | undefined) {
+    ctx.addEventListener(window, "wxt:locationchange", () => {
+        clearCanvas(platform);
+    });
+}
+
+function clearCanvas(platform: Platforms | undefined) {
     const id = "drmaggot__danmaku-canvas";
     const originCanvas = document.querySelector<HTMLElement>(`#${id}`);
     while (originCanvas?.firstChild) originCanvas.firstChild.remove();

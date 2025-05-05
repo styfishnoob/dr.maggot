@@ -1,12 +1,13 @@
 import ReactDOM from "react-dom/client";
 import Countdown from "./countdown";
 import { getPlatform } from "@/src/lib/get-platform";
+import { ContentScriptContext } from "wxt/client";
 
-(function () {
+export default async function entrypoint(ctx: ContentScriptContext) {
     const platform = getPlatform();
     if (platform !== "twitch") return;
 
-    new ContentScriptContext("auto-bonus").setInterval(async function () {
+    ctx.setInterval(async function () {
         const manager = KVManagerList.other;
         const summary = document.querySelector<HTMLElement>(`[data-test-selector="community-points-summary"]`);
         const bonus = summary?.querySelector<HTMLElement>(`button[class*="ScCoreButton"]:has(+ div[role="tooltip"])`);
@@ -15,14 +16,13 @@ import { getPlatform } from "@/src/lib/get-platform";
         if (bonus && autobonus.twitch) {
             bonus.click();
             if (summary && countdown.twitch) {
-                mount_countdown(summary);
+                mount_countdown(ctx, summary);
             }
         }
     }, 1000);
-})();
+}
 
-function mount_countdown(summary: HTMLElement) {
-    const ctx = new ContentScriptContext("countdown");
+function mount_countdown(ctx: ContentScriptContext, summary: HTMLElement) {
     const countdown = createIntegratedUi(ctx, {
         position: "inline",
         anchor: summary,

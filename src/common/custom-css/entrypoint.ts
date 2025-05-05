@@ -1,9 +1,10 @@
 import { CSSHandler } from "@/src/lib/css-handler";
 import { getPlatform } from "@/src/lib/get-platform";
+import { ContentScriptContext } from "wxt/client";
 
 type CustomProperty = [keyof Display, string];
 
-(function () {
+export default async function entrypoint(ctx: ContentScriptContext) {
     const platform = getPlatform();
     if (!platform) return;
 
@@ -60,4 +61,4 @@ type CustomProperty = [keyof Display, string];
         update();
         manager.observeItem(customProperty[0], () => update());
     });
-})();
+}

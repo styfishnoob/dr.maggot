@@ -1,8 +1,9 @@
 import { getPlatform } from "@/src/lib/get-platform";
 import { ChatFilter } from "./chat-filter";
 import { DOMObserver } from "@/src/lib/dom-observer";
+import { ContentScriptContext } from "wxt/client";
 
-(function () {
+export default async function entrypoint(ctx: ContentScriptContext) {
     const platform = getPlatform();
     if (!platform) return;
 
@@ -15,4 +16,4 @@ import { DOMObserver } from "@/src/lib/dom-observer";
             cf.unwatch();
         },
     });
-})();
+}
