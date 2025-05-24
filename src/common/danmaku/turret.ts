@@ -113,7 +113,7 @@ export class Turret {
         });
     }
 
-    public load(material: HTMLElement) {
+    public async load(material: HTMLElement) {
         if (!this.settings.danmaku[this.platform]) return;
 
         // 画面の大きさが異なっている場合更新
@@ -125,7 +125,7 @@ export class Turret {
         if (this.settings.limit > 0 && loadedCartridges >= this.settings.limit) return;
 
         // 弾幕を生産し、装飾も行う
-        const newCartridge = this.manufacture(material);
+        const newCartridge = await this.manufacture(material);
         if (this.settings.decoration[this.platform]) applyCommands(newCartridge);
 
         switch (true) {
@@ -145,7 +145,7 @@ export class Turret {
         }
     }
 
-    private manufacture(material: HTMLElement): Cartridge {
+    private async manufacture(material: HTMLElement): Promise<Cartridge> {
         const display = window.getComputedStyle(material).display; // サブ限などで非表示になっている場合
         const contents = material.querySelector<HTMLElement>(Selectors.chat.contents[this.platform]);
         const bullet: HTMLElement = document.createElement("div");
@@ -162,7 +162,7 @@ export class Turret {
         if (!contents || contents.hidden || material.hidden || display === "none") return cartridge;
         bullet.style.height = `${this.rowHeight}px`;
 
-        contents.childNodes.forEach((child) => {
+        const processChild = async (child: ChildNode) => {
             const c = child as HTMLElement;
             switch (true) {
                 case c.nodeName === "#text": {
@@ -178,22 +178,37 @@ export class Turret {
                     break;
                 }
 
+                // Youtube
                 case c.matches(Selectors.chat.emotes[this.platform]): {
                     const img = c as HTMLImageElement;
-                    const clone = img.cloneNode(true) as HTMLImageElement;
-                    clone.width = img.width;
-                    clone.height = img.height;
-                    bullet.append(clone);
+                    const clonedImg = await cloneImg(img);
+                    const aspectRatio = clonedImg.naturalWidth / clonedImg.naturalHeight;
+                    clonedImg.style.width = `${this.rowHeight * aspectRatio - 5}px`;
+                    clonedImg.style.height = `${this.rowHeight - 5}px`;
+                    bullet.append(clonedImg);
                     break;
                 }
 
+                // Twitch Kick
                 case !!c.querySelector(Selectors.chat.emotes[this.platform]): {
-                    const clone = c.cloneNode(true);
-                    bullet.append(clone);
+                    const clone = c.cloneNode(true) as HTMLElement;
+                    const img = clone.querySelector("img");
+
+                    if (img) {
+                        const clonedImg = await cloneImg(img);
+                        const aspectRatio = clonedImg.naturalWidth / clonedImg.naturalHeight;
+                        clonedImg.style.width = `${this.rowHeight * aspectRatio - 5}px`;
+                        clonedImg.style.height = `${this.rowHeight - 5}px`;
+                        bullet.append(clonedImg);
+                    }
+
                     break;
                 }
             }
-        });
+        };
+
+        const promises = Array.from(contents.childNodes).map(processChild);
+        await Promise.all(promises);
 
         cartridge.bullet = bullet;
         cartridge.bullet.className = "drmaggot__danmaku-bullet";
@@ -255,7 +270,6 @@ export class Turret {
             }
 
             const lastCartridge = this.normalMagazine[i][this.normalMagazine[i].length - 1];
-            dcon.log(this.normalMagazine);
             switch (true) {
                 case this.normalMagazine[i].length > 100: {
                     while (this.normalMagazine[i].length > 100) {
@@ -355,4 +369,17 @@ function getHeight(canvas: HTMLElement): number {
     const result = div.clientHeight;
     div.remove();
     return result;
+}
+
+async function cloneImg(img: HTMLImageElement): Promise<HTMLImageElement> {
+    return new Promise((resolve) => {
+        const clone = img.cloneNode(true) as HTMLImageElement;
+        clone.onload = () => {
+            resolve(clone);
+        };
+        clone.onerror = () => {
+            resolve(clone);
+        };
+        clone.src = img.src;
+    });
 }
