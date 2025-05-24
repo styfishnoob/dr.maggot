@@ -61,7 +61,7 @@ export const Selectors: WebSelectors = {
         emotes: {
             youtube: `.emoji`,
             twitch: `img[class*="chat-line__message--emote"]`,
-            kick: `[data-emote-id][data-emote-name]`,
+            kick: `[data-emote-id][data-emote-name] img`,
             openrec: `.sc-1ey02g1-7`,
             twicas: `${NULL}`,
         },
