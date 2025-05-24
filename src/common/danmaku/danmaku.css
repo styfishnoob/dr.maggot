@@ -35,6 +35,10 @@
         color: white;
         font-weight: bold !important;
     }
+
+    & img {
+        flex-shrink: 0;
+    }
 }
 
 .drmaggot__danmaku-check {
