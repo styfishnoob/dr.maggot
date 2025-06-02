@@ -1,5 +1,6 @@
 import NavigationLink from "./NavigationLink";
 
+import kofi from "@/assets/icons/ko-fi.png";
 import bell from "@/assets/icons/bell.svg";
 import book from "@/assets/icons/book.svg";
 import code from "@/assets/icons/code.svg";
@@ -78,14 +79,14 @@ const OtherLinks: React.ComponentProps<typeof NavigationLink>[] = [
     {
         external: true,
         to: "https://odaibako.net/u/styfish",
-        title: "odaibako",
+        title: "Odaibako",
         imgSrc: odaibako,
         gradationKey: "slate",
     },
     {
         external: true,
         to: "https://chromewebstore.google.com/detail/drmaggot/lohndmdifcjjclnedjmljpmdjmfpbnai",
-        title: "web store",
+        title: "Web store",
         imgSrc: webstore,
         gradationKey: "slate",
     },
@@ -142,6 +143,18 @@ export const Navigation = () => {
                         gradationKey={prop.gradationKey}
                     />
                 ))}
+                <a
+                    href="https://ko-fi.com/H2H41FVD99"
+                    className="text-xs flex items-center gap-1.5 px-1.5 py-1 bg-inherit rounded-md"
+                    target="_blank"
+                >
+                    <div className="flex items-center rounded-md p-1 bg-[#f45d22] w-[24px] h-[24px]">
+                        <img src={kofi} className="w-[18px]" />
+                    </div>
+                    <div>
+                        <span>Buy me a coffee</span>
+                    </div>
+                </a>
             </div>
         </nav>
     );
