@@ -15,9 +15,9 @@ export default async function entrypoint(ctx: ContentScriptContext) {
         const countdown = await manager.getItem<PlatformRecord<boolean>>("countdown");
         if (bonus && autobonus.twitch) {
             bonus.click();
-            if (summary && countdown.twitch) {
-                mount_countdown(ctx, summary);
-            }
+            // if (summary && countdown.twitch) {
+            //     mount_countdown(ctx, summary);
+            // }
         }
     }, 1000);
 }
