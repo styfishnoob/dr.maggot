@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import QuickBlock from "./quick-block";
 import { DOMObserver } from "@/src/lib/dom-observer";
 import { getPlatform } from "@/src/lib/get-platform";
-import { ContentScriptContext } from "wxt/client";
+import { ContentScriptContext } from "#imports";
 
 export default async function entrypoint(ctx: ContentScriptContext) {
     const platform = getPlatform();

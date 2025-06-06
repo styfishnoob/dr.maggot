@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 import Countdown from "./countdown";
 import { getPlatform } from "@/src/lib/get-platform";
-import { ContentScriptContext } from "wxt/client";
+import { ContentScriptContext } from "#imports";
 
 export default async function entrypoint(ctx: ContentScriptContext) {
     const platform = getPlatform();

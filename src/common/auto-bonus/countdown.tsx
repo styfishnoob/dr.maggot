@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ContentScriptContext } from "wxt/client";
+import { ContentScriptContext } from "#imports";
 import "./css/twitch.css";
 
 type Props = {
@@ -22,7 +22,6 @@ const Countdown = (props: Props) => {
                 const countdown = await manager.getItem<PlatformRecord<boolean>>("countdown");
                 if (refRemaining.current <= 0 || !countdown.twitch) {
                     clearInterval(i);
-                    props.ctx.abort();
                 } else {
                     setRemaining(refRemaining.current - 1);
                 }

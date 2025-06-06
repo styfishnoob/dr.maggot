@@ -3,7 +3,7 @@ import { getPlatform } from "@/src/lib/get-platform";
 import { DOMObserver } from "@/src/lib/dom-observer";
 import { TwitchGql } from "./twitch/gql";
 import { ChatFilter } from "../chat-filter/chat-filter";
-import { ContentScriptContext } from "wxt/client";
+import { ContentScriptContext } from "#imports";
 
 export default async function entrypoint(ctx: ContentScriptContext) {
     const platform = getPlatform();

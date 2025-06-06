@@ -1,6 +1,6 @@
 import { CSSHandler } from "@/src/lib/css-handler";
 import { getPlatform } from "@/src/lib/get-platform";
-import { ContentScriptContext } from "wxt/client";
+import { ContentScriptContext } from "#imports";
 
 type CustomProperty = [keyof Display, string];
 
