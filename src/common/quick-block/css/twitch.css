@@ -15,8 +15,8 @@ li:has(div.vod-message):hover {
 
     & .twitch__quick-block {
         display: block;
-        position: absolute;
-        right: -1rem;
+        position: relative;
+        right: 0rem;
         top: -1.5rem;
     }
 }
