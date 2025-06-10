@@ -3,7 +3,7 @@ const NULL = "[drmaggot__null]";
 export const Selectors: WebSelectors = {
     videoPlayer: {
         youtube: `#movie_player`,
-        twitch: `[data-a-target="video-player"]`,
+        twitch: `[data-a-target="video-player"] > .video-player__container`,
         kick: `#injected-embedded-channel-player-video > div`,
         openrec: `.video-player-wrapper`,
         twicas: `.tw-player`,
