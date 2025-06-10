@@ -1,6 +1,8 @@
 import { CSSHandler } from "@/src/lib/css-handler";
 import { getPlatform } from "@/src/lib/get-platform";
 import { ContentScriptContext } from "#imports";
+import ReactDOM from "react-dom/client";
+import FullScreenButton from "./css/fullscreen/FullScreenButton";
 
 type CustomProperty = [keyof Display, string];
 
@@ -61,4 +63,35 @@ export default async function entrypoint(ctx: ContentScriptContext) {
         update();
         manager.observeItem(customProperty[0], () => update());
     });
+
+    (async function () {
+        const setFullScreenButton = () => {
+            if (platform !== "twitch") return;
+
+            const controlGroup = document.querySelector(".player-controls__right-control-group");
+            const fullScreenButtons = document.querySelectorAll("#drmaggot__fullscreen-button");
+            if (!controlGroup) return;
+            if (fullScreenButtons) fullScreenButtons.forEach((button) => button.remove());
+
+            const fullScreenButton = createIntegratedUi(ctx, {
+                position: "inline",
+                anchor: controlGroup,
+                onMount: (container) => {
+                    const root = ReactDOM.createRoot(container);
+                    root.render(<FullScreenButton />);
+                    return root;
+                },
+                onRemove: (root) => {
+                    root?.unmount();
+                },
+            });
+
+            fullScreenButton.mount();
+        };
+
+        setFullScreenButton();
+        ctx.addEventListener(window, "wxt:locationchange", function () {
+            setFullScreenButton();
+        });
+    })();
 }
