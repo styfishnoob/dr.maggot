@@ -168,14 +168,12 @@ export class Turret {
                 case c.nodeName === "#text": {
                     const span = document.createElement("span");
                     span.textContent = c.textContent;
-                    bullet.append(span);
-                    break;
+                    return span;
                 }
 
                 case c.matches(Selectors.chat.messages[this.platform]): {
                     const clone = c.cloneNode(true);
-                    bullet.append(clone);
-                    break;
+                    return clone;
                 }
 
                 // Youtube
@@ -185,8 +183,7 @@ export class Turret {
                     const aspectRatio = clonedImg.naturalWidth / clonedImg.naturalHeight;
                     clonedImg.style.width = `${this.rowHeight * aspectRatio - 5}px`;
                     clonedImg.style.height = `${this.rowHeight - 5}px`;
-                    bullet.append(clonedImg);
-                    break;
+                    return clonedImg;
                 }
 
                 // Twitch Kick
@@ -199,16 +196,20 @@ export class Turret {
                         const aspectRatio = clonedImg.naturalWidth / clonedImg.naturalHeight;
                         clonedImg.style.width = `${this.rowHeight * aspectRatio - 5}px`;
                         clonedImg.style.height = `${this.rowHeight - 5}px`;
-                        bullet.append(clonedImg);
+                        return clonedImg;
                     }
-
-                    break;
                 }
             }
         };
 
         const promises = Array.from(contents.childNodes).map(processChild);
-        await Promise.all(promises);
+        const processed = await Promise.all(promises);
+
+        processed.forEach((e) => {
+            if (e) {
+                bullet.append(e);
+            }
+        });
 
         cartridge.bullet = bullet;
         cartridge.bullet.className = "drmaggot__danmaku-bullet";
