@@ -62,7 +62,7 @@
         "message": "チャット欄を擬似的なサブスクライバー限定モードにします。"
     },
     "filter_range_description": {
-        "message": "オフの場合はコメントのみ、オンの場合は全てを削除します。"
+        "message": "オフの場合はコメントのみ、オンの場合はユーザーIDを含む、全てを削除します。"
     },
     "filter_charLimit_description": { "message": "コメントの文字数を制限します。" },
     "filter_emoteLimit_description": { "message": "コメントに含まれるエモートの数を制限します。" },

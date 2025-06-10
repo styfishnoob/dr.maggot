@@ -58,7 +58,7 @@
     "filter_filter_description": { "message": "Toggle the filter on or off." },
     "filter_subOnly_description": { "message": "Pseudo-subscriber-only mode for the chat." },
     "filter_range_description": {
-        "message": "If off, only comments are deleted; if on, everything is deleted."
+        "message": "If off, only comments will be deleted. If on, everything including user-id will be deleted."
     },
     "filter_charLimit_description": { "message": "Limit the number of characters in comments." },
     "filter_emoteLimit_description": { "message": "Limit the number of emotes in comments." },
