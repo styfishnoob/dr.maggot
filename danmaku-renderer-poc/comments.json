@@ -1,0 +1,139 @@
+{
+  "comments": [
+    {
+      "comment_id": "1",
+      "user_id": "user1",
+      "user_color": "#ff0000",
+      "content_offset_seconds": 1.0,
+      "message": {
+        "body": "This is the first comment!"
+      }
+    },
+    {
+      "comment_id": "2",
+      "user_id": "user2",
+      "user_color": "#00ff00",
+      "content_offset_seconds": 1.5,
+      "message": {
+        "body": "Here comes another one."
+      }
+    },
+    {
+      "comment_id": "3",
+      "user_id": "user3",
+      "user_color": "#0000ff",
+      "content_offset_seconds": 2.0,
+      "message": {
+        "body": "A third comment appears."
+      }
+    },
+    {
+      "comment_id": "4",
+      "user_id": "user4",
+      "user_color": "#ffff00",
+      "content_offset_seconds": 2.2,
+      "message": {
+        "body": "And a fourth, very close!"
+      }
+    },
+    {
+      "comment_id": "5",
+      "user_id": "user5",
+      "user_color": null,
+      "content_offset_seconds": 3.0,
+      "message": {
+        "body": "This one is white."
+      }
+    },
+    {
+      "comment_id": "6",
+      "user_id": "user6",
+      "user_color": "#ff00ff",
+      "content_offset_seconds": 5.0,
+      "message": {
+        "body": "A bit later..."
+      }
+    },
+    {
+      "comment_id": "7",
+      "user_id": "user1",
+      "user_color": "#ff0000",
+      "content_offset_seconds": 5.1,
+      "message": {
+        "body": "Testing lane logic."
+      }
+    },
+    {
+      "comment_id": "8",
+      "user_id": "user2",
+      "user_color": "#00ff00",
+      "content_offset_seconds": 5.2,
+      "message": {
+        "body": "More comments..."
+      }
+    },
+    {
+      "comment_id": "9",
+      "user_id": "user3",
+      "user_color": "#0000ff",
+      "content_offset_seconds": 5.3,
+      "message": {
+        "body": "...and more..."
+      }
+    },
+    {
+      "comment_id": "10",
+      "user_id": "user4",
+      "user_color": "#ffff00",
+      "content_offset_seconds": 5.4,
+      "message": {
+        "body": "...and more..."
+      }
+    },
+    {
+      "comment_id": "11",
+      "user_id": "user5",
+      "user_color": "#ffffff",
+      "content_offset_seconds": 5.5,
+      "message": {
+        "body": "...and more..."
+      }
+    },
+    {
+      "comment_id": "12",
+      "user_id": "user6",
+      "user_color": "#ff00ff",
+      "content_offset_seconds": 5.6,
+      "message": {
+        "body": "...and more..."
+      }
+    },
+    {
+      "comment_id": "13",
+      "user_id": "user1",
+      "user_color": "#ff0000",
+      "content_offset_seconds": 5.7,
+      "message": {
+        "body": "This should be on another lane."
+      }
+    },
+    {
+      "comment_id": "14",
+      "user_id": "user2",
+      "user_color": "#00ff00",
+      "content_offset_seconds": 10.0,
+      "message": {
+        "body": "A much later comment."
+      }
+    },
+    {
+      "comment_id": "15",
+      "user_id": "user3",
+      "user_color": "#0000ff",
+      "content_offset_seconds": 10.1,
+      "message": {
+        "body": "And another one right after."
+      }
+    }
+  ]
+}
