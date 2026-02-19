@@ -10,14 +10,14 @@ export default async function entrypoint(ctx: ContentScriptContext) {
     ctx.setInterval(async function () {
         const manager = KVManagerList.other;
         const summary = document.querySelector<HTMLElement>(`[data-test-selector="community-points-summary"]`);
-        const bonus = summary?.querySelector<HTMLElement>(`button[class*="ScCoreButton"]:has(+ div[role="tooltip"])`);
+        const bonus = summary?.querySelector<HTMLElement>(`button[class*="ScCoreButton"]:has(.claimable-bonus__icon)`);
         const autobonus = await manager.getItem<PlatformRecord<boolean>>("autoBonus");
         const countdown = await manager.getItem<PlatformRecord<boolean>>("countdown");
         if (bonus && autobonus.twitch) {
             bonus.click();
-            // if (summary && countdown.twitch) {
-            //     mount_countdown(ctx, summary);
-            // }
+            if (summary && countdown.twitch) {
+                mount_countdown(ctx, summary);
+            }
         }
     }, 1000);
 }
