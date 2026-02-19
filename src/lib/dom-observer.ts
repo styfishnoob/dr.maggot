@@ -26,20 +26,18 @@ const OBSERVER = (target: HTMLElement, callback: (records: MutationRecord[]) => 
 export class DOMObserver {
     private observer: ReturnType<typeof OBSERVER>;
     private addedSet = new Set<ObserverConfig>();
+    private removedSet = new Set<ObserverConfig>();
     private attributeSet = new Set<ObserverConfig>();
 
     constructor(target?: HTMLElement) {
-        this.observer = OBSERVER(target ? target : document.documentElement, (records) =>
-            this.exe.main(records)
-        );
+        this.observer = OBSERVER(target ? target : document.documentElement, (records) => this.exe.main(records));
         this.observer.start();
     }
 
     stop() {
         this.addedSet.forEach((config) => (config.callbacks.stop ? config.callbacks.stop() : ""));
-        this.attributeSet.forEach((config) =>
-            config.callbacks.stop ? config.callbacks.stop() : ""
-        );
+        this.removedSet.forEach((config) => (config.callbacks.stop ? config.callbacks.stop() : ""));
+        this.attributeSet.forEach((config) => (config.callbacks.stop ? config.callbacks.stop() : ""));
         this.observer.stop();
     }
 
@@ -48,6 +46,11 @@ export class DOMObserver {
             const config = { selector: selector, callbacks: callbacks };
             this.addedSet.add(config);
             return () => this.addedSet.delete(config);
+        },
+        removed: (selector: string, callbacks: ObserverCallbacks) => {
+            const config = { selector: selector, callbacks: callbacks };
+            this.removedSet.add(config);
+            return () => this.removedSet.delete(config);
         },
         attributes: (selector: string, callbacks: ObserverCallbacks) => {
             const config = { selector: selector, callbacks: callbacks };
@@ -77,9 +80,16 @@ export class DOMObserver {
 
                 this.addedSet.forEach((config) => {
                     if (node.matches(config.selector)) config.callbacks.main(node);
-                    node.querySelectorAll<HTMLElement>(config.selector).forEach((e) =>
-                        config.callbacks.main(e)
-                    );
+                    node.querySelectorAll<HTMLElement>(config.selector).forEach((e) => config.callbacks.main(e));
+                });
+            });
+
+            record.removedNodes.forEach((node) => {
+                if (!(node instanceof HTMLElement)) return;
+
+                this.removedSet.forEach((config) => {
+                    if (node.matches(config.selector)) config.callbacks.main(node);
+                    node.querySelectorAll<HTMLElement>(config.selector).forEach((e) => config.callbacks.main(e));
                 });
             });
         },
