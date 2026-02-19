@@ -8,7 +8,10 @@ export default async function entrypoint(ctx: ContentScriptContext) {
     const platform = getPlatform();
     if (!platform) return;
 
-    new DOMObserver().add.added(Selectors.chat.cell[platform], {
+    const quickBlockMap = new Map<HTMLElement, IntegratedContentScriptUi<ReactDOM.Root>>();
+    const domObserver = new DOMObserver();
+
+    domObserver.add.added(Selectors.chat.cell[platform], {
         main: async function (cell) {
             const manager = KVManagerList.other;
             const quickBlock = await manager.getItem<PlatformRecord<boolean>>("quickBlock");
@@ -31,10 +34,19 @@ export default async function entrypoint(ctx: ContentScriptContext) {
                 },
                 onRemove: (root) => {
                     root?.unmount();
+                    quickBlockMap.delete(cell);
                 },
             });
 
             btn.mount();
+            quickBlockMap.set(cell, btn);
+        },
+    });
+
+    domObserver.add.removed(Selectors.chat.cell[platform], {
+        main: function (cell) {
+            const btn = quickBlockMap.get(cell);
+            if (btn) btn.remove();
         },
     });
 }
