@@ -1,5 +1,0 @@
-.tw-comment-list-view__scroller > div {
-  & .tw-comment-item-info {
-      display: none !important;
-  }
-}

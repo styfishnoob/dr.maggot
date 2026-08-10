@@ -1,5 +1,0 @@
-#chatroom-messages {
-    & [data-index] {
-        white-space: nowrap !important;
-    }
-}

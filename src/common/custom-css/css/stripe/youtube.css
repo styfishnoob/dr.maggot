@@ -1,7 +1,0 @@
-:root {
-    --drmaggot__stripeColor: #000000;
-}
-
-.yt-live-chat-item-list-renderer > #items > :nth-child(even of :not([hidden])) {
-    background-color: var(--drmaggot__stripeColor);
-}
